@@ -1,7 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+# Create your views here.
 
+persons = [
+    {'name': 'smarties', 'price': 100},
+    {'name': 'skittles', 'price': 200}
+]
 
-# TODO: Implement render(template)
 def index(request):
-    return HttpResponse("Response from ProfileView")
+    return render(request, 'person/index.html', context={ 'persons': persons })
