@@ -30,10 +30,3 @@ $(document).ready(function () {
     });
   });
 });
-
-const searchBtn = document.getElementById("#search-btn");
-const searchText = document.getElementById("#search-box");
-
-searchBtn.addEventListener(click, (e) => {
-  e.preventDefault();
-});
