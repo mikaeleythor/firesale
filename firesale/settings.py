@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 import os
+from google.oauth2 import service_account
 
 # NOTE: Reading environment variables from .env
 env = environ.Env()
@@ -143,8 +144,9 @@ STORAGES = {
 }
 
 GS_BUCKET_NAME = env('GS_BUCKET_NAME')
-GS_ACCESS_KEY_ID = env('GS_ACCESS_KEY_ID')
-GS_SECRET_ACCESS_KEY = env('GS_SECRET_ACCESS_KEY')
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, env('GS_FILE'))
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
