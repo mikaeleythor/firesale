@@ -10,4 +10,6 @@
              width="100"
              height="100" />
     {% endfor %}
+    <a href="{% url 'update-item' item.id %}" class="block btn btn-primary">Update item</a>
+    <a href="{% url 'delete-item' item.id %}" class="block btn btn-primary">Delete item</a>
 {% endblock %}
