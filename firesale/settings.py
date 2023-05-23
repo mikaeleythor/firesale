@@ -141,7 +141,7 @@ STORAGES = {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     },
     "staticfiles": {
-        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage",
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     },
 }
 
