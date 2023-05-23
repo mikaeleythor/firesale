@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1 class="red">Item Collection</h1>
+  <div class="items">
+    {% for item in items %}
+      {% include 'item/single_item.html' with item=item %}
+    {% endfor %}
+  </div>
+{% endblock %}
