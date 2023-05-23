@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1 class="red">Item Collection</h1>
+  <h1 class="red">Items</h1>
+  <div class="'input-group">
+    <input type="search"
+           class="form-control"
+           id="search-box"
+           placeholder="Search..." />
+    <div class="input-group-btn">
+      <button type="button" id="search-btn" class="btn btn-default">Search</button>
+    </div>
+  </div>
   <div class="items">
     {% for item in items %}
       {% include 'item/single_item.html' with item=item %}
