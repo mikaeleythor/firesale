@@ -7,4 +7,5 @@ persons = [
 ]
 
 def index(request):
-    return render(request, 'person/index.html', context={ 'persons': persons })
+    context = {'persons': persons}
+    return render(request, 'person/index.html', context)
