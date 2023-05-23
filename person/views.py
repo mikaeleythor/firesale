@@ -6,5 +6,6 @@ persons = [
     {'name': 'skittles', 'price': 200}
 ]
 
+
 def index(request):
-    return render(request, 'person/index.html', context={ 'persons': persons })
+    return render(request, 'person/index.html', context={'persons': persons})
