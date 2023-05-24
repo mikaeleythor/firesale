@@ -1,14 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-  <h1 class="red">Items</h1>
-  <div class="'input-group">
+  <div class="catalog-hero">
+    <button type="button" id="create-item-btn" class="btn mainButton">Create Item</button>
+    <div>{{" "}}</div>
     <input type="search"
            class="form-control"
            id="search-box"
            placeholder="Search..." />
-    <div class="input-group-btn">
-      <button type="button" id="search-btn" class="btn btn-default">Search</button>
-    </div>
+    <select class="select mainSelect">
+      <option value="" disabled selected>Order by...</option>
+      <option value="name">Name</option>
+      <option value="Price">Price</option>
+    </select>
   </div>
   <div class="items">
     {% for item in items %}
