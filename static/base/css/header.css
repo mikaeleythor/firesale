@@ -10,10 +10,16 @@
 
 .rightSection {
   display: flex;
-  align-items: end;
+  justify-items: end;
 }
 
 .rightSection,
 .leftSection {
   margin: 10px;
+  align-items: center;
+}
+
+.icon {
+  display: flex;
+  margin: 5px;
 }
