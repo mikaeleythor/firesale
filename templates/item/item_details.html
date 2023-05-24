@@ -4,7 +4,7 @@
     <p>{{ item.description }}</p>
     <p>{{ item.price }}</p>
     {% for item_image in item.itemimage_set.all %}
-        <img src="{{ item_image.image }}"
+        <img src="{{ item_image.image.url }}"
              class="item-img"
              alt="item image"
              width="100"
