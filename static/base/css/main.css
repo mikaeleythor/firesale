@@ -1,0 +1,8 @@
+.navBar {
+  display: flex;
+}
+
+.ourButton {
+  background-color: aqua;
+  border: solid 5px;
+}
