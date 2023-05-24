@@ -1,0 +1,19 @@
+.navigationBar {
+  padding-bottom: 10px;
+  justify-content: space-between;
+}
+
+.mainButton {
+  background-color: #1bafd0;
+  color: white;
+}
+
+.rightSection {
+  display: flex;
+  align-items: end;
+}
+
+.rightSection,
+.leftSection {
+  margin: 10px;
+}
