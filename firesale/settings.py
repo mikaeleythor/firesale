@@ -139,7 +139,7 @@ STORAGES = {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     },
     "staticfiles": {
-        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
     },
 }
 
