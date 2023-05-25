@@ -9,4 +9,4 @@ def person_photo_directory_path(instance, filename):
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=200)
-    image = models.ImageField(upload_to=person_photo_directory_path)
+    # image = models.ImageField(upload_to=person_photo_directory_path)

@@ -1,0 +1,5 @@
+.profile-container {
+  height: 200px;
+  grid-column: 2/4;
+  background-color: blue;
+}

@@ -1,16 +1,13 @@
-{% extends 'base.html' %}
-{% block content %}
-    <div class="candy">
-    <h2>Welcome to the person erererapp</h2>
-    </div>
-    {% for candy in persons %}
-        {% if candy.price > 150 %}
-            <p>Expensive!</p>
-            {% else %}
-            <p>Cheap</p>
-        {% endif %}
-        <h4>{{ candy.name }}</h4>
-        <p>{{ candy.price }}$</p>
-    {% endfor %}
+{% extends 'base.html' %}{% load static %} {% block content %}
+<link rel="stylesheet" href="{% static 'person/css/main.css' %}" />
 
-{% endblock %}
+<div class="catalog-hero">
+  <div class="profile-container">
+    <h2>Profile</h2>
+    {% for person in persons %} {% if person.id == 5 %}
+    <h4>{{ person.user }}</h4>
+    <p>{{ person.bio }}$</p>
+    <p>{{person.id}}</p>
+    {% endif %} {% endfor %} {% endblock %}
+  </div>
+</div>

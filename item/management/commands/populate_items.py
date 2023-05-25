@@ -2,12 +2,12 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from item.models import Seller, Item, Offer
 
+
 def populate_data():
     # Create users
     user1 = User.objects.create_user(username='user1', password='password1')
     user2 = User.objects.create_user(username='user2', password='password2')
     user3 = User.objects.create_user(username='user3', password='password3')
-    
 
     # Create sellers
     seller1 = Seller.objects.create(rating=4, user=user1)
@@ -35,14 +35,16 @@ def populate_data():
                                 price=80, seller=seller3)
 
     # Create offers
-    offer1 = Offer.objects.create(status='Pending', amount=90, item=item1, buyer=user2)
-    offer2 = Offer.objects.create(status='Accepted', amount=40, item=item2, buyer=user1)
-    offer3 = Offer.objects.create(status='Rejected', amount=70, item=item3, buyer=user3)
+    offer1 = Offer.objects.create(
+        status='Pending', amount=90, item=item1, buyer=user2)
+    offer2 = Offer.objects.create(
+        status='Accepted', amount=40, item=item2, buyer=user1)
+    offer3 = Offer.objects.create(
+        status='Rejected', amount=70, item=item3, buyer=user3)
 
     print("Data population complete.")
 
 # Call the populate_data() function to populate the models with template data
-
 
 
 class Command(BaseCommand):
