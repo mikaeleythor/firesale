@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+    <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
     <div class="item-detail-wrapper">
         <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">
@@ -28,10 +30,16 @@
                 <span class="visually-hidden">Next</span>
             </button>
         </div>
-        <h1>{{ item.name }}</h1>
-        <p>{{ item.description }}</p>
-        <p>{{ item.price }}</p>
-        <a href="{% url 'update-item' item.id %}" class="block btn btn-primary">Update item</a>
-        <a href="{% url 'delete-item' item.id %}" class="block btn btn-primary">Delete item</a>
+        <div class="item-detail-content">
+            <h1>{{ item.name }}</h1>
+            <p>{{ item.description }}</p>
+            <p>{{ item.price }}</p>
+        </div>
+        <a href="{% url 'update-item' item.id %}"
+           class="btn item-detail-seller-button main-button">See offers</a>
+        <a href="{% url 'update-item' item.id %}"
+           class="btn item-detail-seller-button main-button">Edit item</a>
+        <a href="{% url 'delete-item' item.id %}"
+           class="btn item-detail-seller-button main-button">Delete item</a>
     </div>
 {% endblock %}
