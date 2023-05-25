@@ -17,11 +17,6 @@
   gap: 24px;
 }
 
-.item-img {
-  width: 100%;
-  height: auto;
-}
-
 .single-item {
   text-decoration: none;
   transition: all 0.2s ease-in-out;
@@ -29,6 +24,17 @@
 
 .single-item:hover {
   transform: scale(1.01);
+}
+
+.image-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.item-img {
+  object-fit: cover;
+  width: 100%;
 }
 
 .mainButton {
@@ -39,4 +45,29 @@
 .mainSelect {
   border: 1px solid var(--bs-border-color);
   border-radius: 8px;
+}
+
+.item-detail-wrapper {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 60px;
+}
+
+.item-detail-img-wrapper {
+  grid-column: 1/4;
+  height: 400px;
+}
+
+.carousel,
+.item,
+.active {
+  grid-column: 1/4;
+  height: 500px;
+  margin-bottom: 60px;
+}
+
+.carousel img {
+  height: 500px;
+  object-fit: cover;
 }
