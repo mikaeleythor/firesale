@@ -1,3 +1,23 @@
 .site {
   background-color: #ededed;
 }
+
+.container {
+  min-height: calc(100vh - 190px);
+}
+
+.main-button {
+  background-color: #1bafd0;
+  color: white;
+}
+
+.main-button:hover {
+  background-color: #1bafd0;
+  color: white;
+  transform: scale(1.01);
+}
+
+.main-select {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+}
