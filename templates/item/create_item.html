@@ -1,14 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-    <form class="form form horizontal"
-          action="{% url 'create-item' %}"
-          method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit"
-               value="Create"
-               class="btn-primary pull-right"
-               style="clear:both;
-                      margin: 10px 0" />
-    </form>
+
+  <div class="wrapper">
+    <h1 class="form-text-section"> Create an item </h1>
+    <div>placeholder for image</div>
+    <form 
+    class="form-right-section"
+            action="{% url 'create-item' %}"
+            method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit"
+                 value="Create"
+                 class="btn main-button"
+                 style="clear:both;
+                        margin: 10px 0" />
+      </form>
+  </div>
+
 {% endblock %}
