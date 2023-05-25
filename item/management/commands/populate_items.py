@@ -7,6 +7,7 @@ def populate_data():
     user1 = User.objects.create_user(username='user1', password='password1')
     user2 = User.objects.create_user(username='user2', password='password2')
     user3 = User.objects.create_user(username='user3', password='password3')
+    
 
     # Create sellers
     seller1 = Seller.objects.create(rating=4, user=user1)
@@ -21,6 +22,15 @@ def populate_data():
                                 description='Description for Item 2', category='Category 2',
                                 price=50, seller=seller2)
     item3 = Item.objects.create(name='Item 3', status='Available', condition='New',
+                                description='Description for Item 3', category='Category 1',
+                                price=80, seller=seller3)
+    item4 = Item.objects.create(name='Item 4', status='Available', condition='New',
+                                description='Description for Item 1', category='Category 1',
+                                price=100, seller=seller1)
+    item5 = Item.objects.create(name='Item 5', status='Sold', condition='Used',
+                                description='Description for Item 2', category='Category 2',
+                                price=50, seller=seller2)
+    item6 = Item.objects.create(name='Item 6', status='Available', condition='New',
                                 description='Description for Item 3', category='Category 1',
                                 price=80, seller=seller3)
 

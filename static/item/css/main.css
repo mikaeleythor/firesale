@@ -1,3 +1,59 @@
-.candy {
-  border-bottom: 2px solid black;
+.catalog-hero {
+  margin-top: 64px;
+  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.items-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.single-item {
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.single-item:hover {
+  transform: scale(1.01);
+}
+
+.image-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.item-img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.item-detail-wrapper {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 40px;
+}
+
+.carousel {
+  grid-column: 1/4;
+  height: 500px;
+}
+
+.carousel img {
+  height: 500px;
+  object-fit: cover;
+}
+
+.item-detail-content {
+  grid-column: 4/7;
+}
+
+.item-detail-seller-button {
+  grid-column: span 2;
 }
