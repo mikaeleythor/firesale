@@ -1,7 +1,7 @@
 .profile-container {
   min-height: fit-content;
   width: 100%;
-  max-width: 700px;
+  max-width: 650px;
   margin: auto;
   margin-top: 24px;
   background-color: white;
@@ -9,6 +9,7 @@
   padding: 32px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 .profile-info {
@@ -37,6 +38,7 @@
 
 .profile-edit-btn {
   width: 100%;
+  margin-top: 24px;
 }
 
 .profile-bio {
