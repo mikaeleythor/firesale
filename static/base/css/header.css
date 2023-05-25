@@ -1,15 +1,15 @@
-.navigationBar {
+.navigation-bar {
   padding-bottom: 10px;
   justify-content: space-between;
   box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.5);
 }
 
-.mainButton {
+.main-button {
   background-color: #1bafd0;
   color: white;
 }
 
-.mainButton:hover {
+.main-button:hover {
   background-color: #1bafd0;
   color: white;
   transform: scale(1.01);
@@ -20,13 +20,13 @@
   color: purple;
 } */
 
-.rightSection {
+.right-section {
   display: flex;
   justify-items: end;
 }
 
-.rightSection,
-.leftSection {
+.right-section,
+.left-section {
   margin: 10px;
   align-items: center;
 }
