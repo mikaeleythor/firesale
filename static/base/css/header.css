@@ -1,21 +1,33 @@
-.navigationBar {
+.navigation-bar {
   padding-bottom: 10px;
   justify-content: space-between;
   box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.5);
+  background-color: white;
 }
 
-.mainButton {
+.main-button {
   background-color: #1bafd0;
   color: white;
 }
 
-.rightSection {
+.main-button:hover {
+  background-color: #1bafd0;
+  color: white;
+  transform: scale(1.01);
+}
+
+/* TODO style the button when it is clicked */
+/* .mainButton:active {
+  color: purple;
+} */
+
+.right-section {
   display: flex;
   justify-items: end;
 }
 
-.rightSection,
-.leftSection {
+.right-section,
+.left-section {
   margin: 10px;
   align-items: center;
 }
@@ -23,4 +35,11 @@
 .icon {
   color: black;
   margin: 10px;
+  cursor: pointer;
+}
+
+.img {
+  max-width: 100%;
+  height: auto;
+  margin: 5px;
 }
