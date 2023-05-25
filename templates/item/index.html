@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
+  <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
   <div class="catalog-hero">
-    <button type="button" id="create-item-btn" class="btn mainButton">Create Item</button>
+    <button type="button" id="create-item-btn" class="btn main-button">Create Item</button>
     <div>{{" "}}</div>
     <input type="search"
            class="form-control"
            id="search-box"
            placeholder="Search..." />
-    <select class="select mainSelect">
+    <select class="select main-select">
       <option value="" disabled selected>Order by...</option>
       <option value="name">Name</option>
       <option value="Price">Price</option>
     </select>
   </div>
-  <div class="items">
+  <div class="items-grid">
     {% for item in items %}
       {% include 'item/single_item.html' with item=item %}
     {% endfor %}
