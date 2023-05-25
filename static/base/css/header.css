@@ -9,6 +9,17 @@
   color: white;
 }
 
+.mainButton:hover {
+  background-color: #1bafd0;
+  color: white;
+  transform: scale(1.01);
+}
+
+/* TODO style the button when it is clicked */
+/* .mainButton:active {
+  color: purple;
+} */
+
 .rightSection {
   display: flex;
   justify-items: end;
@@ -23,4 +34,5 @@
 .icon {
   color: black;
   margin: 10px;
+  cursor: pointer;
 }

@@ -10,11 +10,11 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#">Fire Sale</a>
+    <a class="navbar-brand" href="/">Fire Sale</a>
   </div>
   <div class="rightSection">
     <i class="fa-solid fa-star icon"></i>
-    <span class="fa-solid fa-user icon"></span>
+    <a class="fa-solid fa-user icon" href="{% url 'person-index' %}"></a>
     <i class="fa-solid fa-bell icon"></i>
     <button type="button" class="btn mainButton rightSection">Login</button>
   </div>
@@ -37,13 +37,13 @@
     <div class="offcanvas-body">
       <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'person-index' %}">My profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'item-index' %}">Item</a>
+          <a class="nav-link" href="#">My item</a>
         </li>
       </ul>
     </div>
