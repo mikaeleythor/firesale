@@ -57,3 +57,43 @@
 .item-detail-seller-button {
   grid-column: span 2;
 }
+
+wrapper {
+  background-color: #FFFFFF;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-radius: 8px;
+  box-shadow: 0 2.5px 6px rgba(0,0,0,0.5);
+}
+
+.form-right-section {
+  grid-column: 2/3;
+  grid-row: 1/7;
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px ;
+}
+.form-text-section{
+  margin-top: 20px;
+  margin-left: 30px;
+  flex-shrink: 0;
+}
+
+.form-right-section > input {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 65px;
+  width: 501px;
+  border-radius: 10px #959595;
+}
+
+/* #id_image {
+  background-color: blue;
+  grid-column: 1/2;
+} */
+
+#id_description {
+  background-color: black;
+  width: 501px;
+  height: 157px;
+}  
