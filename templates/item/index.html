@@ -3,16 +3,19 @@
 {% block content %}
   <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
   <div class="catalog-hero">
-    <button type="button" id="create-item-btn" class="btn main-button">Create Item</button>
+    <a type="button"
+       id="create-item-btn"
+       class="btn main-button"
+       href="{% url 'create-item' %}">Create Item</a>
     <div>{{" "}}</div>
     <input type="search"
            class="form-control"
            id="search-box"
            placeholder="Search..." />
-    <select class="select main-select">
+    <select class="select main-select" id="select-order">
       <option value="" disabled selected>Order by...</option>
       <option value="name">Name</option>
-      <option value="Price">Price</option>
+      <option value="price">Price</option>
     </select>
   </div>
   <div class="items-grid">
