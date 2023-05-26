@@ -5,7 +5,7 @@
     <div class="item-detail-wrapper">
         <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">
-                {% for item_image in item.itemimage_set.all %}
+                {% for item_image in item.item.itemimage_set.all %}
                     <div class="carousel-item active">
                         <img src="{{ item_image.image.url }}"
                              class="d-block w-100"
@@ -31,15 +31,36 @@
             </button>
         </div>
         <div class="item-detail-content">
-            <h1>{{ item.name }}</h1>
-            <p>{{ item.description }}</p>
-            <p>{{ item.price }}</p>
+            <span class="item-detail-title">Name:</span>
+            <h2 class="item-detail-value">{{ item.item.name }}</h2>
+            <span class="item-detail-title">Current highest offer:</span>
+            <p class="item-detail-value">Þetta er price: {{ item.item.price }} kr</p>
+            <span class="item-detail-title">Condition:</span>
+            <p class="item-detail-value">{{ item.item.condition }}</p>
+            <span class="item-detail-title">Description</span>
+            <p class="item-detail-value">{{ item.item.description }}</p>
         </div>
-        <a href="{% url 'update-item' item.id %}"
+        <a href="{% url 'update-item' item.item.id %}"
            class="btn item-detail-seller-button main-button">See offers</a>
-        <a href="{% url 'update-item' item.id %}"
+        <a href="{% url 'update-item' item.item.id %}"
            class="btn item-detail-seller-button main-button">Edit item</a>
-        <a href="{% url 'delete-item' item.id %}"
+        <a href="{% url 'delete-item' item.item.id %}"
            class="btn item-detail-seller-button main-button">Delete item</a>
+    </div>
+    <div class="similar-items-title">Similar Items</div>
+    <div class="items-grid">
+        {% for item in similar %}
+            <a href="/item/{{ item.id }}" class="single-item">
+                <div class="image-container">
+                    <img class="item-img"
+                         src="{{ item.firstImage }}"
+                         alt="item image"
+                         width="300"
+                         height="300" />
+                </div>
+                <h4>Name: {{ item.name }}</h4>
+                <p>Price: {{ item.price }} kr</p>
+            </a>
+        {% endfor %}
     </div>
 {% endblock %}
