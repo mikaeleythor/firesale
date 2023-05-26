@@ -1,11 +1,7 @@
 from django.shortcuts import render
-# Create your views here.
+from person.models import Person
 
-persons = [
-    {'name': 'smarties', 'price': 100},
-    {'name': 'skittles', 'price': 200}
-]
 
 def index(request):
-    context = {'persons': persons}
+    context = {'persons': Person.objects.all()}
     return render(request, 'person/index.html', context)
