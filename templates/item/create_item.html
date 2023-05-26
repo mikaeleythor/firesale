@@ -1,14 +1,20 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% load static %}
 {% block content %}
-    <form class="form form horizontal"
+<link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+<div class="create-item-wrapper">
+  <h2 class="create-item-hero-section"> Create an item </h2>
+  <form class="create-item-grid"
           action="{% url 'create-item' %}"
           method="post">
         {% csrf_token %}
-        {{ form }}
+        <div>placeholder for image</div>
+        <div class="create-item-right-section">{{ form }}</div>
+        
         <input type="submit"
                value="Create"
-               class="btn-primary pull-right"
+               class="btn main-button create-item-button"
                style="clear:both;
                       margin: 10px 0" />
     </form>
+</div>
 {% endblock %}
