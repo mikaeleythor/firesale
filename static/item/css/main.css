@@ -54,6 +54,22 @@
   grid-column: 4/7;
 }
 
+.item-detail-title {
+  font-size: 16px;
+  color: gray;
+}
+
+.item-detail-value {
+  margin-bottom: 32px;
+}
+
 .item-detail-seller-button {
   grid-column: span 2;
+}
+
+.similar-items-title {
+  grid-column: span 6;
+  font-size: 24px;
+  margin-top: 96px;
+  margin-bottom: 32px;
 }
