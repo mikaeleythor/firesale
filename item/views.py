@@ -39,6 +39,13 @@ def get_item_by_id(request, id):
     return render(request, 'item/item_details.html', context)
 
 
+def see_offers(request, id):
+    item = get_object_or_404(Item, pk=id)
+    offers = item.offer_set.all()
+    print(offers)
+    return render(request, 'item/see_offers.html', {'offers': offers})
+
+
 def create_item(request):
     if request.method == 'POST':
         form = ItemCreateForm(data=request.POST)
