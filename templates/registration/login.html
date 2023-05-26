@@ -18,7 +18,7 @@
       {% csrf_token %}
       <h2 class="h3 mb-3 fw-normal">Log in</h2>
       <div class="form-floating">
-        <input class="form-control"
+        <input class="form-control login-inputs"
                id="id_username"
                name="username"
                placeholder="Username"
@@ -26,17 +26,17 @@
         <label for="id_username">Username</label>
       </div>
       <div class="form-floating">
-        <input class="form-control"
+        <input class="form-control login-inputs"
                id="id_password"
                name="password"
                placeholder="Password"
                data-ddg-inputtype="credentials.password">
         <label for="id_password">Password</label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit" value="login">Log in</button>
+      <button class="btn main-button login-button" type="submit" value="login">Log in</button>
       <input type="hidden" name="next" value="{{ next }}">
       <p class="text-center">
-        Don't have an account? <a href="">Register</a>
+        Don't have an account? <a href="" class="register-link-login">Register</a>
       </p>
     </form>
   </div>
