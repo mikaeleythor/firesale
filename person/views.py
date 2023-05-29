@@ -14,10 +14,10 @@ def update_person(request):
     if request.method == 'POST':
         form = PersonUpdateForm(request.POST, request.FILES)
         if form.is_valid():
-            Person.objects.filter(id=id).update(
-                bio=form.cleaned_data['bio'],
-                image=form.cleaned_data.get('image')
-            )
+            person_instance = Person.objects.get(id=id)
+            person_instance.bio=form.cleaned_data['bio']
+            person_instance.image=form.cleaned_data['image']
+            person_instance.save()
             User.objects.filter(id=request.user.id).update(
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name']

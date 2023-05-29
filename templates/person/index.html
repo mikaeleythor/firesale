@@ -4,6 +4,7 @@
   <link rel="stylesheet" href="{% static 'person/css/main.css' %}" />
   <div class="profile-container">
     <h2 class="profile-header-text">Profile</h2>
+    {% if user.person is not None %}
     <div class="profile-picture-container">
       <img src="{{ person.image.url }}"
            alt="Profile photo of user"
@@ -33,5 +34,8 @@
         <i class="fa-solid fa-pen-to-square"></i>
       </button>
     </a>
+    {% else %}
+    <h2>ekki til</h2>
+    {% endif %}
   </div>
 {% endblock %}
