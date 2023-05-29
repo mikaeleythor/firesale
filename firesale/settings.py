@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'person.apps.PersonConfig',
     'item.apps.ItemConfig',
     'accounts.apps.AccountsConfig',
+    'notifications.apps.NotificationsConfig',
 ]
 
 MIDDLEWARE = [
