@@ -29,6 +29,7 @@
         <input class="form-control login-inputs"
                id="id_password"
                name="password"
+               type="password"
                placeholder="Password"
                data-ddg-inputtype="credentials.password">
         <label for="id_password">Password</label>
@@ -36,7 +37,7 @@
       <button class="btn main-button login-button" type="submit" value="login">Log in</button>
       <input type="hidden" name="next" value="{{ next }}">
       <p class="text-center">
-        Don't have an account? <a href="" class="register-link-login">Register</a>
+        Don't have an account? <a href="{% url 'register' %}" class="register-link-login">Register</a>
       </p>
     </form>
   </div>
