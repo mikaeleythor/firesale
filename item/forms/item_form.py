@@ -1,12 +1,9 @@
 from django import forms
-from django.forms import ModelForm, widgets
-from item.models import Item
+from django.forms import ModelForm, widgets, Form
+from item.models import Item, ItemImage
 
 
 class ItemCreateForm(ModelForm):
-    image = forms.CharField(label="", required=True, widget=forms.TextInput(
-        attrs={'placeholder': '+ Add image'}))
-
     class Meta:
         model = Item
         exclude = ['id', 'seller', 'status']
@@ -24,6 +21,10 @@ class ItemCreateForm(ModelForm):
             'category': widgets.TextInput(attrs={'placeholder': 'Category'}),
             'description': widgets.TextInput(attrs={'placeholder': 'Description'}),
         }
+
+
+class ItemCreateImageForm(forms.Form):
+    image = forms.ImageField()
 
 
 class ItemUpdateForm(ModelForm):

@@ -32,7 +32,7 @@ class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.item.name}-image-{self.id}'
+        return f'image-{self.id}'
 
 
 class Offer(models.Model):

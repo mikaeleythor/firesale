@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from item.forms.item_form import ItemCreateForm, ItemUpdateForm
-from item.models import Item, ItemImage
+from item.forms.item_form import ItemCreateForm, ItemCreateImageForm, ItemUpdateForm
+from item.models import Item, ItemImage, Seller
+from django.core.exceptions import ObjectDoesNotExist
+from django.http.response import HttpResponse
 
 
 def index(request):
@@ -46,19 +48,52 @@ def see_offers(request, id):
     return render(request, 'item/see_offers.html', {'offers': offers})
 
 
+# def create_item(request):
+#     if request.method == 'POST':
+#         form = ItemCreateForm(data=request.POST)
+#         image_form = ItemCreateImageForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form = form.save(commit=False)
+#             try:
+#                 form.seller = request.user.seller
+#                 form.status = 'Available'
+#             except ObjectDoesNotExist:
+#                 form.seller = Seller.objects.create(
+#                     user=request.user,
+#                     rating=0
+#                 )
+#             item = form.save()
+#             print(image_form)
+#             print(image_form.is_valid())
+#             if image_form.is_valid():
+#                 print('here')
+#                 img = image_form.cleaned_data.get('image')
+#                 obj = ItemImage.objects.create(image=img, item=item)
+#                 obj.save()
+#                 return redirect('item-index')
+#             else:
+#                 print('oh no')
+#     else:
+#         form = ItemCreateForm()
+#         image_form = ItemCreateImageForm()
+#     return render(request, 'item/create_item.html', {
+#         'form': form, 'image_form': image_form
+#     })
+
 def create_item(request):
-    if request.method == 'POST':
-        form = ItemCreateForm(data=request.POST)
+    context = {}
+    if request.method == "POST":
+        form = ItemCreateImageForm(request.POST, request.FILES)
         if form.is_valid():
-            item = form.save()
-            item_image = ItemImage(image=request.POST['image'], item=item)
-            item_image.save()
-            return redirect('item-index')
+            img = form.cleaned_data.get('image')
+            obj = ItemImage.objects.create(
+                image=img, item=Item.objects.first())
+            obj.save()
+            print(obj)
     else:
-        form = ItemCreateForm()
-    return render(request, 'item/create_item.html', {
-        'form': form
-    })
+        form = ItemCreateImageForm()
+    context['form'] = form
+    return render(request, 'item/create_item.html', context)
 
 
 def delete_item(request, id):
