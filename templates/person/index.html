@@ -4,37 +4,34 @@
   <link rel="stylesheet" href="{% static 'person/css/main.css' %}" />
   <div class="profile-container">
     <h2 class="profile-header-text">Profile</h2>
-    <!-- TODO Write the correct information in the form when auth and login is ready -->
-    {% for person in persons %}
-      {% if person.id == 12 %}
-        <div class="profile-picture-container">
-          <img src="{{ person.image.url }}"
-               alt="Profile photo of user"
-               width="160"
-               height="160"
-               class="profile-picture" />
-        </div>
-        <div class="profile-info">
-          <span class="profile-form-label">Name:</span>
-          <span>{{ person.user }}</span>
-          <span class="profile-form-label">Username:</span>
-          <span>{{ person.user }}</span>
-          <span class="profile-form-label">Email:</span>
-          <span>{{ person.user }}</span>
-          <span class="profile-form-label">Bio:</span>
-          <textarea readonly class="profile-bio" name="bio" cols="60" rows="5">
+    <div class="profile-picture-container">
+      <img src="{{ person.image.url }}"
+           alt="Profile photo of user"
+           width="160"
+           height="160"
+           class="profile-picture" />
+    </div>
+    <div class="profile-info">
+      <span class="profile-form-label">Name:</span>
+      <span>{{ person.user.first_name }} {{ person.user.last_name }}</span>
+      <span class="profile-form-label">Username:</span>
+      <span>{{ person.user }}</span>
+      <span class="profile-form-label">Email:</span>
+      <span>{{ person.user.email }}</span>
+      <span class="profile-form-label">Bio:</span>
+      <textarea readonly class="profile-bio" name="bio" cols="60" rows="5">
  {{ person.bio }} </textarea>
-          <span class="profile-form-label">Rating</span>
-          <span>
-            000
-            <i class="fa-solid fa-star"></i>
-          </span>
-        </div>
-        <button type="button" class="btn main-button profile-edit-btn">
-          Edit
-          <i class="fa-solid fa-pen-to-square"></i>
-        </button>
-      {% endif %}
-    {% endfor %}
+      <span class="profile-form-label">Rating</span>
+      <span>
+        000
+        <i class="fa-solid fa-star"></i>
+      </span>
+    </div>
+    <a href="{% url 'update-person' %}">
+      <button type="button" class="btn main-button profile-edit-btn">
+        Edit
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+    </a>
   </div>
 {% endblock %}
