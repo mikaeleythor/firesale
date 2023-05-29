@@ -24,7 +24,7 @@ class Item(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.name)
 
 
 class ItemImage(models.Model):
