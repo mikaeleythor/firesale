@@ -161,17 +161,13 @@
   gap: 15px;
 }
 
-.item-detail-input-box {
+.item-detail-buyer-button {
+  width: 40%;
+}
+
+#id_amount {
   width: 60%;
   flex-direction: column;
   border: 1px solid #000000;
   border-radius: 4px;
-}
-
-.item-detail-input-box::placeholder {
-  color: #929292;
-}
-
-.item-detail-buyer-button {
-  width: 40%;
 }
