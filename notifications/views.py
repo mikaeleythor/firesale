@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse
 from django.views.generic import ListView
 from notifications.models import Notification
 
