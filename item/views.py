@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from item.forms.item_form import ItemCreateForm, ItemUpdateForm
-from item.models import Item, ItemImage
+from item.forms.item_form import ItemCreateForm, ItemUpdateForm, ItemOfferForm
+from item.models import Item, ItemImage, Offer
 
 
 def index(request):
@@ -35,9 +35,19 @@ def get_item_by_id(request, id):
         'price': x.price,
         'firstImage': str(x.itemimage_set.first().image.url)
     } for x in Item.objects.filter(category__icontains=item['item'].category)]
-    context = {'item': item, 'similar': similar}
+    if request.method == 'POST':
+        form = ItemOfferForm(data=request.POST)
+        if form.is_valid():
+            offer = Offer.objects.create(**{
+                'status': 'pending',
+                'amount': form.cleaned_data['amount'],
+                'item': item['item'],
+                'buyer': request.user
+            })
+    else:
+        form = ItemOfferForm()
+    context = {'item': item, 'similar': similar, 'form': form}
     return render(request, 'item/item_details.html', context)
-
 
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
