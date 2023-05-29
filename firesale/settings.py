@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     # NOTE: Local apps
     'person.apps.PersonConfig',
     'item.apps.ItemConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [
