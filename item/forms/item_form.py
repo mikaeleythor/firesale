@@ -1,6 +1,6 @@
 from django import forms
-from django.forms import ModelForm, widgets, Form
-from item.models import Item, ItemImage
+from django.forms import ModelForm, widgets
+from item.models import Item
 
 
 class ItemCreateForm(ModelForm):
@@ -21,10 +21,6 @@ class ItemCreateForm(ModelForm):
             'category': widgets.TextInput(attrs={'placeholder': 'Category'}),
             'description': widgets.TextInput(attrs={'placeholder': 'Description'}),
         }
-
-
-class ItemCreateImageForm(forms.Form):
-    image = forms.ImageField()
 
 
 class ItemUpdateForm(ModelForm):

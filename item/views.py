@@ -1,10 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
-from item.forms.item_form import ItemCreateForm, ItemCreateImageForm, ItemUpdateForm
+from item.forms.item_form import ItemCreateForm, ItemUpdateForm
 from item.models import Item, ItemImage, Seller
-from django.core.exceptions import ObjectDoesNotExist
-from django.http.response import HttpResponse
-from django.forms.models import model_to_dict
 
 
 def index(request):
@@ -53,8 +50,7 @@ def create_item(request):
     context = {}
     if request.method == "POST":
         form = ItemCreateForm(data=request.POST)
-        imageform = ItemCreateImageForm(request.POST, request.FILES)
-        if form.is_valid() & imageform.is_valid():
+        if form.is_valid():
             item = {
                 'name': form.cleaned_data['name'],
                 'status': 'Available',
@@ -65,16 +61,15 @@ def create_item(request):
                 'seller': Seller.objects.get_or_create(user=request.user)[0],
             }
             itemObj = Item.objects.create(**item)
-            img = imageform.cleaned_data.get('image')
-            imgObj = ItemImage.objects.create(
-                image=img, item=itemObj)
-            imgObj.save()
+
+            images = request.FILES.getlist('images')
+            for image in images:
+                imgObj = ItemImage.objects.create(image=image, item=itemObj)
+                imgObj.save()
             return redirect('item-index')
     else:
         form = ItemCreateForm()
-        imageform = ItemCreateImageForm()
     context['form'] = form
-    context['imageform'] = imageform
     return render(request, 'item/create_item.html', context)
 
 

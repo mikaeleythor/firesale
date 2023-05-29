@@ -9,8 +9,13 @@
           action="{% url 'create-item' %}"
           method="post">
       {% csrf_token %}
-      <div>{{ imageform.as_p }}</div>
-      <div class="create-item-right-section">{{ form.as_p }}</div>
+      <label class="create-item-add-images">
+        Add Images
+        <input type="file" name="images" id="file-upload" multiple hidden />
+        <i class="fa-light fa-plus fa-lg"></i>
+        <span id="display-files"></span>
+      </label>
+      <div class="create-item-right-section">{{ form }}</div>
       <input type="submit"
              value="Create"
              class="btn main-button create-item-button"
