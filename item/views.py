@@ -90,26 +90,3 @@ def update_item(request, id):
         'form': form,
         'id': id
     })
-
-# def place_offer(request, id):
-#     item = get_object_or_404(Item, pk=id)
-#     if request.method == 'POST':
-#         form = ItemOfferForm(data=request.POST)
-#         if form.is_valid():
-#             offer = Offer.objects.create(
-#             status='pending',
-#             amount =form.cleaned_data['amount'],
-#             item = item,
-#             buyer = request.user.id)
-#         else:
-#             form = ItemOfferForm()
-#         return render(request, 'item/item_details.html', {
-#         'form': form, 'item': item
-#     })
-
-# #  amount = form.save()
-# #             offer = Offer.objects.create(
-# #                 status='pending',
-# #                 amount=amount,
-# #                 item=item,
-# #                 buyer=request.user
