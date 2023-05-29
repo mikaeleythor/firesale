@@ -1,7 +1,6 @@
 from django import forms
-from django.forms import ModelForm, widgets
+from django.forms import ModelForm, widgets, Form
 from item.models import Item
-
 
 class ItemCreateForm(ModelForm):
     class Meta:
@@ -34,3 +33,7 @@ class ItemUpdateForm(ModelForm):
             'price': widgets.TextInput(attrs={'class': 'form-control'}),
             'condition': widgets.TextInput(attrs={'class': 'form-control'}),
         }
+
+class ItemOfferForm(Form):
+    amount = forms.IntegerField(min_value=1, label="", widget=forms.TextInput(
+        attrs={'placeholder': 'Input offer...'}))

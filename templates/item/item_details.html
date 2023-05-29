@@ -46,21 +46,32 @@
            class="btn item-detail-seller-button main-button">Edit item</a>
         <a href="{% url 'delete-item' item.item.id %}"
            class="btn item-detail-seller-button main-button">Delete item</a>
+        <form class="item-detail-offer-input-wrapper" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit"
+                   value="Place offer"
+                   class="btn main-button item-detail-buyer-button"
+                   style="clear:both;
+                          margin: 10px 0" />
+        </form>
     </div>
     <div class="similar-items-title">Similar Items</div>
     <div class="items-grid">
-        {% for item in similar %}
-            <a href="/item/{{ item.id }}" class="single-item">
-                <div class="image-container">
-                    <img class="item-img"
-                         src="{{ item.firstImage }}"
-                         alt="item image"
-                         width="300"
-                         height="300" />
-                </div>
-                <h4>Name: {{ item.name }}</h4>
-                <p>Price: {{ item.price }} kr</p>
-            </a>
+        {% for similarItem in similar %}
+            {% if similarItem.id != item.item.id %}
+                <a href="/item/{{ item.id }}" class="single-item">
+                    <div class="image-container">
+                        <img class="item-img"
+                             src="{{ similarItem.firstImage }}"
+                             alt="item image"
+                             width="300"
+                             height="300" />
+                    </div>
+                    <h4>Name: {{ similarItem.name }}</h4>
+                    <p>Price: {{ similarItem.price }} kr</p>
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
 {% endblock %}

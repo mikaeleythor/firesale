@@ -91,13 +91,14 @@
   flex-direction: column;
 }
 
-.create-item-hero-section{
+.create-item-hero-section {
   padding: 4px;
   margin-top: 20px;
   margin-left: 20px;
 }
 
 .create-item-right-section > input {
+
   margin-bottom: 20px;
   height: 40px;
   width: 100%;
@@ -121,7 +122,6 @@
 .create-item-add-images span {
   font-size: 12px;
 }
-
 
 .create-item-button {
   grid-column: span 2;
@@ -171,4 +171,21 @@
 .offer-return-button {
   margin: auto;
   width: 200px;
+}
+
+.item-detail-offer-input-wrapper {
+  grid-column: 1/4;
+  display: flex;
+  gap: 15px;
+}
+
+.item-detail-buyer-button {
+  width: 40%;
+}
+
+#id_amount {
+  width: 60%;
+  flex-direction: column;
+  border: 1px solid #000000;
+  border-radius: 4px;
 }
