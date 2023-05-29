@@ -4,6 +4,7 @@ from item.forms.item_form import ItemCreateForm, ItemCreateImageForm, ItemUpdate
 from item.models import Item, ItemImage, Seller
 from django.core.exceptions import ObjectDoesNotExist
 from django.http.response import HttpResponse
+from django.forms.models import model_to_dict
 
 
 def index(request):
@@ -48,51 +49,32 @@ def see_offers(request, id):
     return render(request, 'item/see_offers.html', {'offers': offers})
 
 
-# def create_item(request):
-#     if request.method == 'POST':
-#         form = ItemCreateForm(data=request.POST)
-#         image_form = ItemCreateImageForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form = form.save(commit=False)
-#             try:
-#                 form.seller = request.user.seller
-#                 form.status = 'Available'
-#             except ObjectDoesNotExist:
-#                 form.seller = Seller.objects.create(
-#                     user=request.user,
-#                     rating=0
-#                 )
-#             item = form.save()
-#             print(image_form)
-#             print(image_form.is_valid())
-#             if image_form.is_valid():
-#                 print('here')
-#                 img = image_form.cleaned_data.get('image')
-#                 obj = ItemImage.objects.create(image=img, item=item)
-#                 obj.save()
-#                 return redirect('item-index')
-#             else:
-#                 print('oh no')
-#     else:
-#         form = ItemCreateForm()
-#         image_form = ItemCreateImageForm()
-#     return render(request, 'item/create_item.html', {
-#         'form': form, 'image_form': image_form
-#     })
-
 def create_item(request):
     context = {}
     if request.method == "POST":
-        form = ItemCreateImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            img = form.cleaned_data.get('image')
-            obj = ItemImage.objects.create(
-                image=img, item=Item.objects.first())
-            obj.save()
-            print(obj)
+        form = ItemCreateForm(data=request.POST)
+        imageform = ItemCreateImageForm(request.POST, request.FILES)
+        if form.is_valid() & imageform.is_valid():
+            item = {
+                'name': form.cleaned_data['name'],
+                'status': 'Available',
+                'condition': form.cleaned_data['condition'],
+                'description': form.cleaned_data['description'],
+                'category': form.cleaned_data['category'],
+                'price': form.cleaned_data['price'],
+                'seller': Seller.objects.get_or_create(user=request.user)[0],
+            }
+            itemObj = Item.objects.create(**item)
+            img = imageform.cleaned_data.get('image')
+            imgObj = ItemImage.objects.create(
+                image=img, item=itemObj)
+            imgObj.save()
+            return redirect('item-index')
     else:
-        form = ItemCreateImageForm()
+        form = ItemCreateForm()
+        imageform = ItemCreateImageForm()
     context['form'] = form
+    context['imageform'] = imageform
     return render(request, 'item/create_item.html', context)
 
 

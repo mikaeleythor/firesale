@@ -9,7 +9,7 @@
           action="{% url 'create-item' %}"
           method="post">
       {% csrf_token %}
-      <!-- <div>{{ image_form }}</div> -->
+      <div>{{ imageform.as_p }}</div>
       <div class="create-item-right-section">{{ form.as_p }}</div>
       <input type="submit"
              value="Create"
