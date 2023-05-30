@@ -68,7 +68,7 @@ def create_item(request):
                 'description': form.cleaned_data['description'],
                 'category': form.cleaned_data['category'],
                 'price': form.cleaned_data['price'],
-                'seller': Seller.objects.get_or_create(user=request.user)[0],
+                'seller': Seller.objects.get_or_create(user=request.user, rating=0)[0],
             }
             itemObj = Item.objects.create(**item)
 
