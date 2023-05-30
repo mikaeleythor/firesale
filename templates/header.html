@@ -34,7 +34,8 @@
         {% endif %}
       {% else %}
         <a class="fa-solid fa-user header-icon" href="{% url 'create-person' %}"></a>
-        <a class="fa-solid fa-bell header-icon" href="{% url 'create-person' %}"></a>
+        <a class="fa-regular fa-bell header-icon"
+           href="{% url 'create-person' %}"></a>
       {% endif %}
       <a type="button" class="btn main-button" href="{% url 'logout' %}">Logout</a>
     {% else %}
