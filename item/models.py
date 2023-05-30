@@ -39,7 +39,7 @@ class Offer(models.Model):
     status = models.CharField(max_length=255)
     amount = models.IntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    buyer = models.OneToOneField(User, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.status}-{self.amount}'
