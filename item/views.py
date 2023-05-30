@@ -7,8 +7,9 @@ import json
 
 notifyer = NotificationInterface()
 
+
 def index(request):
-    items = Item.objects.all()
+    items = Item.objects.all().order_by('name')
     # NOTE: request.GET['invalidkey'] raises KeyError
     try:
         items = items.filter(name__icontains=request.GET['search_filter'])
@@ -19,15 +20,16 @@ def index(request):
         items = items.order_by(request.GET['order_by'])
     except KeyError:
         items = items.order_by('name')
-    # NOTE: Change to list before responding
-    items = [{
-        'id': x.id,
-        'name': x.name,
-        'price': x.price,
-        'firstImage': str(x.itemimage_set.first().image.url)
-    } for x in items]
+
     # NOTE: If any parameters were provided in request.GET
     if any([param in request.GET for param in ['order_by', 'search_filter']]):
+        # NOTE: Change to list before responding
+        items = [{
+            'id': x.id,
+            'name': x.name,
+            'price': x.price,
+            'firstImage': str(x.itemimage_set.first().image.url)
+        } for x in items]
         return JsonResponse({'data': items})
     context = {'items': items}
     return render(request, 'item/index.html', context)
