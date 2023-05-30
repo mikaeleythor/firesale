@@ -14,26 +14,33 @@ def notify_seller(params):
 
 
 def index(request):
-    # TODO: Filtera út frá status og sameina filter og order_by
-    if 'search_filter' in request.GET:
-        search_filter = request.GET['search_filter']
-        items = [{
-            'id': x.id,
-            'name': x.name,
-            'price': x.price,
-            'firstImage': str(x.itemimage_set.first().image.url)
-        } for x in Item.objects.filter(name__icontains=search_filter)]
+    items = Item.objects.all()
+
+    # NOTE: request.GET['invalidkey'] raises KeyError
+    try:
+        items = items.filter(name__icontains=request.GET['search_filter'])
+    except KeyError:
+        pass
+
+    # NOTE: Enforcing default order_by name
+    try:
+        items = items.order_by(request.GET['order_by'])
+    except KeyError:
+        items = items.order_by('name')
+
+    # NOTE: Change to list before responding
+    items = [{
+        'id': x.id,
+        'name': x.name,
+        'price': x.price,
+        'firstImage': str(x.itemimage_set.first().image.url)
+    } for x in items]
+
+    # NOTE: If any parameters were provided in request.GET
+    if any([param in request.GET for param in ['order_by', 'search_filter']]):
         return JsonResponse({'data': items})
-    if 'order_by' in request.GET:
-        order_by = request.GET['order_by']
-        items = [{
-            'id': x.id,
-            'name': x.name,
-            'price': x.price,
-            'firstImage': str(x.itemimage_set.first().image.url)
-        } for x in Item.objects.order_by(order_by)]
-        return JsonResponse({'data': items})
-    context = {'items': Item.objects.all().order_by('name')}
+
+    context = {'items': items}
     return render(request, 'item/index.html', context)
 
 
@@ -68,8 +75,10 @@ def see_offers(request, id):
     if request.method == 'POST':
         json_content = json.loads(request.body)
         if 'offerId' in json_content.keys():
+            # WARNING: Not updating status on item yet
             offerId = json_content['offerId']
             offer = get_object_or_404(Offer, pk=offerId)
+            # TODO: Add validation for this input (in model?)
             offer.status = json_content['status']
             offer.save()
             # TODO: Handle notifying other offers
