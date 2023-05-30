@@ -177,6 +177,7 @@
   grid-column: 1/4;
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
 .item-detail-buyer-button {
@@ -185,7 +186,7 @@
 
 #id_amount {
   width: 60%;
-  flex-direction: column;
   border: 1px solid #000000;
   border-radius: 4px;
+  height: 40px;
 }
