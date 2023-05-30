@@ -5,6 +5,7 @@ from item.models import Item, ItemImage, Offer
 
 
 def index(request):
+    # TODO: Filtera út frá status og sameina filter og order_by
     if 'search_filter' in request.GET:
         search_filter = request.GET['search_filter']
         items = [{
@@ -38,20 +39,23 @@ def get_item_by_id(request, id):
     if request.method == 'POST':
         form = ItemOfferForm(data=request.POST)
         if form.is_valid():
-            offer = Offer.objects.create(**{
+            Offer.objects.create(**{
                 'status': 'pending',
                 'amount': form.cleaned_data['amount'],
                 'item': item['item'],
                 'buyer': request.user
             })
+            # TODO: Notify seller
     else:
         form = ItemOfferForm()
     context = {'item': item, 'similar': similar, 'form': form}
     return render(request, 'item/item_details.html', context)
 
+
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
     offers = item.offer_set.all()
+    # TODO: Accept offer
     print(offers)
     return render(request, 'item/see_offers.html', {'offers': offers})
 
