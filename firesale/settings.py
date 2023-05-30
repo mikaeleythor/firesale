@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'person.apps.PersonConfig',
     'item.apps.ItemConfig',
     'accounts.apps.AccountsConfig',
+    'notifications.apps.NotificationsConfig',
+    'transaction.apps.TransactionConfig',
 ]
 
 MIDDLEWARE = [
@@ -128,6 +130,7 @@ USE_I18N = True
 USE_TZ = True
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -143,8 +146,7 @@ STORAGES = {
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
-    },
-}
+    }, }
 
 GS_BUCKET_NAME = env('GS_BUCKET_NAME')
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(

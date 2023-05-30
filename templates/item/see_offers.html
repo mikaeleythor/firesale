@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
-    <div class="offer-wrapper">
+    <div id="offers" class="offer-wrapper">
         <h1 class="text-center">Offers</h1>
         <hr>
         {% for offer in offers %}
@@ -13,8 +13,13 @@
                     <b>{{ offer.amount }} kr</b>
                 </div>
                 <div class="offer-controls">
-                    <button class="btn main-button">Accept offer</button>
-                    <button class="btn secondary-button">Decline offer</button>
+                    {% comment %}
+                    NOTE: storing identifiers for post request in btn.id
+                    {% endcomment %}
+                    <button id="accept-btn-{{ offer.id }}-{{ offer.item.id }}" 
+                            class="btn main-button">Accept offer</button>
+                    <button id="decline-btn-{{ offer.id }}-{{ offer.item.id }}" 
+                            class="btn secondary-button">Decline offer</button>
                 </div>
             </div>
             <hr>

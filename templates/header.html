@@ -1,13 +1,15 @@
 <nav class="navbar header-navigation-bar">
   <div class="header-left-section">
-    <button class="navbar-toggler"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar"
-            aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    {% if user.is_authenticated %}
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasNavbar"
+              aria-controls="offcanvasNavbar"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    {% endif %}
     <a class="navbar-brand" href="/">
       <img class="header-img"
            src="/static/logo.png"
@@ -20,7 +22,15 @@
     {% if user.is_authenticated %}
       <i class="fa-solid fa-star header-icon"></i>
       <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>
-      <i class="fa-solid fa-bell header-icon"></i>
+      {% if user.inbox.unread %}
+        <a href="{% url 'notification-list' %}"
+           style="text-decoration: none"
+           class="fa-solid fa-bell header-icon"></a>
+      {% else %}
+        <a href="{% url 'notification-list' %}"
+           style="text-decoration: none"
+           class="fa-regular fa-bell header-icon"></a>
+      {% endif %}
       <a type="button" class="btn main-button" href="{% url 'logout' %}">Logout</a>
     {% else %}
       <a type="button" class="btn main-button" href="{% url 'login' %}">Login</a>
