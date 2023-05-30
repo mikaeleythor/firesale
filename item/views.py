@@ -2,6 +2,15 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from item.forms.item_form import ItemCreateForm, ItemUpdateForm, ItemOfferForm
 from item.models import Item, ItemImage, Seller, Offer
+import json
+
+
+def notify_buyer(params):
+    pass
+
+
+def notify_seller(params):
+    pass
 
 
 def index(request):
@@ -55,8 +64,21 @@ def get_item_by_id(request, id):
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
     offers = item.offer_set.all()
-    # TODO: Accept offer
-    print(offers)
+    # HACK: Using content-type: application/json in template
+    if request.method == 'POST':
+        json_content = json.loads(request.body)
+        if 'offerId' in json_content.keys():
+            offerId = json_content['offerId']
+            offer = get_object_or_404(Offer, pk=offerId)
+            offer.status = json_content['status']
+            offer.save()
+            # TODO: Handle notifying other offers
+            notify_buyer(offer)
+            return JsonResponse(
+                status=200, data={"message": "Offer accepted"})
+        else:
+            return JsonResponse(
+                status=400, data={"message": "OfferId must be supplied"})
     return render(request, 'item/see_offers.html', {'offers': offers})
 
 

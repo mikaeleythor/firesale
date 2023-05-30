@@ -13,9 +13,12 @@
                     <b>{{ offer.amount }} kr</b>
                 </div>
                 <div class="offer-controls">
-                    <button id="accept-{{ offer.id }}" 
+                    {% comment %}
+                    NOTE: storing identifiers for post request in btn.id
+                    {% endcomment %}
+                    <button id="accept-btn-{{ offer.id }}-{{ offer.item.id }}" 
                             class="btn main-button">Accept offer</button>
-                    <button id="decline-{{ offer.id }}" 
+                    <button id="decline-btn-{{ offer.id }}-{{ offer.item.id }}" 
                             class="btn secondary-button">Decline offer</button>
                 </div>
             </div>
