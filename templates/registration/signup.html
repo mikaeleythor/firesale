@@ -3,60 +3,57 @@
 {% block content %}
   <link rel="stylesheet" href="{% static 'registration/css/main.css' %}" />
   <div class="login-container">
-
     {% comment %}{% if form.errors %}<p>Your username and password didn't match. Please try again.</p>{% endif %}{% endcomment %}
-
-    {% comment %} 
+    {% comment %}
     WARNING: Should not be in production
     {% endcomment %}
     {% if form.errors %}<p>{{ form.errors }}</p>{% endif %}
     {% if user.is_authenticated %}
-      <p>
-        You're already logged in!
-      </p>
-      {% else %}
-        <form method="post"class="login-form">
-          {% csrf_token %}
-          <h2 class="h3 mb-3 fw-normal">Register</h2>
-          <div class="form-floating">
-            <input class="form-control login-inputs"
-                   id="id_username"
-                   name="username"
-                   placeholder="Username"
-                   autocomplete="username"
-                   data-ddg-inputtype="credentials.username">
-            <label for="id_username">Username</label>
-          </div>
-          <div class="form-floating">
-            <input class="form-control login-inputs"
-                   id="id_email"
-                   name="email"
-                   type="email"
-                   placeholder="Email address"
-                   data-ddg-inputtype="credentials.email">
-            <label for="id_email">Email address</label>
-          </div>
-          <div class="form-floating">
-            <input class="form-control login-inputs"
-                   id="id_password1"
-                   name="password1"
-                   type="password"
-                   placeholder="Password"
-                   data-ddg-inputtype="credentials.password">
-            <label for="id_password1">Password</label>
-          </div>
-          <div class="form-floating">
-            <input class="form-control login-inputs"
-                   id="id_password2"
-                   name="password2"
-                   type="password"
-                   placeholder="Password"
-                   data-ddg-inputtype="credentials.password">
-            <label for="id_password2">Repeat password</label>
-          </div>
-          <button class="btn main-button login-button" type="submit">Register</button>
-          <input type="hidden" name="next" value="{{ next }}">
-        </form>
-      {% endif %}
-    </div>
-  {% endblock %}
+      <p>You're already logged in!</p>
+    {% else %}
+      <form method="post"class="login-form">
+        {% csrf_token %}
+        <h2 class="h3 mb-3 fw-normal">Register</h2>
+        <div class="form-floating">
+          <input class="form-control login-inputs"
+                 id="id_username"
+                 name="username"
+                 placeholder="Username"
+                 autocomplete="username"
+                 data-ddg-inputtype="credentials.user_name">
+          <label for="id_username">Username</label>
+        </div>
+        <div class="form-floating">
+          <input class="form-control login-inputs"
+                 id="id_email"
+                 name="email"
+                 type="email"
+                 placeholder="Email address"
+                 data-ddg-inputtype="credentials.email">
+          <label for="id_email">Email address</label>
+        </div>
+        <div class="form-floating">
+          <input class="form-control login-inputs"
+                 id="id_password1"
+                 name="password1"
+                 type="password"
+                 placeholder="Password"
+                 data-ddg-inputtype="credentials.password">
+          <label for="id_password1">Password</label>
+        </div>
+        <div class="form-floating">
+          <input class="form-control login-inputs"
+                 id="id_password2"
+                 name="password2"
+                 type="password"
+                 placeholder="Password"
+                 data-ddg-inputtype="credentials.password">
+          <label for="id_password2">Confirm password</label>
+        </div>
+        <button class="btn main-button login-button" type="submit">Register</button>
+        <input type="hidden" name="next" value="{{ next }}">
+        <!-- TODO redirecta á create-person skjáin -->
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
