@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- <link rel="stylesheet" href="{% static 'item/css/main.css' %}" /> -->
+    <div class="checkout-wrapper">
+        <h1 class="text-center">Basket</h1>
+        <hr>
+        {% for checkout_item in basket %}
+            <div class="single-checkout-item-wrapper">
+                <div class="checkout-item-details">
+                    <b>{{ checkout_item }} kr</b>
+                </div>
+            </div>
+            <hr>
+        {% endfor %}
+        <a class="btn main-button checkout-items-button"
+           href="/item/{{ offers.first.item.id }}">Checkout</a>
+    </div>
+{% endblock %}
