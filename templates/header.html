@@ -19,7 +19,11 @@
   <div class="header-right-section">
     {% if user.is_authenticated %}
       <i class="fa-solid fa-star header-icon"></i>
-      <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>
+      {% if user.person.id %}
+        <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>
+      {% else %}
+        <a class="fa-solid fa-user header-icon" href="{% url 'create-person' %}"></a>
+      {% endif %}
       <i class="fa-solid fa-bell header-icon"></i>
       <a type="button" class="btn main-button" href="{% url 'logout' %}">Logout</a>
     {% else %}
@@ -49,13 +53,22 @@
           <a class="nav-link active" aria-current="page" href="">Home</a>
         </li>
         {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'person-index' %}">My profile</a>
-          </li>
+          {% if user.person.id %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'person-index' %}">My profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create-item' %}">Create Item</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create-person' %}">My profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'create-person' %}">Create Item</a>
+            </li>
+          {% endif %}
         {% endif %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'create-item' %}">Create Item</a>
-        </li>
       </ul>
     </div>
   </div>
