@@ -40,7 +40,7 @@
             <span class="item-detail-title">Description</span>
             <p class="item-detail-value">{{ item.item.description }}</p>
         </div>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.person.id %}
             {% if user.seller.id == item.item.seller.id %}
                 <a href="{% url 'see-offers' item.item.id %}"
                    class="btn item-detail-seller-button main-button">See offers</a>
