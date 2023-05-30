@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from item.forms.item_form import ItemCreateForm, ItemUpdateForm, ItemOfferForm
-from item.models import Item, ItemImage, Offer
+from item.models import Item, ItemImage, Seller, Offer
 
 
 def index(request):
@@ -61,18 +61,30 @@ def see_offers(request, id):
 
 
 def create_item(request):
-    if request.method == 'POST':
+    context = {}
+    if request.method == "POST":
         form = ItemCreateForm(data=request.POST)
         if form.is_valid():
-            item = form.save()
-            item_image = ItemImage(image=request.POST['image'], item=item)
-            item_image.save()
+            item = {
+                'name': form.cleaned_data['name'],
+                'status': 'Available',
+                'condition': form.cleaned_data['condition'],
+                'description': form.cleaned_data['description'],
+                'category': form.cleaned_data['category'],
+                'price': form.cleaned_data['price'],
+                'seller': Seller.objects.get_or_create(user=request.user)[0],
+            }
+            itemObj = Item.objects.create(**item)
+
+            images = request.FILES.getlist('images')
+            for image in images:
+                imgObj = ItemImage.objects.create(image=image, item=itemObj)
+                imgObj.save()
             return redirect('item-index')
     else:
         form = ItemCreateForm()
-    return render(request, 'item/create_item.html', {
-        'form': form
-    })
+    context['form'] = form
+    return render(request, 'item/create_item.html', context)
 
 
 def delete_item(request, id):

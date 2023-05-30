@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const searchBox = document.querySelector("#search-box");
   const selectOrder = document.querySelector("#select-order");
+  const fileUpload = document.querySelector("#file-upload")
 
   if (searchBox) {
     searchBox.addEventListener("input", function () {
@@ -69,5 +70,12 @@ document.addEventListener("DOMContentLoaded", function () {
           console.log(error);
         });
     });
+  }
+
+  if (fileUpload) {
+    fileUpload.addEventListener('change', function (e) {
+      const displayFiles =  document.querySelector("#display-files")
+      displayFiles.innerHTML = fileUpload.value.substring(12)
+    })
   }
 });
