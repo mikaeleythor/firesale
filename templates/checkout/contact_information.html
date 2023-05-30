@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'checkout/css/main.css' %}" />
+    <div class="contact-info-wrapper">
+        <form>
+            <label for="full_name">Full name:</label>
+            <br>
+            <input type="text" id="full_name" name="full_name">
+            <br>
+            <label for="city">City:</label>
+            <br>
+            <input type="text" id="city" name="city">
+            <input type="submit"
+                   value="Continue"
+                   class="btn main-button  create-item-button"
+                   style="clear:both;
+                          margin: 10px 0">
+        </form>
+    </div>
+{% endblock %}
