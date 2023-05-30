@@ -2,32 +2,23 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from item.forms.item_form import ItemCreateForm, ItemUpdateForm, ItemOfferForm
 from item.models import Item, ItemImage, Seller, Offer
+from notifications.interfaces import NotificationInterface
 import json
 
-
-def notify_buyer(params):
-    pass
-
-
-def notify_seller(params):
-    pass
-
+notifyer = NotificationInterface()
 
 def index(request):
     items = Item.objects.all()
-
     # NOTE: request.GET['invalidkey'] raises KeyError
     try:
         items = items.filter(name__icontains=request.GET['search_filter'])
     except KeyError:
         pass
-
     # NOTE: Enforcing default order_by name
     try:
         items = items.order_by(request.GET['order_by'])
     except KeyError:
         items = items.order_by('name')
-
     # NOTE: Change to list before responding
     items = [{
         'id': x.id,
@@ -35,11 +26,9 @@ def index(request):
         'price': x.price,
         'firstImage': str(x.itemimage_set.first().image.url)
     } for x in items]
-
     # NOTE: If any parameters were provided in request.GET
     if any([param in request.GET for param in ['order_by', 'search_filter']]):
         return JsonResponse({'data': items})
-
     context = {'items': items}
     return render(request, 'item/index.html', context)
 
@@ -82,7 +71,7 @@ def see_offers(request, id):
             offer.status = json_content['status']
             offer.save()
             # TODO: Handle notifying other offers
-            notify_buyer(offer)
+            notifyer.offer_accepted(offer)
             return JsonResponse(
                 status=200, data={"message": "Offer accepted"})
         else:
