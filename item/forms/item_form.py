@@ -3,9 +3,6 @@ from django.forms import ModelForm, widgets, Form
 from item.models import Item
 
 class ItemCreateForm(ModelForm):
-    image = forms.CharField(label="", required=True, widget=forms.TextInput(
-        attrs={'placeholder': '+ Add image'}))
-
     class Meta:
         model = Item
         exclude = ['id', 'seller', 'status']
