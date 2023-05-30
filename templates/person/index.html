@@ -5,37 +5,37 @@
   <div class="profile-container">
     <h2 class="profile-header-text">Profile</h2>
     {% if user.person is not None %}
-    <div class="profile-picture-container">
-      <img src="{{ person.image.url }}"
-           alt="Profile photo of user"
-           width="160"
-           height="160"
-           class="profile-picture" />
-    </div>
-    <div class="profile-info">
-      <span class="profile-form-label">Name:</span>
-      <span>{{ person.user.first_name }} {{ person.user.last_name }}</span>
-      <span class="profile-form-label">Username:</span>
-      <span>{{ person.user }}</span>
-      <span class="profile-form-label">Email:</span>
-      <span>{{ person.user.email }}</span>
-      <span class="profile-form-label">Bio:</span>
-      <textarea readonly class="profile-bio" name="bio" cols="60" rows="5">
+      <div class="profile-picture-container">
+        <img src="{{ person.image.url }}"
+             alt="Profile photo of user"
+             width="160"
+             height="160"
+             class="profile-picture" />
+      </div>
+      <div class="profile-info">
+        <span class="profile-form-label">Name:</span>
+        <span>{{ person.user.first_name }} {{ person.user.last_name }}</span>
+        <span class="profile-form-label">Username:</span>
+        <span>{{ person.user }}</span>
+        <span class="profile-form-label">Email:</span>
+        <span>{{ person.user.email }}</span>
+        <span class="profile-form-label">Bio:</span>
+        <textarea readonly class="profile-bio" name="bio" cols="60" rows="5">
  {{ person.bio }} </textarea>
-      <span class="profile-form-label">Rating</span>
-      <span>
-        000
-        <i class="fa-solid fa-star"></i>
-      </span>
-    </div>
-    <a href="{% url 'update-person' %}">
-      <button type="button" class="btn main-button profile-edit-btn">
-        Edit
-        <i class="fa-solid fa-pen-to-square"></i>
-      </button>
-    </a>
+        <span class="profile-form-label">Rating</span>
+        <span>
+          000
+          <i class="fa-solid fa-star"></i>
+        </span>
+      </div>
+      <a href="{% url 'update-person' %}">
+        <button type="button" class="btn main-button profile-edit-btn">
+          Edit
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+      </a>
     {% else %}
-    <h2>ekki til</h2>
+      <h2>ekki til</h2>
     {% endif %}
   </div>
 {% endblock %}
