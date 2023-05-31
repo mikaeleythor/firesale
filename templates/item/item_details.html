@@ -63,8 +63,8 @@
     </div>
     <div class="similar-items-title">Similar Items</div>
     <div class="items-grid">
-        {% for similarItem in similar %}
-            {% if similarItem.id != item.item.id %}
+        {% if similar %}
+            {% for similarItem in similar %}
                 <a href="/item/{{ similarItem.id }}" class="single-item">
                     <div class="image-container">
                         <img class="item-img"
@@ -76,7 +76,9 @@
                     <h4>Name: {{ similarItem.name }}</h4>
                     <p>Price: {{ similarItem.price }} kr</p>
                 </a>
-            {% endif %}
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>No similar items</p>
+        {% endif %}
     </div>
 {% endblock %}
