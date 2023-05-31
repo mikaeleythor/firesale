@@ -1,7 +1,7 @@
-# firesale
+# Firesale
 This is a project for the course Verkefni í Verklegu Námskeiði 2. On this website a user can sell and buy items.
 
-# Requirements A
+## Requirements A
 Here is a list of all requirements with priority A, they have all been fulfilled
 - It should be possible to register as a new user. 
 - It should be possible to login.
@@ -20,7 +20,7 @@ Here is a list of all requirements with priority A, they have all been fulfilled
 - It should be possible to navigate throught the header.
 - There should be a footer with the logo of the website.
 
-# Requirements B
+## Requirements B
 Here is a list of all requirements with priority B, .........
 - It should be possible to log out.
 - It should be possible to rate the seller. XXXXXX
@@ -28,7 +28,7 @@ Here is a list of all requirements with priority B, .........
 - It should be possible to view your products that are for sale. XXXXXX
 - It should be possible to click on the logo in the header to navigate to the homepage.
 
-# Requirements C
+## Requirements C
 Here is a list of all requirements with priority C,......
 - It should be possible to view other people's profile. XXXXX
 - It should be possible to edit an item.  
