@@ -21,6 +21,7 @@ class NotificationInterface():
         msg_body = 'Welcome to FireSale! Click here to finish setting up your profile'
         self.__notify(user, msg_title, msg_body, next_path_name)
 
+    # TEST: Needs testing with actual checkout
     def payment_received(self, payer, recipient, amount, item):
         next_path_name = 'notification-list'
         msg_title = f'Payment from {payer.username}'
@@ -36,6 +37,7 @@ class NotificationInterface():
         buyer_msg_body = f'{buyer_msg_title} of {offer.amount} on {offer.item}'
         self.__notify(buyer, buyer_msg_title, buyer_msg_body, next_path_name)
 
+    # TEST: Needs testing with bulk decline-offers
     def offer_declined(self, offer):
         next_path_name = 'notification-list'
         seller = offer.item.seller.user
