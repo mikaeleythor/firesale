@@ -42,7 +42,7 @@ def get_item_by_id(request, id):
         'name': x.name,
         'price': x.price,
         'firstImage': str(x.itemimage_set.first().image.url)
-    } for x in Item.objects.filter(category__icontains=item['item'].category)]
+    } for x in Item.objects.filter(category__icontains=item['item'].category).exclude(id=item['item'].id)]
     if request.method == 'POST':
         form = ItemOfferForm(data=request.POST)
         if form.is_valid():
