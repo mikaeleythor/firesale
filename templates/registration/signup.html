@@ -3,11 +3,6 @@
 {% block content %}
   <link rel="stylesheet" href="{% static 'registration/css/main.css' %}" />
   <div class="login-container">
-    {% comment %}{% if form.errors %}<p>Your username and password didn't match. Please try again.</p>{% endif %}{% endcomment %}
-    {% comment %}
-    WARNING: Should not be in production
-    {% endcomment %}
-    {% if form.errors %}<div class="error-container">{{ form.errors }}</div>{% endif %}
     {% if user.is_authenticated %}
       <p>You're already logged in!</p>
     {% else %}
@@ -52,6 +47,10 @@
         </div>
         <button class="btn main-button login-button" type="submit">Register</button>
         <input type="hidden" name="next" value="{{ next }}">
+        <p class="text-center">
+          Already have an account? <a href="{% url 'login' %}" class="register-link-login">Log in</a>
+        </p>
+        {% if form.errors %}<div class="error-container">{{ form.errors }}</div>{% endif %}
       </form>
     {% endif %}
   </div>
