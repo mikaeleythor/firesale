@@ -4,9 +4,7 @@ from person.models import Person
 
 
 def notify_new_user(sender, user, request, **kwargs):
-    if Person.objects.filter(user=user.id).exists():
-        pass
-    else:
+    if not Person.objects.filter(user=user.id).exists():
         NotificationInterface().user_created(user)
 
 
