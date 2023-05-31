@@ -19,3 +19,9 @@
     color: #959595;
     margin-left: 20px;
 }
+
+.notification-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin: auto;
+}
