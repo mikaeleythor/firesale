@@ -3,7 +3,7 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'person/css/main.css' %}" />
     <div class="profile-container">
-        <h2 class="profile-header-text">Create profile</h2>
+        <h2 class="profile-header-text">To continue, please create profile</h2>
         <form class=" profile-info"  method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form }}
