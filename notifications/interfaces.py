@@ -58,7 +58,7 @@ class NotificationInterface():
             title=title,
             message=body,
             inbox=inbox,
-            next_path_name=next_path_name
+            next_path=next_path_name
         )
         inbox.unread = F('unread') + 1
         inbox.save()
