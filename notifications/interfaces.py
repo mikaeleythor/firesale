@@ -52,12 +52,13 @@ class NotificationInterface():
         self.__notify(seller, seller_msg_title,
                       seller_msg_body, next_path_name)
 
-    def __notify(self, user, title, body, next=None):
+    def __notify(self, user, title, body, next_path_name="#"):
         inbox, created = self.manager.objects.get_or_create(user=user)
         self.model.objects.create(
             title=title,
             message=body,
-            inbox=inbox
+            inbox=inbox,
+            next_path_name=next_path_name
         )
         inbox.unread = F('unread') + 1
         inbox.save()
