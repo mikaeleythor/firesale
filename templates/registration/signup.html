@@ -7,7 +7,7 @@
     {% comment %}
     WARNING: Should not be in production
     {% endcomment %}
-    {% if form.errors %}<p>{{ form.errors }}</p>{% endif %}
+    {% if form.errors %}<div class="error-container">{{ form.errors }}</div>{% endif %}
     {% if user.is_authenticated %}
       <p>You're already logged in!</p>
     {% else %}
