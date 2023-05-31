@@ -20,11 +20,10 @@
         <span class="profile-form-label">Email:</span>
         <span>{{ person.user.email }}</span>
         <span class="profile-form-label">Bio:</span>
-        <textarea readonly class="profile-bio" name="bio" cols="60" rows="5">
- {{ person.bio }} </textarea>
+        <textarea disabled readonly class="profile-bio" name="bio" cols="60" rows="5">{{ person.bio }} </textarea>
         <span class="profile-form-label">Rating</span>
         <span>
-          000
+          {{ person.user.seller.rating }}
           <i class="fa-solid fa-star"></i>
         </span>
       </div>
