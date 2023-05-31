@@ -25,3 +25,7 @@
 .register-link-login {
   color: #1bafd0;
 }
+
+.error-container {
+  color: red;
+}
