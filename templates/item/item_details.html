@@ -5,8 +5,15 @@
     <div class="item-detail-wrapper">
         <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">
-                {% for item_image in item.item.itemimage_set.all %}
-                    <div class="carousel-item active">
+                <div class="carousel-item active">
+                    <img src="{{ item.item.itemimage_set.first.image.url }}"
+                         class="d-block w-100"
+                         alt="item image"
+                         width="100"
+                         height="100">
+                </div>
+                {% for item_image in item.item.itemimage_set.all|slice:"1:" %}
+                    <div class="carousel-item">
                         <img src="{{ item_image.image.url }}"
                              class="d-block w-100"
                              alt="item image"
