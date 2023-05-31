@@ -23,7 +23,7 @@
       <i class="fa-solid fa-star header-icon"></i>
       {% if user.person.id %}
         <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>
-        {% if user.inbox.unread %}
+        {% if user.inbox.unread > 0 %}
           <a href="{% url 'notification-list' %}"
              style="text-decoration: none"
              class="fa-solid fa-bell header-icon"></a>
