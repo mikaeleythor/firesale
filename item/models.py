@@ -21,7 +21,7 @@ def validate_item_status(value):
 
 
 class Seller(models.Model):
-    rating = models.IntegerField()
+    rating = models.PositiveIntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
