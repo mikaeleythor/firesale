@@ -12,3 +12,6 @@ class Person(models.Model):
     image = models.ImageField(
         upload_to=person_photo_directory_path, default='person/anonymous.png'
     )
+
+    def __str__(self):
+        return f'{self.id}-{self.user.username}'
