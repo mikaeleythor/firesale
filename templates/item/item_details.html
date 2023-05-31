@@ -63,20 +63,24 @@
     </div>
     <div class="similar-items-title">Similar Items</div>
     <div class="items-grid">
-        {% for similarItem in similar %}
-            {% if similarItem.id != item.item.id %}
-                <a href="/item/{{ similarItem.id }}" class="single-item">
-                    <div class="image-container">
-                        <img class="item-img"
-                             src="{{ similarItem.firstImage }}"
-                             alt="item image"
-                             width="300"
-                             height="300" />
-                    </div>
-                    <h4>Name: {{ similarItem.name }}</h4>
-                    <p>Price: {{ similarItem.price }} kr</p>
-                </a>
-            {% endif %}
-        {% endfor %}
+        {% if similar|length %}
+            {% for similarItem in similar %}
+                {% if similarItem.id != item.item.id %}
+                    <a href="/item/{{ similarItem.id }}" class="single-item">
+                        <div class="image-container">
+                            <img class="item-img"
+                                 src="{{ similarItem.firstImage }}"
+                                 alt="item image"
+                                 width="300"
+                                 height="300" />
+                        </div>
+                        <h4>Name: {{ similarItem.name }}</h4>
+                        <p>Price: {{ similarItem.price }} kr</p>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No similar items</p>
+        {% endif %}
     </div>
 {% endblock %}
