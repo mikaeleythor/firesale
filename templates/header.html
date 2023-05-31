@@ -22,25 +22,25 @@
     {% if user.is_authenticated %}
       <i class="fa-solid fa-star header-icon"></i>
       {% if user.person.id %}
-        <a class="fa-solid fa-basket-shopping header-icon"
-           href="#"
-           style="text-decoration: none"></a>
         <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>
+        <a href="{% url 'checkout' %}"
+           style="text-decoration: none"
+           class="fa-solid fa-basket-shopping header-icon"></a>
       {% else %}
+        <a class="fa-solid fa-user header-icon" href="{% url 'create-person' %}"></a>
         <a class="fa-solid fa-basket-shopping header-icon"
            style="text-decoration: none"
            href="{% url 'create-person' %}"></a>
-        <a class="fa-solid fa-user header-icon" href="{% url 'create-person' %}"></a>
       {% endif %}
-        {% if user.inbox.unread > 0 %}
-          <a href="{% url 'notification-list' %}"
-             style="text-decoration: none"
-             class="fa-solid fa-bell header-icon"></a>
-        {% else %}
-          <a href="{% url 'notification-list' %}"
-             style="text-decoration: none"
-             class="fa-regular fa-bell header-icon"></a>
-        {% endif %}
+      {% if user.inbox.unread > 0 %}
+        <a href="{% url 'notification-list' %}"
+           style="text-decoration: none"
+           class="fa-solid fa-bell header-icon"></a>
+      {% else %}
+        <a href="{% url 'notification-list' %}"
+           style="text-decoration: none"
+           class="fa-regular fa-bell header-icon"></a>
+      {% endif %}
       <a type="button" class="btn main-button" href="{% url 'logout' %}">Logout</a>
     {% else %}
       <a type="button" class="btn main-button" href="{% url 'login' %}">Login</a>
@@ -71,14 +71,20 @@
         {% if user.is_authenticated %}
           {% if user.person.id %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'person-index' %}">My profile</a>
+              <a class="nav-link" href="{% url 'person-index' %}">My Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'create-item' %}">Create Item</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'checkout' %}">Basket</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'notification-list' %}">Notifications</a>
+            </li>
           {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'create-person' %}">My profile</a>
+              <a class="nav-link" href="{% url 'create-person' %}">My Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'create-person' %}">Create Item</a>

@@ -46,6 +46,16 @@
             <p class="item-detail-value">{{ item.item.condition }}</p>
             <span class="item-detail-title">Description</span>
             <p class="item-detail-value">{{ item.item.description }}</p>
+            <span class="item-detail-title">Status</span>
+            <p class="item-detail-value">{{ item.item.status }}</p>
+            <span class="item-detail-title">Seller:</span>
+            <div class="item-detail-seller-value">
+                <img src="{{ item.item.seller.user.person.image.url }}"
+                     alt="Profile photo of seller"
+                     width="30"
+                     height="30" />
+                <h5 class="item-detail-value">{{ item.item.seller }}</h5>
+            </div>
         </div>
         {% if user.is_authenticated and user.person.id %}
             {% if user.seller.id == item.item.seller.id %}
