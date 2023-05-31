@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from item.forms.item_form import ItemCreateForm, ItemUpdateForm, ItemOfferForm
@@ -67,16 +68,22 @@ def see_offers(request, id):
     if request.method == 'POST':
         json_content = json.loads(request.body)
         if 'offerId' in json_content.keys():
-            # WARNING: Not updating status on item yet
-            offerId = json_content['offerId']
-            offer = get_object_or_404(Offer, pk=offerId)
-            # TODO: Add validation for this input (in model?)
-            offer.status = json_content['status']
-            offer.save()
-            # TODO: Handle notifying other offers
-            notifyer.offer_accepted(offer)
-            return JsonResponse(
-                status=200, data={"message": "Offer accepted"})
+            try:
+                offerId = json_content['offerId']
+                offer = get_object_or_404(Offer, pk=offerId)
+                # PERF: Input validated in model
+                offer.status = json_content['status']
+                offer.save()
+                # TODO: Handle notifying other offers
+                item = offer.item
+                item.status = "Waiting for payment"
+                item.save()
+                notifyer.offer_accepted(offer)
+                return JsonResponse(
+                    status=200, data={"message": "Offer accepted"})
+            except ValidationError as e:
+                return JsonResponse(
+                    status=404, data={"message": str(e)})
         else:
             return JsonResponse(
                 status=400, data={"message": "OfferId must be supplied"})
