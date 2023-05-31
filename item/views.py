@@ -46,13 +46,14 @@ def get_item_by_id(request, id):
     if request.method == 'POST':
         form = ItemOfferForm(data=request.POST)
         if form.is_valid():
-            Offer.objects.create(**{
+            offer = Offer.objects.create(**{
                 'status': 'pending',
                 'amount': form.cleaned_data['amount'],
                 'item': item['item'],
                 'buyer': request.user
             })
             # TODO: Notify seller
+            notifyer.offer_placed(offer)
     else:
         form = ItemOfferForm()
     context = {'item': item, 'similar': similar, 'form': form}

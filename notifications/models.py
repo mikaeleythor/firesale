@@ -7,6 +7,9 @@ class Inbox(models.Model):
     unread = models.PositiveIntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.user.username}-inbox'
+
 
 class Notification(models.Model):
     title = models.CharField(max_length=50)
@@ -14,6 +17,7 @@ class Notification(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
     inbox = models.ForeignKey(Inbox, on_delete=models.CASCADE)
+    next_path = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return f'{self.title}-{self.date}'
