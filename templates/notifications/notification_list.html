@@ -14,7 +14,8 @@
           <h2>Notifications</h2>
         </div>
         {% for notification in object_list %}
-          <a href="{{ notification.next_path }}"
+          <a id="notification-btn-{{ notification.id }}"
+             href="{{ notification.next_path }}"
              class="list-group-item list-group-item-action d-flex gap-3 py-3"
              aria-current="true">
             {% if notification.read %}
