@@ -73,17 +73,19 @@ def see_offers(request, id):
                 offer = get_object_or_404(Offer, pk=offerId)
                 # PERF: Input validated in model
                 offer.status = json_content['status']
+                offer.full_clean()
                 offer.save()
                 # TODO: Handle notifying other offers
                 item = offer.item
                 item.status = "Waiting for payment"
+                item.full_clean()
                 item.save()
                 notifyer.offer_accepted(offer)
                 return JsonResponse(
                     status=200, data={"message": "Offer accepted"})
             except ValidationError as e:
                 return JsonResponse(
-                    status=404, data={"message": str(e)})
+                    status=400, data={"message": str(e)})
         else:
             return JsonResponse(
                 status=400, data={"message": "OfferId must be supplied"})
