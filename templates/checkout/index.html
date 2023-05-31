@@ -19,10 +19,10 @@
             </div>
             <hr>
         {% endfor %}
+        <a class="btn main-button checkout-items-button"
+           href="/checkout/contact-information">Checkout</a>
     {% else %}
-        <p class="checkout-error-text">You have no notifications</p>
+        <p class="checkout-error-text">There are no items in your basket.</p>
     {% endif %}
-    <a class="btn main-button checkout-items-button"
-       href="/checkout/contact-information">Checkout</a>
 </div>
 {% endblock %}

@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
-    <div id="offers" class="offer-wrapper">
-        <h1 class="text-center">Offers</h1>
-        <hr>
+    <link rel="stylesheet" href="{% static 'item/css/main.css' %}"></link>
+<div id="offers" class="offer-wrapper">
+    <h1 class="text-center">Offers</h1>
+    <hr>
+    {% if offers %}
         {% for offer in offers %}
             <div class="single-offer-wrapper">
                 <div class="offer-details">
@@ -16,15 +17,18 @@
                     {% comment %}
                     NOTE: storing identifiers for post request in btn.id
                     {% endcomment %}
-                    <button id="accept-btn-{{ offer.id }}-{{ offer.item.id }}" 
+                    <button id="accept-btn-{{ offer.id }}-{{ offer.item.id }}"
                             class="btn main-button">Accept offer</button>
-                    <button id="decline-btn-{{ offer.id }}-{{ offer.item.id }}" 
+                    <button id="decline-btn-{{ offer.id }}-{{ offer.item.id }}"
                             class="btn secondary-button">Decline offer</button>
                 </div>
             </div>
             <hr>
         {% endfor %}
-        <a class="btn main-button offer-return-button"
-           href="/item/{{ offers.first.item.id }}">Return to Item page</a>
-    </div>
+    {% else %}
+        <p class="checkout-error-text">No offers have been made on this item.</p>
+    {% endif %}
+    <a class="btn main-button offer-return-button"
+       href="/item/{{ offers.first.item.id }}">Return to Item page</a>
+</div>
 {% endblock %}
