@@ -10,7 +10,7 @@ class NotificationListView(ListView):
 
     def get_queryset(self):
         inbox, created = Inbox.objects.get_or_create(user=self.request.user)
-        return Notification.objects.filter(inbox=inbox.id)
+        return Notification.objects.filter(inbox=inbox.id).order_by('-date')
 
 
 def read(request, id):
