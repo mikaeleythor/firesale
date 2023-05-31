@@ -148,3 +148,9 @@ select {
 .rating > label:hover ~ input:checked ~ label {
   color: #c59b08;
 }
+
+.checkout-error-text {
+  color: #959595;
+  margin-left: 20px;
+}
+

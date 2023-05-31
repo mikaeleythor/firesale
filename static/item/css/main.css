@@ -189,6 +189,11 @@
   align-items: center;
 }
 
+.offer-error-text {
+  color: #959595;
+  margin-left: 20px;
+}
+
 .item-detail-buyer-button {
   width: 40%;
 }
