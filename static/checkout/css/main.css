@@ -99,3 +99,8 @@ select {
   text-decoration: none;
   color: black;
 }
+
+.checkout-error-text {
+  color: #959595;
+  margin-left: 20px;
+}
