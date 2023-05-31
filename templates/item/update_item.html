@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-  <form class="form form horizontal"
-        action="{% url 'update-item' id %}"
-        method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit"
-           value="Update"
-           class="btn-primary pull-right"
-           style="clear:both;
-                  margin: 10px 0" />
-  </form>
+  <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+  <div class="offer-wrapper">
+    <form class="edit-item-grid"
+          action="{% url 'update-item' id %}"
+          method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit"
+             value="Update"
+             class="btn pull-right main-button"
+             style="clear:both;
+                    margin: 10px 0" />
+    </form>
+  </div>
 {% endblock %}

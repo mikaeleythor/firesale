@@ -190,3 +190,11 @@
   border-radius: 4px;
   height: 40px;
 }
+
+.edit-item-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+  margin: 8px;
+  background-color: aquamarine;
+}
