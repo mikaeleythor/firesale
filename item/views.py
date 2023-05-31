@@ -53,7 +53,7 @@ def get_item_by_id(request, id):
                 'item': item['item'],
                 'buyer': request.user
             })
-            # TODO: Notify seller
+            # PERF: Notify seller
             notifyer.offer_placed(offer)
     else:
         form = ItemOfferForm()
@@ -75,7 +75,6 @@ def see_offers(request, id):
                 offer.status = json_content['status']
                 offer.full_clean()
                 offer.save()
-                # TODO: Handle notifying other offers
                 item = offer.item
                 item.status = "Waiting for payment"
                 item.full_clean()
@@ -83,9 +82,9 @@ def see_offers(request, id):
                 notifyer.offer_accepted(offer)
                 return JsonResponse(
                     status=200, data={"message": "Offer accepted"})
-            except ValidationError as e:
+            except ValidationError as error:
                 return JsonResponse(
-                    status=400, data={"message": str(e)})
+                    status=400, data={"message": str(error)})
         else:
             return JsonResponse(
                 status=400, data={"message": "OfferId must be supplied"})
