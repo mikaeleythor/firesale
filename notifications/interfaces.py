@@ -22,9 +22,10 @@ class NotificationInterface():
         self.__notify(user, msg_title, msg_body, next_path_name)
 
     def payment_received(self, payer, recipient, amount, item):
+        next_path_name = 'notification-list'
         msg_title = f'Payment from {payer.username}'
         msg_body = f'Payment of {amount}kr for {item} from {payer.username} has been received'
-        self.__notify(recipient, msg_title, msg_body)
+        self.__notify(recipient, msg_title, msg_body, next_path_name)
 
     def offer_accepted(self, offer):
         # WARNING: This should be provided from views instead of hardcoded here
@@ -36,15 +37,16 @@ class NotificationInterface():
         self.__notify(buyer, buyer_msg_title, buyer_msg_body, next_path_name)
 
     def offer_declined(self, offer):
+        next_path_name = 'notification-list'
         seller = offer.item.seller.user
         buyer = offer.buyer
         buyer_msg_title = f'{seller.username} declined your offer'
         buyer_msg_body = f'{buyer_msg_title} of {offer.amount} on {offer.item}'
-        self.__notify(buyer, buyer_msg_title, buyer_msg_body)
+        self.__notify(buyer, buyer_msg_title, buyer_msg_body, next_path_name)
 
     def offer_placed(self, offer):
         # WARNING: This should be provided from views instead of hardcoded here
-        next_path_name = 'see-offers'
+        next_path_name = 'my-items'
         seller = offer.item.seller.user
         buyer = offer.buyer
         seller_msg_title = f'{buyer} just placed an offer'
@@ -52,7 +54,7 @@ class NotificationInterface():
         self.__notify(seller, seller_msg_title,
                       seller_msg_body, next_path_name)
 
-    def __notify(self, user, title, body, next_path_name="#"):
+    def __notify(self, user, title, body, next_path_name):
         inbox, created = self.manager.objects.get_or_create(user=user)
         self.model.objects.create(
             title=title,

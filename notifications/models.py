@@ -17,7 +17,9 @@ class Notification(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
     inbox = models.ForeignKey(Inbox, on_delete=models.CASCADE)
-    next_path = models.CharField(max_length=50, blank=True, default="#")
+    # NOTE: this value specifies the name of a url pattern as seen in urls.py
+    next_path = models.CharField(
+        max_length=50, blank=True, default="notification-list")
 
     def __str__(self):
         return f'{self.title}-{self.date}'
