@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+  <link rel="stylesheet" href="{% static 'notifications/css/main.css' %}" />
   {% if object_list|length == 0 %}
     <div class="notification-container">
       <h2 class="notification-header-text">Notifications</h2>
