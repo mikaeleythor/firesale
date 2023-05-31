@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'checkout/css/main.css' %}" />
+    <div class="checkout-wrapper">
+        <h1 class="text-center">Thank you for your purchase!</h1>
+        <hr>
+        <a class="btn main-button checkout-items-button" href="/">Return to home page</a>
+    </div>
+{% endblock %}

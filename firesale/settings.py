@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "dj_cleavejs.apps.DjCleaveJSConfig",
+    'django_yarnpkg',
 
     # NOTE: Local apps
     'person.apps.PersonConfig',
@@ -51,6 +53,10 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'notifications.apps.NotificationsConfig',
     'transaction.apps.TransactionConfig',
+]
+
+YARN_INSTALLED_APPS = [
+    "cleave.js",
 ]
 
 MIDDLEWARE = [
@@ -138,6 +144,7 @@ LOGOUT_REDIRECT_URL = '/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 STATIC_URL = 'static/'
+NODE_MODULES_ROOT = os.path.join(BASE_DIR, 'node_modules')
 
 
 STORAGES = {
