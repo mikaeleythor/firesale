@@ -53,7 +53,7 @@ def get_item_by_id(request, id):
                 'item': item['item'],
                 'buyer': request.user
             })
-            # PERF: Notify seller
+            # NOTE: Notify seller
             notifyer.offer_placed(offer)
     else:
         form = ItemOfferForm()
@@ -71,7 +71,7 @@ def see_offers(request, id):
             try:
                 offerId = json_content['offerId']
                 offer = get_object_or_404(Offer, pk=offerId)
-                # PERF: Input validated in model
+                # NOTE: Input validated in model
                 offer.status = json_content['status']
                 offer.full_clean()
                 offer.save()
