@@ -1,9 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 def item_photo_directory_path(instance, filename):
     return f'item/{instance.item.name}/{filename}'
+
+
+def validate_offer_status(value):
+    if value not in ['Accepted', 'Pending', 'Declined']:
+        raise ValidationError("Status must be Accepted, Pending or Declined")
+    return value
+
+
+def validate_item_status(value):
+    if value not in ['Available', 'Waiting for payment', 'Sold']:
+        raise ValidationError(
+            "Status must be Available, Waiting for payment or Sold")
+    return value
 
 
 class Seller(models.Model):
@@ -16,7 +30,9 @@ class Seller(models.Model):
 
 class Item(models.Model):
     name = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
+    status = models.CharField(max_length=255,
+                              validators=[validate_item_status],
+                              default='Available')
     condition = models.CharField(max_length=255)
     description = models.TextField()
     category = models.CharField(max_length=255)
@@ -36,7 +52,9 @@ class ItemImage(models.Model):
 
 
 class Offer(models.Model):
-    status = models.CharField(max_length=255)
+    status = models.CharField(max_length=255,
+                              validators=[validate_offer_status],
+                              default='Pending')
     amount = models.IntegerField()
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE)
