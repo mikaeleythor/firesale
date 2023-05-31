@@ -21,8 +21,10 @@
   <div class="header-right-section">
     {% if user.is_authenticated %}
       <i class="fa-solid fa-star header-icon"></i>
-      <i class="fa-solid fa-basket-shopping header-icon"></i>
       {% if user.person.id %}
+        <a class="fa-solid fa-basket-shopping header-icon"
+           href="#"
+           style="text-decoration: none"></a>
         <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>
         {% if user.inbox.unread %}
           <a href="{% url 'notification-list' %}"
@@ -34,6 +36,9 @@
              class="fa-regular fa-bell header-icon"></a>
         {% endif %}
       {% else %}
+        <a class="fa-solid fa-basket-shopping header-icon"
+           style="text-decoration: none"
+           href="{% url 'create-person' %}"></a>
         <a class="fa-solid fa-user header-icon" href="{% url 'create-person' %}"></a>
         <a class="fa-regular fa-bell header-icon"
            style="text-decoration: none"
