@@ -60,7 +60,17 @@
 }
 
 .item-detail-value {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+.item-detail-seller-value {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.item-detail-seller-value img {
+  border-radius: 20px;
 }
 
 .item-detail-seller-button {
