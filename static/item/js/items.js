@@ -2,8 +2,8 @@ let params = {};
 
 const handleClick = (btn, status) => {
   // NOTE: Extracting ids from btn.id
-  offerId = btn.id.toString().split("-")[2];
-  itemId = btn.id.toString().split("-")[3];
+  const offerId = btn.id.toString().split("-")[2];
+  const itemId = btn.id.toString().split("-")[3];
   axios
     .post(
       `/item/see-offers/${itemId}`,
@@ -51,8 +51,8 @@ const getFiltered = () => {
       // HACK: Using global variable as params
       params: params,
     })
-    .then(function(response) {
-      var newHtml = response.data.data.map(function(d) {
+    .then(function (response) {
+      var newHtml = response.data.data.map(function (d) {
         return `<a href="/item/${d.id}" class="single-item">
         <div class="image-container">
             <img class="item-img"
@@ -68,13 +68,13 @@ const getFiltered = () => {
 
       document.querySelector(".items-grid").innerHTML = newHtml.join("");
     })
-    .catch(function(error) {
+    .catch(function (error) {
       // TODO: show toaster
       console.log(error);
     });
 };
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const searchBox = document.querySelector("#search-box");
   const selectOrder = document.querySelector("#select-order");
   const fileUpload = document.querySelector("#file-upload");

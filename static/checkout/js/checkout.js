@@ -1,3 +1,30 @@
+const handleSale = (item) => {
+  console.log("we are her");
+  const offerId = item.id.toString().split("-")[2];
+  axios
+    .post(
+      `/checkout/review/`,
+      {
+        offerId: offerId,
+      },
+      {
+        headers: {
+          // HACK: Django throws 403 without this explicit csrf header
+          "X-CSRFToken": getCookie("csrftoken"),
+          // HACK: Better than using multipart/form-data since this is not form
+          //       This needed explicit configuration in view
+          "content-type": "application/json",
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res.data);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+};
+
 if (window.location.pathname == "/checkout/contact-information") {
   const fullName = document.querySelector("#full_name");
   if (window.sessionStorage.getItem("fullName")) {
@@ -111,8 +138,68 @@ if (window.location.pathname == "/checkout/review") {
 
   document.querySelector("#cvc").value = window.sessionStorage.getItem("cvc");
 
-  document.querySelector("#confirm_purchase").addEventListener("click", () => {
+  const sellingItems = document.querySelectorAll("[id^=selling-item-]");
+  document.querySelector("#confirm_purchase").addEventListener("click", (e) => {
+    e.preventDefault();
     window.sessionStorage.clear();
-    // TODO: sell the item
+    if (sellingItems) {
+      let count = 0;
+      sellingItems.forEach((item) => {
+        handleSale(item);
+        const url = document.querySelector(
+          `#selling-image-${item.id.split("-")[2]}`
+        ).src;
+        const name = document.querySelector(
+          `#selling-name-${item.id.split("-")[2]}`
+        );
+        const amount = document.querySelector(
+          `#selling-amount-${item.id.split("-")[2]}`
+        );
+        window.sessionStorage.setItem(`name-${count}`, name.innerHTML);
+        window.sessionStorage.setItem(`amount-${count}`, amount.innerHTML);
+        window.sessionStorage.setItem(`image-${count}`, url);
+        window.sessionStorage.setItem("count", count);
+        count++;
+      });
+    }
   });
+}
+
+if (window.location.pathname == "/checkout/thank-you") {
+  const soldItemsWrapper = document.querySelector(".thank-you-sold-items");
+  let count = 0;
+  for (element in window.sessionStorage.getItem("count")) {
+    soldItemsWrapper.innerHTML += `
+    <div class="single-checkout-item-wrapper">
+                <img src="${window.sessionStorage.getItem(`image-${count}`)}"
+                     alt="item image"
+                     width="100"
+                     height="100" />
+                <div class="checkout-item-details">
+                    <b>${window.sessionStorage.getItem(`name-${count}`)}</b>
+                    <span>${window.sessionStorage.getItem(
+                      `amount-${count}`
+                    )}</span>
+                </div>
+            </div>
+            <div class="rating-wrapper">
+                <b>Rate the seller?</b>
+                <div class="rating">
+                    <input type="radio" name="rating" value="5" id="rating-5" />
+                    <label for="rating-5">☆</label>
+                    <input type="radio" name="rating" value="4" id="rating-4" />
+                    <label for="rating-4">☆</label>
+                    <input type="radio" name="rating" value="3" id="rating-3" />
+                    <label for="rating-3">☆</label>
+                    <input type="radio" name="rating" value="2" id="rating-2" />
+                    <label for="rating-2">☆</label>
+                    <input type="radio" name="rating" value="1" id="rating-1" />
+                    <label for="rating-1">☆</label>
+                </div>
+            </div>
+            <hr>
+            <hr>
+    `;
+    count++;
+  }
 }
