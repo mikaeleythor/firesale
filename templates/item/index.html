@@ -4,10 +4,17 @@
   <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
   <div class="catalog-hero">
     {% if user.is_authenticated %}
-      <a type="button"
-         id="create-item-btn"
-         class="btn main-button"
-         href="{% url 'create-item' %}">Create Item</a>
+      {% if user.person.id %}
+        <a type="button"
+           id="create-item-btn"
+           class="btn main-button"
+           href="{% url 'create-item' %}">Create Item</a>
+      {% else %}
+        <a type="button"
+           id="create-item-btn"
+           class="btn main-button"
+           href="{% url 'create-person' %}">Create Item</a>
+      {% endif %}
     {% else %}
       <div>{{" "}}</div>
     {% endif %}

@@ -40,7 +40,7 @@
             <span class="item-detail-title">Description</span>
             <p class="item-detail-value">{{ item.item.description }}</p>
         </div>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.person.id %}
             {% if user.seller.id == item.item.seller.id %}
                 <a href="{% url 'see-offers' item.item.id %}"
                    class="btn item-detail-seller-button main-button">See offers</a>
@@ -63,8 +63,8 @@
     </div>
     <div class="similar-items-title">Similar Items</div>
     <div class="items-grid">
-        {% for similarItem in similar %}
-            {% if similarItem.id != item.item.id %}
+        {% if similar %}
+            {% for similarItem in similar %}
                 <a href="/item/{{ similarItem.id }}" class="single-item">
                     <div class="image-container">
                         <img class="item-img"
@@ -76,7 +76,9 @@
                     <h4>Name: {{ similarItem.name }}</h4>
                     <p>Price: {{ similarItem.price }} kr</p>
                 </a>
-            {% endif %}
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>No similar items</p>
+        {% endif %}
     </div>
 {% endblock %}

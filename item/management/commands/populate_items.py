@@ -1,50 +1,88 @@
 from django.core.management.base import BaseCommand
+import random
+from faker import Faker
+import requests
 from django.contrib.auth.models import User
-from item.models import Seller, Item, Offer
+from django.core.files import File
+from io import BytesIO
+from person.models import Person
+from item.models import Seller, Item, ItemImage, Offer
+
+
+def fetch_image_from_url(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        file_name = url.split('/')[-1]
+        image = File(BytesIO(response.content), name=file_name)
+        return image
+    return None
 
 
 def populate_data():
-    # Create users
-    user1 = User.objects.create_user(username='user1', password='password1')
-    user2 = User.objects.create_user(username='user2', password='password2')
-    user3 = User.objects.create_user(username='user3', password='password3')
+    fake = Faker()
 
-    # Create sellers
-    seller1 = Seller.objects.create(rating=4, user=user1)
-    seller2 = Seller.objects.create(rating=3, user=user2)
-    seller3 = Seller.objects.create(rating=5, user=user3)
+    # Create 4 persons
+    persons = []
+    for _ in range(4):
+        # Create a user
+        username = fake.user_name()
+        password = fake.password()
+        email = fake.email()
+        user = User.objects.create_user(
+            username=username, password=password, email=email)
 
-    # Create items
-    item1 = Item.objects.create(name='Item 1', status='Available', condition='New',
-                                description='Description for Item 1', category='Category 1',
-                                price=100, seller=seller1)
-    item2 = Item.objects.create(name='Item 2', status='Sold', condition='Used',
-                                description='Description for Item 2', category='Category 2',
-                                price=50, seller=seller2)
-    item3 = Item.objects.create(name='Item 3', status='Available', condition='New',
-                                description='Description for Item 3', category='Category 1',
-                                price=80, seller=seller3)
-    item4 = Item.objects.create(name='Item 4', status='Available', condition='New',
-                                description='Description for Item 1', category='Category 1',
-                                price=100, seller=seller1)
-    item5 = Item.objects.create(name='Item 5', status='Sold', condition='Used',
-                                description='Description for Item 2', category='Category 2',
-                                price=50, seller=seller2)
-    item6 = Item.objects.create(name='Item 6', status='Available', condition='New',
-                                description='Description for Item 3', category='Category 1',
-                                price=80, seller=seller3)
+        # Create a person
+        bio = fake.text(max_nb_chars=200)
+        image_url = f'https://picsum.photos/200/300?random={_+1}'
+        image = fetch_image_from_url(image_url)
+        if image:
+            person = Person.objects.create(user=user, bio=bio, image=image)
+            persons.append(person)
 
-    # Create offers
-    offer1 = Offer.objects.create(
-        status='Pending', amount=90, item=item1, buyer=user2)
-    offer2 = Offer.objects.create(
-        status='Accepted', amount=40, item=item2, buyer=user1)
-    offer3 = Offer.objects.create(
-        status='Rejected', amount=70, item=item3, buyer=user3)
+    # Create 20 items
+    items = []
+    categories = [fake.word() for _ in range(5)]
+    for _ in range(20):
+        # Create a seller
+        seller_user = random.choice(persons).user
+        seller, created = Seller.objects.get_or_create(user=seller_user)
 
-    print("Data population complete.")
+        # Create an item
+        name = f'{fake.word()} {fake.word()}'
+        status = 'Available'
+        condition = random.choice(['New', 'Used'])
+        description = fake.text()
+        category = random.choice(categories)
+        price = random.randint(10, 100)
+        item = Item.objects.create(
+            name=name,
+            status=status,
+            condition=condition,
+            description=description,
+            category=category,
+            price=price,
+            seller=seller
+        )
+        items.append(item)
 
-# Call the populate_data() function to populate the models with template data
+        # Create item images
+        num_images = random.randint(1, 5)
+        for _ in range(num_images):
+            image_url = f'https://picsum.photos/200/300?random={_+10}'
+            image = fetch_image_from_url(image_url)
+            if image:
+                item_image = ItemImage.objects.create(image=image, item=item)
+
+        # Create offers for the item
+        num_offers = random.randint(0, 3)
+        for _ in range(num_offers):
+            status = 'pending'
+            amount = random.randint(10, 50)
+
+            # TODO: Make sure buyer is not seller
+            buyer = random.choice(persons).user
+            offer = Offer.objects.create(
+                status=status, amount=amount, item=item, buyer=buyer)
 
 
 class Command(BaseCommand):

@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from item.forms.item_form import ItemCreateForm, ItemUpdateForm, ItemOfferForm
@@ -42,17 +43,18 @@ def get_item_by_id(request, id):
         'name': x.name,
         'price': x.price,
         'firstImage': str(x.itemimage_set.first().image.url)
-    } for x in Item.objects.filter(category__icontains=item['item'].category)]
+    } for x in Item.objects.filter(category__icontains=item['item'].category).exclude(id=item['item'].id)]
     if request.method == 'POST':
         form = ItemOfferForm(data=request.POST)
         if form.is_valid():
-            Offer.objects.create(**{
+            offer = Offer.objects.create(**{
                 'status': 'pending',
                 'amount': form.cleaned_data['amount'],
                 'item': item['item'],
                 'buyer': request.user
             })
-            # TODO: Notify seller
+            # NOTE: Notify seller
+            notifyer.offer_placed(offer)
     else:
         form = ItemOfferForm()
     context = {'item': item, 'similar': similar, 'form': form}
@@ -66,16 +68,23 @@ def see_offers(request, id):
     if request.method == 'POST':
         json_content = json.loads(request.body)
         if 'offerId' in json_content.keys():
-            # WARNING: Not updating status on item yet
-            offerId = json_content['offerId']
-            offer = get_object_or_404(Offer, pk=offerId)
-            # TODO: Add validation for this input (in model?)
-            offer.status = json_content['status']
-            offer.save()
-            # TODO: Handle notifying other offers
-            notifyer.offer_accepted(offer)
-            return JsonResponse(
-                status=200, data={"message": "Offer accepted"})
+            try:
+                offerId = json_content['offerId']
+                offer = get_object_or_404(Offer, pk=offerId)
+                # NOTE: Input validated in model
+                offer.status = json_content['status']
+                offer.full_clean()
+                offer.save()
+                item = offer.item
+                item.status = "Waiting for payment"
+                item.full_clean()
+                item.save()
+                notifyer.offer_accepted(offer)
+                return JsonResponse(
+                    status=200, data={"message": "Offer accepted"})
+            except ValidationError as error:
+                return JsonResponse(
+                    status=400, data={"message": str(error)})
         else:
             return JsonResponse(
                 status=400, data={"message": "OfferId must be supplied"})

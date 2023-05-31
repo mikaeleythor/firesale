@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.NotificationListView.as_view(), name="notification-list"),
+    path('<int:id>', views.read, name="notification-read"),
 ]
