@@ -20,7 +20,8 @@ def update_person(request):
             person_instance.save()
             User.objects.filter(id=request.user.id).update(
                 first_name=form.cleaned_data['first_name'],
-                last_name=form.cleaned_data['last_name']
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email']
             )
             return redirect('person-index')
     else:
@@ -42,7 +43,8 @@ def create_person(request):
             )
             User.objects.filter(id=request.user.id).update(
                 first_name=form.cleaned_data['first_name'],
-                last_name=form.cleaned_data['last_name']
+                last_name=form.cleaned_data['last_name'],
+                email=form.cleaned_data['email']
             )
             return redirect('/')
     else:
