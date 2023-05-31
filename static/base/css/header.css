@@ -10,8 +10,6 @@
   insert here
 } */
 
-a.header-icon { text-decoration: none; }
-
 .header-right-section {
   display: flex;
   justify-items: end;
