@@ -79,9 +79,14 @@ def see_offers(request, id):
                 item.status = "Waiting for payment"
                 item.full_clean()
                 item.save()
-                notifyer.offer_accepted(offer)
-                return JsonResponse(
-                    status=200, data={"message": "Offer accepted"})
+                if json_content['status'] == 'Accepted':
+                    notifyer.offer_accepted(offer)
+                    return JsonResponse(
+                        status=200, data={"message": "Offer accepted"})
+                if json_content['status'] == 'Declined':
+                    notifyer.offer_declined(offer)
+                    return JsonResponse(
+                        status=200, data={"message": "Offer declined"})
             except ValidationError as error:
                 return JsonResponse(
                     status=400, data={"message": str(error)})

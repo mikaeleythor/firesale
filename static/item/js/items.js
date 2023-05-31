@@ -51,8 +51,8 @@ const getFiltered = () => {
       // HACK: Using global variable as params
       params: params,
     })
-    .then(function(response) {
-      var newHtml = response.data.data.map(function(d) {
+    .then(function (response) {
+      var newHtml = response.data.data.map(function (d) {
         return `<a href="/item/${d.id}" class="single-item">
         <div class="image-container">
             <img class="item-img"
@@ -68,13 +68,13 @@ const getFiltered = () => {
 
       document.querySelector(".items-grid").innerHTML = newHtml.join("");
     })
-    .catch(function(error) {
+    .catch(function (error) {
       // TODO: show toaster
       console.log(error);
     });
 };
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const searchBox = document.querySelector("#search-box");
   const selectOrder = document.querySelector("#select-order");
   const fileUpload = document.querySelector("#file-upload");
@@ -118,6 +118,14 @@ document.addEventListener("DOMContentLoaded", function() {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         handleClick(btn, "Accepted");
+        declineBtns.forEach((declbtn) => {
+          if (
+            declbtn.id.toString().split("-")[2] !=
+            btn.id.toString().split("-")[2]
+          ) {
+            handleClick(declbtn, "Declined");
+          }
+        });
       });
     });
   }
