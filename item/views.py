@@ -58,7 +58,15 @@ def get_item_by_id(request, id):
             form = ItemOfferForm()
     else:
         form = ItemOfferForm()
-    context = {'item': item, 'similar': similar, 'form': form}
+
+    current_highest_offer = 0
+    offers = Offer.objects.all()
+    for offer in offers:
+        if offer.item_id == id and offer.amount > current_highest_offer:
+            current_highest_offer = offer.amount
+
+    context = {'item': item, 'similar': similar,
+               'form': form, 'current_highest_offer': current_highest_offer}
     return render(request, 'item/item_details.html', context)
 
 
@@ -139,11 +147,12 @@ def update_item(request, id):
         'id': id
     })
 
+
 def my_items(request):
     user_id = request.user.id
     items = Item.objects.all()
     users_items_list = []
-    for item in items: 
+    for item in items:
         if item.seller.user.id == user_id:
             users_items_list.append(item)
     return render(request, 'item/my_items.html', {'items': users_items_list})

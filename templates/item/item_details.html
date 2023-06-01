@@ -40,8 +40,12 @@
         <div class="item-detail-content">
             <span class="item-detail-title">Name:</span>
             <h2 class="item-detail-value">{{ item.item.name }}</h2>
-            <span class="item-detail-title">Current highest offer:</span>
-            <p class="item-detail-value">Þetta er price: {{ item.item.price }} kr</p>
+            {% if item.item.current_highest_offer == 0 %}
+                <span class="item-detail-title">Current highest offer: No offer has been made on this item.</span>
+            {% else %}
+                <span class="item-detail-title">Current highest offer: {{ current_highest_offer }} kr.</span>
+            {% endif %}
+            <p class="item-detail-value">Price: {{ item.item.price }} kr</p>
             <span class="item-detail-title">Condition:</span>
             <p class="item-detail-value">{{ item.item.condition }}</p>
             <span class="item-detail-title">Description</span>
