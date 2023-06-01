@@ -66,22 +66,42 @@
         </div>
         {% if user.is_authenticated and user.person.id %}
             {% if user.seller.id == item.item.seller.id %}
-                <a href="{% url 'see-offers' item.item.id %}"
-                   class="btn item-detail-seller-button main-button">See offers</a>
-                <a href="{% url 'update-item' item.item.id %}"
-                   class="btn item-detail-seller-button main-button">Edit item</a>
-                <a href="{% url 'delete-item' item.item.id %}"
-                   class="btn item-detail-seller-button main-button">Delete item</a>
+                {% if item.item.status == 'Available' %}
+                    <a href="{% url 'see-offers' item.item.id %}"
+                       class="btn item-detail-seller-button main-button">See offers</a>
+                    <a href="{% url 'update-item' item.item.id %}"
+                       class="btn item-detail-seller-button main-button">Edit item</a>
+                    <a href="{% url 'delete-item' item.item.id %}"
+                       class="btn item-detail-seller-button main-button">Delete item</a>
+                {% else %}
+                    <a disabled class="btn item-detail-seller-button disabled-button">See offers</a>
+                    <a disabled class="btn item-detail-seller-button disabled-button">Edit item</a>
+                    <a disabled class="btn item-detail-seller-button disabled-button">Delete item</a>
+                {% endif %}
             {% else %}
-                <form class="item-detail-offer-input-wrapper" method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <input type="submit"
-                           value="Place offer"
-                           class="btn main-button item-detail-buyer-button"
-                           style="clear:both;
-                                  margin: 10px 0" />
-                </form>
+                {% if item.item.status == 'Available' %}
+                    <form class="item-detail-offer-input-wrapper" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit"
+                               value="Place offer"
+                               class="btn main-button item-detail-buyer-button"
+                               style="clear:both;
+                                      margin: 10px 0" />
+                    </form>
+                {% else %}
+                    <div class="item-detail-offer-input-wrapper">
+                        <input disabled
+                               placeholder="Input offer..."
+                               style="width: 60%;
+                                      border: 1px solid #000000;
+                                      border-radius: 4px;
+                                      height: 40px" />
+                        <input disabled
+                               value="Place offer"
+                               class="btn disabled-button item-detail-buyer-button" />
+                    </div>
+                {% endif %}
             {% endif %}
         {% endif %}
     </div>
