@@ -25,6 +25,7 @@
   background-color: #1bafd0;
   color: white;
   opacity: 30%;
+  cursor: auto;
 }
 
 .disabled-button:hover {
