@@ -189,11 +189,8 @@ def my_items(request):
 
 def my_offers(request):
     user_id = request.user.id
-    offers = Offer.objects.filter(buyer=user_id)
-    print(offers)
+    offers = Offer.objects.filter(buyer=user_id, status="Pending")
     items = []
     for offer in offers:
-        items.append(offer.item)
-    print(items)
-    # items = Item.objects.filter(offer__user_id=user_id)
+        items.append({'offer': offer.item, 'amount': offer.amount})
     return render(request, 'item/my_offers.html', {'users_offers_list': items})
