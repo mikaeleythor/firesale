@@ -115,14 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         handleClick(btn, "Accepted");
-        declineBtns.forEach((declbtn) => {
-          if (
-            declbtn.id.toString().split("-")[2] !=
-            btn.id.toString().split("-")[2]
-          ) {
-            handleClick(declbtn, "Declined");
-          }
-        });
       });
     });
   }
