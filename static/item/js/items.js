@@ -1,11 +1,11 @@
 let params = {};
 
-const handleClick = (btn, status) => {
+const handleClick = async (btn, status) => {
   // NOTE: Extracting ids from btn.id
   offerId = btn.id.toString().split("-")[2];
   itemId = btn.id.toString().split("-")[3];
-  axios
-    .post(
+  try {
+    const res = await axios.post(
       `/item/see-offers/${itemId}`,
       {
         offerId: offerId,
@@ -20,23 +20,23 @@ const handleClick = (btn, status) => {
           "content-type": "application/json",
         },
       }
-    )
-    .then((res) => {
-      // NOTE: Redirecting to base.html
-      window.location.replace("/");
-    })
-    .catch((e) => console.error(e));
+    );
+    // NOTE: Redirecting to base.html
+    if (res) window.location.replace("/");
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // NOTE: Refactored from searchBox and selectOrder eventListeners
-const getFiltered = () => {
-  axios
-    .get("/item/", {
+const getFiltered = async () => {
+  try {
+    const res = await axios.get("/item/", {
       // HACK: Using global variable as params
       params: params,
     })
-    .then(function(response) {
-      var newHtml = response.data.data.map(function(d) {
+    if (res) {
+      var newHtml = res.data.data.map(function(d) {
         return `<a href="/item/${d.id}" class="single-item">
         <div class="image-container">
             <img class="item-img"
@@ -49,13 +49,13 @@ const getFiltered = () => {
         <p>Price: ${d.price} kr</p>
         </a>`;
       });
-
       document.querySelector(".items-grid").innerHTML = newHtml.join("");
-    })
-    .catch(function(error) {
-      // TODO: show toaster
-      console.log(error);
-    });
+    }
+
+  } catch (error) {
+    // TODO: show toaster
+    console.error(error)
+  }
 };
 
 document.addEventListener("DOMContentLoaded", function() {
