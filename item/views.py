@@ -163,19 +163,22 @@ def delete_item(request, id):
     return redirect('item-index')
 
 
+@login_required
 def update_item(request, id):
-    instance = get_object_or_404(Item, pk=id)
-    if request.method == 'POST':
-        form = ItemUpdateForm(data=request.POST, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect('item-details', id=id)
-    else:
-        form = ItemUpdateForm(instance=instance)
-    return render(request, 'item/update_item.html', {
-        'form': form,
-        'id': id
-    })
+    item = get_object_or_404(Item, pk=id)
+    if request.user.person is not None and request.user.id == item.seller.user.id:
+        if request.method == 'POST':
+            form = ItemUpdateForm(data=request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+                return redirect('item-details', id=id)
+        else:
+            form = ItemUpdateForm(instance=item)
+        return render(request, 'item/update_item.html', {
+            'form': form,
+            'id': id
+        })
+    return redirect(f'/item/{id}')
 
 
 def my_items(request):
