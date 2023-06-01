@@ -128,10 +128,8 @@ def create_item(request):
             # NOTE: Failsafe to make sure images are provided
             #       Additional implementation needed in frontend for error msgs
             if form.is_valid() and request.FILES.getlist('images'):
-                if (request.user.seller in Seller.objects.all()):
-                    seller = Seller.objects.get(user=request.user)
-                else:
-                    seller = Seller.objects.create(user=request.user, rating=0)
+                seller, created = Seller.objects.get_or_create(
+                    user=request.user, rating=0)
                 item = {
                     'name': form.cleaned_data['name'],
                     'status': 'Available',

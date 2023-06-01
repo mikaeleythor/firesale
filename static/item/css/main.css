@@ -137,6 +137,14 @@
   margin: 30px;
 }
 
+#id-category {
+  margin-bottom: 20px;
+  border-radius: 7px;
+  height: 40px;
+  color: #757575;
+
+}
+
 .similar-items-title {
   grid-column: span 6;
   font-size: 24px;
