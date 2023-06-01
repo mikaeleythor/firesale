@@ -107,7 +107,7 @@
   margin-left: 20px;
 }
 
-.create-item-right-section > input {
+.create-item-right-section>input {
   margin-bottom: 20px;
   height: 40px;
   width: 100%;
@@ -210,4 +210,8 @@
   grid-template-columns: 1fr 2fr;
   gap: 10px;
   margin: 8px;
+}
+
+.my-items-header {
+  margin-top: 40px;
 }
