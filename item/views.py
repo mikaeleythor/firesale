@@ -10,7 +10,8 @@ notifyer = NotificationInterface()
 
 
 def index(request):
-    items = Item.objects.all().order_by('name')
+    items = Item.objects.filter(status='Available').order_by('name')
+
     # NOTE: request.GET['invalidkey'] raises KeyError
     try:
         items = items.filter(name__icontains=request.GET['search_filter'])

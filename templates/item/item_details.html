@@ -89,19 +89,17 @@
     <div class="items-grid">
         {% if similar %}
             {% for similarItem in similar %}
-                {% if similarItem.status == 'Available' %}
-                    <a href="/item/{{ similarItem.id }}" class="single-item">
-                        <div class="image-container">
-                            <img class="item-img"
-                                 src="{{ similarItem.firstImage }}"
-                                 alt="item image"
-                                 width="300"
-                                 height="300" />
-                        </div>
-                        <h4>Name: {{ similarItem.name }}</h4>
-                        <p>Asking price: {{ similarItem.price }} kr</p>
-                    </a>
-                {% endif %}
+                <a href="/item/{{ similarItem.id }}" class="single-item">
+                    <div class="image-container">
+                        <img class="item-img"
+                             src="{{ similarItem.firstImage }}"
+                             alt="item image"
+                             width="300"
+                             height="300" />
+                    </div>
+                    <h4>Name: {{ similarItem.name }}</h4>
+                    <p>Asking price: {{ similarItem.price }} kr</p>
+                </a>
             {% endfor %}
         {% else %}
             <p>No similar items</p>
