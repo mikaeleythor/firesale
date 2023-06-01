@@ -96,7 +96,9 @@ def create_item(request):
     context = {}
     if request.method == "POST":
         form = ItemCreateForm(data=request.POST)
-        if form.is_valid():
+        # NOTE: Failsafe to make sure images are provided
+        #       Additional implementation needed in frontend for error msgs
+        if form.is_valid() and request.FILES.getlist('images'):
             item = {
                 'name': form.cleaned_data['name'],
                 'status': 'Available',

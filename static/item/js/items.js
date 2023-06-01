@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileUpload = document.querySelector("#file-upload");
   const acceptBtns = document.querySelectorAll("[id^=accept-btn-]");
   const declineBtns = document.querySelectorAll("[id^=decline-btn-]");
+  const createItemBtn = document.querySelector("#create-item-submit");
 
   if (searchBox) {
     searchBox.addEventListener("input", () => {
@@ -77,6 +78,19 @@ document.addEventListener("DOMContentLoaded", function () {
       // HACK: Update global variable
       params["order_by"] = selectOrder.value;
       getFiltered();
+    });
+  }
+
+  if (createItemBtn) {
+    // NOTE: Definition of createItemBtn implies existence of fileUpload
+    createItemBtn.addEventListener("click", (e) => {
+      if (fileUpload.validity.valueMissing) {
+        alert("Please provide at least one image");
+        e.preventDefault();
+      } else if (fileUpload.validity.typeMismatch) {
+        alert("Please provide only image files");
+        e.preventDefault();
+      }
     });
   }
 
