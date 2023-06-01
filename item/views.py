@@ -77,7 +77,7 @@ def get_item_by_id(request, id):
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
     # NOTE: Only seller can see offers (but only if he has a profile)
-    if request.user.person is not None and request.user.id == item.seller.user.id:
+    if hasattr(request.user, 'person') and request.user.id == item.seller.user.id:
         offers = item.offer_set.filter(status='Pending')
         # HACK: Using content-type: application/json in template
         if request.method == 'POST':
@@ -122,7 +122,7 @@ def see_offers(request, id):
 @login_required
 def create_item(request):
     context = {}
-    if request.user.person:
+    if hasattr(request.user, 'person'):
         if request.method == "POST":
             form = ItemCreateForm(data=request.POST)
             # NOTE: Failsafe to make sure images are provided
@@ -166,7 +166,7 @@ def delete_item(request, id):
 @login_required
 def update_item(request, id):
     item = get_object_or_404(Item, pk=id)
-    if request.user.person is not None and request.user.id == item.seller.user.id:
+    if hasattr(request.user, 'person') and request.user.id == item.seller.user.id:
         if request.method == 'POST':
             form = ItemUpdateForm(data=request.POST, instance=item)
             if form.is_valid():
