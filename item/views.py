@@ -73,46 +73,50 @@ def get_item_by_id(request, id):
     return render(request, 'item/item_details.html', context)
 
 
+@login_required
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
-    offers = item.offer_set.filter(status='Pending')
-    # HACK: Using content-type: application/json in template
-    if request.method == 'POST':
-        json_content = json.loads(request.body)
-        if 'offerId' in json_content.keys():
-            try:
-                offerId = json_content['offerId']
-                offer = get_object_or_404(Offer, pk=offerId)
-                # NOTE: Input validated in model
-                offer.status = json_content['status']
-                offer.full_clean()
-                offer.save()
-                item = offer.item
-                if json_content['status'] == 'Accepted':
-                    item.status = "Waiting for payment"
-                    item.full_clean()
-                    item.save()
-                    all_offers = item.offer_set.filter(status='Pending')
-                    for decl_offer in all_offers:
-                        if decl_offer.id != offer.id:
-                            decl_offer.status = 'Declined'
-                            offer.full_clean()
-                            offer.save()
-                            notifyer.offer_declined(decl_offer)
-                    notifyer.offer_accepted(offer)
+    # NOTE: Only seller can see offers (but only if he has a profile)
+    if request.user.person is not None and request.user.id == item.seller.user.id:
+        offers = item.offer_set.filter(status='Pending')
+        # HACK: Using content-type: application/json in template
+        if request.method == 'POST':
+            json_content = json.loads(request.body)
+            if 'offerId' in json_content.keys():
+                try:
+                    offerId = json_content['offerId']
+                    offer = get_object_or_404(Offer, pk=offerId)
+                    # NOTE: Input validated in model
+                    offer.status = json_content['status']
+                    offer.full_clean()
+                    offer.save()
+                    item = offer.item
+                    if json_content['status'] == 'Accepted':
+                        item.status = "Waiting for payment"
+                        item.full_clean()
+                        item.save()
+                        all_offers = item.offer_set.filter(status='Pending')
+                        for decl_offer in all_offers:
+                            if decl_offer.id != offer.id:
+                                decl_offer.status = 'Declined'
+                                offer.full_clean()
+                                offer.save()
+                                notifyer.offer_declined(decl_offer)
+                        notifyer.offer_accepted(offer)
+                        return JsonResponse(
+                            status=200, data={"message": "Offer accepted"})
+                    if json_content['status'] == 'Declined':
+                        notifyer.offer_declined(offer)
+                        return JsonResponse(
+                            status=200, data={"message": "Offer declined"})
+                except ValidationError as error:
                     return JsonResponse(
-                        status=200, data={"message": "Offer accepted"})
-                if json_content['status'] == 'Declined':
-                    notifyer.offer_declined(offer)
-                    return JsonResponse(
-                        status=200, data={"message": "Offer declined"})
-            except ValidationError as error:
+                        status=400, data={"message": str(error)})
+            else:
                 return JsonResponse(
-                    status=400, data={"message": str(error)})
-        else:
-            return JsonResponse(
-                status=400, data={"message": "OfferId must be supplied"})
-    return render(request, 'item/see_offers.html', {'offers': offers})
+                    status=400, data={"message": "OfferId must be supplied"})
+        return render(request, 'item/see_offers.html', {'offers': offers})
+    return redirect(f'/item/{id}')
 
 
 @login_required
@@ -141,7 +145,8 @@ def create_item(request):
 
                 images = request.FILES.getlist('images')
                 for image in images:
-                    imgObj = ItemImage.objects.create(image=image, item=itemObj)
+                    imgObj = ItemImage.objects.create(
+                        image=image, item=itemObj)
                     imgObj.save()
                 return redirect('my-items')
         else:
