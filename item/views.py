@@ -141,7 +141,8 @@ def create_item(request):
 
                 images = request.FILES.getlist('images')
                 for image in images:
-                    imgObj = ItemImage.objects.create(image=image, item=itemObj)
+                    imgObj = ItemImage.objects.create(
+                        image=image, item=itemObj)
                     imgObj.save()
                 return redirect('my-items')
         else:
@@ -177,3 +178,15 @@ def my_items(request):
     user_id = request.user.id
     items = Item.objects.filter(seller__user_id=user_id)
     return render(request, 'item/my_items.html', {'users_items_list': items})
+
+
+def my_offers(request):
+    user_id = request.user.id
+    offers = Offer.objects.filter(buyer=user_id)
+    print(offers)
+    items = []
+    for offer in offers:
+        items.append(offer.item)
+    print(items)
+    # items = Item.objects.filter(offer__user_id=user_id)
+    return render(request, 'item/my_offers.html', {'users_offers_list': items})
