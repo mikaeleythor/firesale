@@ -10,7 +10,8 @@ notifyer = NotificationInterface()
 
 
 def index(request):
-    items = Item.objects.all().order_by('name')
+    items = Item.objects.filter(status='Available').order_by('name')
+
     # NOTE: request.GET['invalidkey'] raises KeyError
     try:
         items = items.filter(name__icontains=request.GET['search_filter'])
@@ -120,6 +121,10 @@ def create_item(request):
         # NOTE: Failsafe to make sure images are provided
         #       Additional implementation needed in frontend for error msgs
         if form.is_valid() and request.FILES.getlist('images'):
+            if (request.user.seller in Seller.objects.all()):
+                seller = Seller.objects.get(user=request.user)
+            else:
+                seller = Seller.objects.create(user=request.user, rating=0)
             item = {
                 'name': form.cleaned_data['name'],
                 'status': 'Available',
@@ -127,7 +132,7 @@ def create_item(request):
                 'description': form.cleaned_data['description'],
                 'category': form.cleaned_data['category'],
                 'price': form.cleaned_data['price'],
-                'seller': Seller.objects.get_or_create(user=request.user, rating=0)[0],
+                'seller': seller,
             }
             itemObj = Item.objects.create(**item)
 
