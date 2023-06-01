@@ -111,7 +111,7 @@ def see_offers(request, id):
         else:
             return JsonResponse(
                 status=400, data={"message": "OfferId must be supplied"})
-    return render(request, 'item/see_offers.html', {'offers': offers})
+    return render(request, 'item/see_offers.html', {'offers': offers, 'item': item})
 
 
 def create_item(request):
