@@ -36,3 +36,9 @@
   height: auto;
   margin: 5px;
 }
+
+.header-notification-dot {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+}

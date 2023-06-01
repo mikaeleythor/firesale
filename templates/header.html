@@ -35,8 +35,15 @@
       {% endif %}
       {% if user.inbox.unread > 0 %}
         <a href="{% url 'notification-list' %}"
-           style="text-decoration: none"
-           class="fa-solid fa-bell header-icon"></a>
+           style="text-decoration: none;
+                  position: relative"
+           class="fa-solid fa-bell header-icon">
+          <div class="header-notification-dot">
+            <svg height="10" width="10">
+              <circle cx="5" cy="5" r="5" fill="red" />
+            </svg>
+          </div>
+        </a>
       {% else %}
         <a href="{% url 'notification-list' %}"
            style="text-decoration: none"
