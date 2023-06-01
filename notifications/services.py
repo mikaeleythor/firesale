@@ -12,9 +12,10 @@ class NotificationService():
             raise self.model.DoesNotExist()
         else:
             # NOTE: Idempotency
-            instance.read = True
-            instance.save()
-            related = instance.inbox
-            # NOTE: Decrement counter
-            related.unread = F('unread') - 1
-            related.save()
+            if instance.read is False:
+                instance.read = True
+                instance.save()
+                related = instance.inbox
+                # NOTE: Decrement counter
+                related.unread = F('unread') - 1
+                related.save()

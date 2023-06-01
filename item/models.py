@@ -8,8 +8,9 @@ def item_photo_directory_path(instance, filename):
 
 
 def validate_offer_status(value):
-    if value not in ['Accepted', 'Pending', 'Declined']:
-        raise ValidationError("Status must be Accepted, Pending or Declined")
+    if value not in ['Accepted', 'Pending', 'Declined', 'Confirmed']:
+        raise ValidationError(
+            "Status must be Accepted, Pending, Declined or Confirmed")
     return value
 
 
@@ -26,6 +27,15 @@ class Seller(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class SellerRating(models.Model):
+    rating = models.PositiveIntegerField(default=0)
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.seller)
 
 
 class Item(models.Model):

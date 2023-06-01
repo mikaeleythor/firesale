@@ -1,11 +1,11 @@
 let params = {};
 
-const handleClick = (btn, status) => {
+const handleClick = async (btn, status) => {
   // NOTE: Extracting ids from btn.id
-  offerId = btn.id.toString().split("-")[2];
-  itemId = btn.id.toString().split("-")[3];
-  axios
-    .post(
+  const offerId = btn.id.toString().split("-")[2];
+  const itemId = btn.id.toString().split("-")[3];
+  try {
+    const res = await axios.post(
       `/item/see-offers/${itemId}`,
       {
         offerId: offerId,
@@ -20,39 +20,23 @@ const handleClick = (btn, status) => {
           "content-type": "application/json",
         },
       }
-    )
-    .then((res) => {
-      // NOTE: Redirecting to base.html
-      window.location.replace("/");
-    })
-    .catch((e) => console.error(e));
-};
-
-// NOTE: Borrowed this from stacksoverflow
-const getCookie = (name) => {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    let cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      let cookie = jQuery.trim(cookies[i]);
-      if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
+    );
+    // NOTE: Redirecting to base.html
+    if (res) window.location.replace("/");
+  } catch (error) {
+    console.log(error);
   }
-  return cookieValue;
 };
 
 // NOTE: Refactored from searchBox and selectOrder eventListeners
-const getFiltered = () => {
-  axios
-    .get("/item/", {
+const getFiltered = async () => {
+  try {
+    const res = await axios.get("/item/", {
       // HACK: Using global variable as params
       params: params,
-    })
-    .then(function (response) {
-      var newHtml = response.data.data.map(function (d) {
+    });
+    if (res) {
+      let newHtml = res.data.data.map(function (d) {
         return `<a href="/item/${d.id}" class="single-item">
         <div class="image-container">
             <img class="item-img"
@@ -65,13 +49,12 @@ const getFiltered = () => {
         <p>Price: ${d.price} kr</p>
         </a>`;
       });
-
       document.querySelector(".items-grid").innerHTML = newHtml.join("");
-    })
-    .catch(function (error) {
-      // TODO: show toaster
-      console.log(error);
-    });
+    }
+  } catch (error) {
+    // TODO: show toaster
+    console.error(error);
+  }
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -80,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileUpload = document.querySelector("#file-upload");
   const acceptBtns = document.querySelectorAll("[id^=accept-btn-]");
   const declineBtns = document.querySelectorAll("[id^=decline-btn-]");
+  const createItemBtn = document.querySelector("#create-item-submit");
 
   if (searchBox) {
     searchBox.addEventListener("input", () => {
@@ -94,6 +78,19 @@ document.addEventListener("DOMContentLoaded", function () {
       // HACK: Update global variable
       params["order_by"] = selectOrder.value;
       getFiltered();
+    });
+  }
+
+  if (createItemBtn) {
+    // NOTE: Definition of createItemBtn implies existence of fileUpload
+    createItemBtn.addEventListener("click", (e) => {
+      if (fileUpload.validity.valueMissing) {
+        alert("Please provide at least one image");
+        e.preventDefault();
+      } else if (fileUpload.validity.typeMismatch) {
+        alert("Please provide only image files");
+        e.preventDefault();
+      }
     });
   }
 

@@ -40,12 +40,29 @@
         <div class="item-detail-content">
             <span class="item-detail-title">Name:</span>
             <h2 class="item-detail-value">{{ item.item.name }}</h2>
-            <span class="item-detail-title">Current highest offer:</span>
-            <p class="item-detail-value">Þetta er price: {{ item.item.price }} kr</p>
+            {% if current_highest_offer == 0 %}
+                <span class="item-detail-title">Current highest offer:</span>
+                <p class="item-detail-value">No offer has been made on this item</p>
+            {% else %}
+                <span class="item-detail-title">Current highest offer:</span>
+                <p class="item-detail-value">{{ current_highest_offer }} kr</p>
+            {% endif %}
+            <span class="item-detail-title">Price:</span>
+            <p class="item-detail-value">{{ item.item.price }} kr</p>
             <span class="item-detail-title">Condition:</span>
             <p class="item-detail-value">{{ item.item.condition }}</p>
             <span class="item-detail-title">Description</span>
             <p class="item-detail-value">{{ item.item.description }}</p>
+            <span class="item-detail-title">Status</span>
+            <p class="item-detail-value">{{ item.item.status }}</p>
+            <span class="item-detail-title">Seller:</span>
+            <div class="item-detail-seller-value">
+                <img src="{{ item.item.seller.user.person.image.url }}"
+                     alt="Profile photo of seller"
+                     width="30"
+                     height="30" />
+                <h5 class="item-detail-value">{{ item.item.seller }}</h5>
+            </div>
         </div>
         {% if user.is_authenticated and user.person.id %}
             {% if user.seller.id == item.item.seller.id %}
@@ -72,17 +89,19 @@
     <div class="items-grid">
         {% if similar %}
             {% for similarItem in similar %}
-                <a href="/item/{{ similarItem.id }}" class="single-item">
-                    <div class="image-container">
-                        <img class="item-img"
-                             src="{{ similarItem.firstImage }}"
-                             alt="item image"
-                             width="300"
-                             height="300" />
-                    </div>
-                    <h4>Name: {{ similarItem.name }}</h4>
-                    <p>Price: {{ similarItem.price }} kr</p>
-                </a>
+                {% if similarItem.status == 'Available' %}
+                    <a href="/item/{{ similarItem.id }}" class="single-item">
+                        <div class="image-container">
+                            <img class="item-img"
+                                 src="{{ similarItem.firstImage }}"
+                                 alt="item image"
+                                 width="300"
+                                 height="300" />
+                        </div>
+                        <h4>Name: {{ similarItem.name }}</h4>
+                        <p>Price: {{ similarItem.price }} kr</p>
+                    </a>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>No similar items</p>

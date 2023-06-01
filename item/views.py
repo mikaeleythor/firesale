@@ -22,7 +22,7 @@ def index(request):
     except KeyError:
         items = items.order_by('name')
 
-    # NOTE: If any parameters were provided in request.GET
+    # NOTE: If any valid parameters were provided in request.GET
     if any([param in request.GET for param in ['order_by', 'search_filter']]):
         # NOTE: Change to list before responding
         items = [{
@@ -42,6 +42,7 @@ def get_item_by_id(request, id):
         'id': x.id,
         'name': x.name,
         'price': x.price,
+        'status': x.status,
         'firstImage': str(x.itemimage_set.first().image.url)
     } for x in Item.objects.filter(category__icontains=item['item'].category).exclude(id=item['item'].id)]
     if request.method == 'POST':
@@ -55,9 +56,18 @@ def get_item_by_id(request, id):
             })
             # NOTE: Notify seller
             notifyer.offer_placed(offer)
+            form = ItemOfferForm()
     else:
         form = ItemOfferForm()
-    context = {'item': item, 'similar': similar, 'form': form}
+
+    current_highest_offer = 0
+    offers = Offer.objects.all()
+    for offer in offers:
+        if offer.item_id == id and offer.amount > current_highest_offer:
+            current_highest_offer = offer.amount
+
+    context = {'item': item, 'similar': similar,
+               'form': form, 'current_highest_offer': current_highest_offer}
     return render(request, 'item/item_details.html', context)
 
 
@@ -100,7 +110,9 @@ def create_item(request):
     context = {}
     if request.method == "POST":
         form = ItemCreateForm(data=request.POST)
-        if form.is_valid():
+        # NOTE: Failsafe to make sure images are provided
+        #       Additional implementation needed in frontend for error msgs
+        if form.is_valid() and request.FILES.getlist('images'):
             item = {
                 'name': form.cleaned_data['name'],
                 'status': 'Available',
@@ -142,3 +154,9 @@ def update_item(request, id):
         'form': form,
         'id': id
     })
+
+
+def my_items(request):
+    user_id = request.user.id
+    items = Item.objects.filter(seller__user_id=user_id)
+    return render(request, 'item/my_items.html', {'users_items_list': items})

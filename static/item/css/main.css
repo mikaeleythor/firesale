@@ -60,7 +60,17 @@
 }
 
 .item-detail-value {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+.item-detail-seller-value {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.item-detail-seller-value img {
+  border-radius: 20px;
 }
 
 .item-detail-seller-button {
@@ -97,7 +107,7 @@
   margin-left: 20px;
 }
 
-.create-item-right-section > input {
+.create-item-right-section>input {
   margin-bottom: 20px;
   height: 40px;
   width: 100%;
@@ -179,6 +189,11 @@
   align-items: center;
 }
 
+.offer-error-text {
+  color: #959595;
+  margin-left: 20px;
+}
+
 .item-detail-buyer-button {
   width: 40%;
 }
@@ -195,4 +210,14 @@
   grid-template-columns: 1fr 2fr;
   gap: 10px;
   margin: 8px;
+}
+
+.my-items-header {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.my-items-error-text {
+  color: #959595;
+  margin-top: 20px;
 }
