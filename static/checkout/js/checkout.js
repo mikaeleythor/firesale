@@ -23,9 +23,6 @@ const handleSale = async (item) => {
 };
 
 const handleRating = async (offerId, rating) => {
-  console.log("offerid: ", offerId);
-  console.log("rating: ", rating);
-
   try {
     const res = await axios.post(
       "/checkout/thank-you",
