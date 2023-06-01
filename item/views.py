@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -114,37 +115,41 @@ def see_offers(request, id):
     return render(request, 'item/see_offers.html', {'offers': offers})
 
 
+@login_required
 def create_item(request):
     context = {}
-    if request.method == "POST":
-        form = ItemCreateForm(data=request.POST)
-        # NOTE: Failsafe to make sure images are provided
-        #       Additional implementation needed in frontend for error msgs
-        if form.is_valid() and request.FILES.getlist('images'):
-            if (request.user.seller in Seller.objects.all()):
-                seller = Seller.objects.get(user=request.user)
-            else:
-                seller = Seller.objects.create(user=request.user, rating=0)
-            item = {
-                'name': form.cleaned_data['name'],
-                'status': 'Available',
-                'condition': form.cleaned_data['condition'],
-                'description': form.cleaned_data['description'],
-                'category': form.cleaned_data['category'],
-                'price': form.cleaned_data['price'],
-                'seller': seller,
-            }
-            itemObj = Item.objects.create(**item)
+    if request.user.person:
+        if request.method == "POST":
+            form = ItemCreateForm(data=request.POST)
+            # NOTE: Failsafe to make sure images are provided
+            #       Additional implementation needed in frontend for error msgs
+            if form.is_valid() and request.FILES.getlist('images'):
+                if (request.user.seller in Seller.objects.all()):
+                    seller = Seller.objects.get(user=request.user)
+                else:
+                    seller = Seller.objects.create(user=request.user, rating=0)
+                item = {
+                    'name': form.cleaned_data['name'],
+                    'status': 'Available',
+                    'condition': form.cleaned_data['condition'],
+                    'description': form.cleaned_data['description'],
+                    'category': form.cleaned_data['category'],
+                    'price': form.cleaned_data['price'],
+                    'seller': seller,
+                }
+                itemObj = Item.objects.create(**item)
 
-            images = request.FILES.getlist('images')
-            for image in images:
-                imgObj = ItemImage.objects.create(image=image, item=itemObj)
-                imgObj.save()
-            return redirect('item-index')
+                images = request.FILES.getlist('images')
+                for image in images:
+                    imgObj = ItemImage.objects.create(image=image, item=itemObj)
+                    imgObj.save()
+                return redirect('my-items')
+        else:
+            form = ItemCreateForm()
+        context['form'] = form
+        return render(request, 'item/create_item.html', context)
     else:
-        form = ItemCreateForm()
-    context['form'] = form
-    return render(request, 'item/create_item.html', context)
+        return redirect("profile/create-person")
 
 
 def delete_item(request, id):
