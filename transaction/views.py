@@ -66,6 +66,15 @@ def thank_you(request):
                 buyer = offer.buyer
                 SellerRating.objects.create(
                     rating=json_content['rating'], seller=seller, buyer=buyer)
+                allratings = SellerRating.objects.filter(seller=seller.id)
+                sum = 0
+                count = 0
+                for rating in allratings:
+                    sum += rating.rating
+                    count += 1
+                seller.rating = sum/count
+                seller.full_clean()
+                seller.save()
                 return JsonResponse(
                     status=200, data={"message": "Rating updated"})
             except ValidationError as error:
