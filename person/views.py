@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from person.models import Person
 from person.forms.person_form import PersonUpdateForm
@@ -32,24 +33,27 @@ def update_person(request):
     })
 
 
+@login_required
 def create_person(request):
-    if request.method == 'POST':
-        form = PersonUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            person_instance = Person.objects.create(
-                user_id=request.user.id,
-                bio=form.cleaned_data['bio'],
-                image=form.cleaned_data['image']
-            )
-            User.objects.filter(id=request.user.id).update(
-                first_name=form.cleaned_data['first_name'],
-                last_name=form.cleaned_data['last_name'],
-                email=form.cleaned_data['email']
-            )
-            return redirect('/')
-    else:
-        form = PersonUpdateForm()
-    return render(request, 'person/create_person.html', {
-        'form': form,
-        'id': id
-    })
+    if request.user.person is None:
+        if request.method == 'POST':
+            form = PersonUpdateForm(request.POST, request.FILES)
+            if form.is_valid():
+                person_instance = Person.objects.create(
+                    user_id=request.user.id,
+                    bio=form.cleaned_data['bio'],
+                    image=form.cleaned_data['image']
+                )
+                User.objects.filter(id=request.user.id).update(
+                    first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'],
+                    email=form.cleaned_data['email']
+                )
+                return redirect('/')
+        else:
+            form = PersonUpdateForm()
+        return render(request, 'person/create_person.html', {
+            'form': form,
+            'id': id
+        })
+    return redirect('/profile/update')
