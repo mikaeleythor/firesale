@@ -1,9 +1,10 @@
 const handleSale = (item) => {
   console.log("we are her");
   const offerId = item.id.toString().split("-")[2];
+  console.log(offerId);
   axios
     .post(
-      `/checkout/review/`,
+      `/checkout/review`,
       {
         offerId: offerId,
       },

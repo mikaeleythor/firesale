@@ -31,6 +31,7 @@ def review(request):
     for item in accepted_offers:
         total += item.amount
     if request.method == 'POST':
+        print('helo')
         json_content = json.loads(request.body)
         if 'offerId' in json_content.keys():
             try:
