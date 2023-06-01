@@ -137,3 +137,12 @@ def update_item(request, id):
         'form': form,
         'id': id
     })
+
+def my_items(request):
+    user_id = request.user.id
+    items = Item.objects.all()
+    users_items_list = []
+    for item in items: 
+        if item.seller.user.id == user_id:
+            users_items_list.append(item)
+    return render(request, 'item/my_items.html', {'items': users_items_list})

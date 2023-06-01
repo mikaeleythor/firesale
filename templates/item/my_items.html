@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+    <h2 class="my-items-header">My items</h2>
+    <div class="items-grid">
+        {% for item in items %}
+            {% include 'item/single_item.html' with item=item %}
+        {% endfor %}
+    </div>
+{% endblock %}
+<!-- {% if user.is_authenticated %}
+        {% if user.person.id %}{% endif %}
+    {% else %}
+        <div>{{" "}}</div>
+    {% endif %} -->

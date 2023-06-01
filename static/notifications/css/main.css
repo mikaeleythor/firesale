@@ -1,18 +1,17 @@
 .notification-container {
-    height: fit-content;
-    max-width: 60%;
+    min-height: fit-content;
+    width: 100%;
+    max-width: 650px;
     margin: auto;
     margin-top: 24px;
+    margin-bottom: 24px;
     background-color: white;
     border-radius: 8px;
+    padding-top: 32px;
+    padding-bottom: 32px;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
-}
-
-.notification-header-text {
-    margin-top: 10px;
-    margin-left: 20px;
 }
 
 .notification-error-text {
