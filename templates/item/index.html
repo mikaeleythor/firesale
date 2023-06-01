@@ -31,7 +31,9 @@
   </div>
   <div class="items-grid">
     {% for item in items %}
-      {% include 'item/single_item.html' with item=item %}
+      {% if item.status == 'Available' %}
+        {% include 'item/single_item.html' with item=item %}
+      {% endif %}
     {% endfor %}
   </div>
 {% endblock %}

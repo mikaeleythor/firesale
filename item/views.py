@@ -22,7 +22,7 @@ def index(request):
     except KeyError:
         items = items.order_by('name')
 
-    # NOTE: If any parameters were provided in request.GET
+    # NOTE: If any valid parameters were provided in request.GET
     if any([param in request.GET for param in ['order_by', 'search_filter']]):
         # NOTE: Change to list before responding
         items = [{
@@ -55,6 +55,7 @@ def get_item_by_id(request, id):
             })
             # NOTE: Notify seller
             notifyer.offer_placed(offer)
+            form = ItemOfferForm()
     else:
         form = ItemOfferForm()
     context = {'item': item, 'similar': similar, 'form': form}
