@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from country_list import countries_for_language
 import json
-from item.models import Offer
+from item.models import Offer, SellerRating
 
 from transaction.forms.checkout_form import PaymentForm
 
@@ -31,7 +31,6 @@ def review(request):
     for item in accepted_offers:
         total += item.amount
     if request.method == 'POST':
-        print('helo')
         json_content = json.loads(request.body)
         if 'offerId' in json_content.keys():
             try:
@@ -56,6 +55,25 @@ def review(request):
 
 
 def thank_you(request):
+    if request.method == 'POST':
+        print('here we are')
+        json_content = json.loads(request.body)
+        if 'offerId' in json_content.keys():
+            try:
+                offerId = json_content['offerId']
+                offer = get_object_or_404(Offer, pk=offerId)
+                seller = offer.item.seller
+                buyer = offer.buyer
+                SellerRating.objects.create(
+                    rating=json_content['rating'], seller=seller, buyer=buyer)
+                return JsonResponse(
+                    status=200, data={"message": "Rating updated"})
+            except ValidationError as error:
+                return JsonResponse(
+                    status=400, data={"message": str(error)})
+        else:
+            return JsonResponse(
+                status=400, data={"message": "OfferId must be supplied"})
     return render(request, 'checkout/thank_you.html')
 
 

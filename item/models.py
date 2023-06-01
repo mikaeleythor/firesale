@@ -29,6 +29,15 @@ class Seller(models.Model):
         return str(self.user)
 
 
+class SellerRating(models.Model):
+    rating = models.PositiveIntegerField(default=0)
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.seller)
+
+
 class Item(models.Model):
     name = models.CharField(max_length=255)
     status = models.CharField(max_length=255,

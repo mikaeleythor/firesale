@@ -1,9 +1,7 @@
-const handleSale = (item) => {
-  console.log("we are her");
+const handleSale = async (item) => {
   const offerId = item.id.toString().split("-")[2];
-  console.log(offerId);
-  axios
-    .post(
+  try {
+    const res = await axios.post(
       `/checkout/review`,
       {
         offerId: offerId,
@@ -17,13 +15,40 @@ const handleSale = (item) => {
           "content-type": "application/json",
         },
       }
-    )
-    .then((res) => {
+    );
+    if (res) window.location.replace("/checkout/thank-you");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleRating = async (offerId, rating) => {
+  console.log("offerid: ", offerId);
+  console.log("rating: ", rating);
+
+  try {
+    const res = await axios.post(
+      "/checkout/thank-you",
+      {
+        offerId: offerId,
+        rating: rating,
+      },
+      {
+        headers: {
+          // HACK: Django throws 403 without this explicit csrf header
+          "X-CSRFToken": getCookie("csrftoken"),
+          // HACK: Better than using multipart/form-data since this is not form
+          //       This needed explicit configuration in view
+          "content-type": "application/json",
+        },
+      }
+    );
+    if (res) {
       console.log(res.data);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 if (window.location.pathname == "/checkout/contact-information") {
@@ -160,6 +185,10 @@ if (window.location.pathname == "/checkout/review") {
         window.sessionStorage.setItem(`amount-${count}`, amount.innerHTML);
         window.sessionStorage.setItem(`image-${count}`, url);
         window.sessionStorage.setItem("count", count);
+        window.sessionStorage.setItem(
+          `offerId-${count}`,
+          item.id.toString().split("-")[2]
+        );
         count++;
       });
     }
@@ -185,23 +214,45 @@ if (window.location.pathname == "/checkout/thank-you") {
             </div>
             <div class="rating-wrapper">
                 <b>Rate the seller?</b>
-                <div class="rating">
-                    <input type="radio" name="rating" value="5" id="rating-5" />
+                <fieldset class="rating">
+                <button class="btn rate-button">Rate</button>
+                    <input type="radio" name="rating" value="5" id="rating-5" class="offer-${window.sessionStorage.getItem(
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-5">☆</label>
-                    <input type="radio" name="rating" value="4" id="rating-4" />
+                    <input type="radio" name="rating" value="4" id="rating-4" class="offer-${window.sessionStorage.getItem(
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-4">☆</label>
-                    <input type="radio" name="rating" value="3" id="rating-3" />
+                    <input type="radio" name="rating" value="3" id="rating-3" class="offer-${window.sessionStorage.getItem(
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-3">☆</label>
-                    <input type="radio" name="rating" value="2" id="rating-2" />
+                    <input type="radio" name="rating" value="2" id="rating-2" class="offer-${window.sessionStorage.getItem(
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-2">☆</label>
-                    <input type="radio" name="rating" value="1" id="rating-1" />
+                    <input type="radio" name="rating" value="1" id="rating-1" class="offer-${window.sessionStorage.getItem(
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-1">☆</label>
-                </div>
+                </fieldset>
             </div>
             <hr>
             <hr>
     `;
     count++;
   }
-  window.sessionStorage.clear();
+
+  const rating = document.querySelector(".rating");
+  const rateBtn = document.querySelector(".rate-button");
+  rateBtn.addEventListener("click", (e) => {
+    const checkedItem = document.querySelector('input[name="rating"]:checked');
+    handleRating(
+      checkedItem.className.split("-")[1],
+      checkedItem.id.split("-")[1]
+    );
+    rateBtn.disabled = true;
+    rating.disabled = true;
+  });
 }

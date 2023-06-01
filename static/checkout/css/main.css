@@ -117,6 +117,9 @@ select {
   float: left;
   height: 46px;
   padding: 0 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
 }
 .rating:not(:checked) > input {
   position: absolute;
@@ -149,8 +152,15 @@ select {
   color: #c59b08;
 }
 
+.rate-button {
+  height: 32px;
+  background-color: #ffc700;
+  color: black;
+  padding: 4px;
+  margin-left: 4px;
+}
+
 .checkout-error-text {
   color: #959595;
   margin-left: 20px;
 }
-
