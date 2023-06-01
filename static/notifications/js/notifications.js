@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
   if (notificationBtns) {
     notificationBtns.forEach((btn) => {
       btn.addEventListener("click", (e) => {
+        e.preventDefault()
         handleNotification(btn);
       });
     });
