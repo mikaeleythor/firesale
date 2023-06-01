@@ -52,33 +52,45 @@ def payment_information(request):
     return redirect("/profile/create-person")
 
 
+@login_required
 def review(request):
-    accepted_offers = request.user.offer_set.filter(status='Accepted')
-    total = 0
-    for item in accepted_offers:
-        total += item.amount
-    if request.method == 'POST':
-        json_content = json.loads(request.body)
-        if 'offerId' in json_content.keys():
-            try:
-                offerId = json_content['offerId']
-                offer = get_object_or_404(Offer, pk=offerId)
-                offer.status = 'Confirmed'
-                offer.full_clean()
-                offer.save()
-                item = offer.item
-                item.status = 'Sold'
-                item.full_clean()
-                item.save()
-                return JsonResponse(
-                    status=200, data={"message": "Item Sold"})
-            except ValidationError as error:
-                return JsonResponse(
-                    status=400, data={"message": str(error)})
-        else:
-            return JsonResponse(
-                status=400, data={"message": "OfferId must be supplied"})
-    return render(request, 'checkout/review.html', {'basket': accepted_offers, 'total': total})
+    if hasattr(request.user, 'person'):
+        if has_accepted_offers(request):
+            accepted_offers = request.user.offer_set.filter(status='Accepted')
+            total = 0
+            for item in accepted_offers:
+                total += item.amount
+            if request.method == 'POST':
+                json_content = json.loads(request.body)
+                if 'offerId' in json_content.keys():
+                    try:
+                        offerId = json_content['offerId']
+                        offer = get_object_or_404(Offer, pk=offerId)
+                        offer.status = 'Confirmed'
+                        offer.full_clean()
+                        offer.save()
+                        item = offer.item
+                        item.status = 'Sold'
+                        item.full_clean()
+                        item.save()
+                        return JsonResponse(
+                            status=200, data={"message": "Item Sold"})
+                    except ValidationError as error:
+                        return JsonResponse(
+                            status=400, data={"message": str(error)})
+                else:
+                    return JsonResponse(
+                        status=400,
+                        data={"message": "OfferId must be supplied"}
+                    )
+            return render(
+                request,
+                'checkout/review.html',
+                {'basket': accepted_offers, 'total': total}
+            )
+        # TODO: Redirect to unauthorized page
+        return redirect("/")
+    return redirect("/profile/create-person")
 
 
 def thank_you(request):
