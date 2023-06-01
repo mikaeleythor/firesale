@@ -20,18 +20,31 @@
   transform: scale(1.01);
 }
 
+.disabled-button,
+.disabled-button:disabled {
+  background-color: #1bafd0;
+  color: white;
+  opacity: 30%;
+  cursor: auto;
+}
+
+.disabled-button:hover {
+  background-color: #1bafd0;
+  color: white;
+}
+
 .main-select {
   border: 1px solid var(--bs-border-color);
   border-radius: 8px;
 }
 
 .secondary-button {
-  background-color: #B9B7B7;
+  background-color: #b9b7b7;
   color: white;
 }
 
 .secondary-button:hover {
-  background-color: #B9B7B7;
+  background-color: #b9b7b7;
   color: white;
   transform: scale(1.01);
 }
