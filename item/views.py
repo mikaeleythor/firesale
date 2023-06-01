@@ -61,7 +61,7 @@ def get_item_by_id(request, id):
         form = ItemOfferForm()
 
     current_highest_offer = 0
-    offers = Offer.objects.all()
+    offers = Offer.objects.filter(status='Pending')
     for offer in offers:
         if offer.item_id == id and offer.amount > current_highest_offer:
             current_highest_offer = offer.amount
@@ -90,7 +90,7 @@ def see_offers(request, id):
                     item.status = "Waiting for payment"
                     item.full_clean()
                     item.save()
-                    all_offers = item.offer_set.all()
+                    all_offers = item.offer_set.filter(status='Pending')
                     for decl_offer in all_offers:
                         if decl_offer.id != offer.id:
                             decl_offer.status = 'Declined'
