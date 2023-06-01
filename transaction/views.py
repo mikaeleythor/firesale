@@ -8,14 +8,20 @@ from item.models import Offer, SellerRating
 
 from transaction.forms.checkout_form import PaymentForm
 
-# Create your views here.
+
+def has_accepted_offers(request) -> bool:
+    return request.user.offer_set.filter(status='Accepted').exists()
 
 
 @login_required
 def index(request):
     if hasattr(request.user, 'person'):
         accepted_offers = request.user.offer_set.filter(status='Accepted')
-        return render(request, 'checkout/index.html', {'basket': accepted_offers})
+        return render(
+            request,
+            'checkout/index.html',
+            {'basket': accepted_offers}
+        )
     return redirect("/profile/create-person")
 
 
@@ -23,17 +29,27 @@ def index(request):
 def contact_information(request):
     if hasattr(request.user, 'person'):
         # NOTE: User has to have some accepted offers to access this page
-        if request.user.offer_set.filter(status='Accepted').exists():
+        if has_accepted_offers(request):
             countries = dict(countries_for_language('en'))
-            return render(request, 'checkout/contact_information.html', {'countries': countries.values()})
+            return render(
+                request,
+                'checkout/contact_information.html',
+                {'countries': countries.values()}
+            )
         # TODO: Redirect to unauthorized page
         return redirect("/")
     return redirect("/profile/create-person")
 
 
+@login_required
 def payment_information(request):
-    form = PaymentForm()
-    return render(request, 'checkout/payment_information.html', {'form': form})
+    if hasattr(request.user, 'person'):
+        if has_accepted_offers(request):
+            form = PaymentForm()
+            return render(request, 'checkout/payment_information.html', {'form': form})
+        # TODO: Redirect to unauthorized page
+        return redirect("/")
+    return redirect("/profile/create-person")
 
 
 def review(request):
