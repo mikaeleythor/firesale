@@ -2,10 +2,10 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
-    <h2 class="my-items-header">My items for Sale</h2>
-    {% if users_items_list %}
+    <h2 class="my-items-header">Items with pending offers</h2>
+    {% if users_offers_list %}
         <div class="items-grid">
-            {% for item in users_items_list %}
+            {% for item in users_offers_list %}
                 <a href="/item/{{ item.id }}" class="single-item">
                     <div class="image-container">
                         <img class="item-img"
