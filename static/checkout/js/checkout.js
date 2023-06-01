@@ -163,7 +163,6 @@ if (window.location.pathname == "/checkout/review") {
 
   const sellingItems = document.querySelectorAll("[id^=selling-item-]");
   document.querySelector("#confirm_purchase").addEventListener("click", (e) => {
-    e.preventDefault();
     window.sessionStorage.clear();
     if (sellingItems) {
       let count = 0;
