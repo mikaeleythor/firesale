@@ -213,5 +213,11 @@
 }
 
 .my-items-header {
-  margin-top: 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.my-items-error-text {
+  color: #959595;
+  margin-top: 20px;
 }
