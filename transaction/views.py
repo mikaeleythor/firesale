@@ -93,36 +93,40 @@ def review(request):
     return redirect("/profile/create-person")
 
 
+@login_required
 def thank_you(request):
-    if request.method == 'POST':
-        print('here we are')
-        json_content = json.loads(request.body)
-        if 'offerId' in json_content.keys():
-            try:
-                offerId = json_content['offerId']
-                offer = get_object_or_404(Offer, pk=offerId)
-                seller = offer.item.seller
-                buyer = offer.buyer
-                SellerRating.objects.create(
-                    rating=json_content['rating'], seller=seller, buyer=buyer)
-                allratings = SellerRating.objects.filter(seller=seller.id)
-                sum = 0
-                count = 0
-                for rating in allratings:
-                    sum += rating.rating
-                    count += 1
-                seller.rating = sum/count
-                seller.full_clean()
-                seller.save()
+    if hasattr(request.user, 'person'):
+        if request.method == 'POST':
+            print('here we are')
+            json_content = json.loads(request.body)
+            if 'offerId' in json_content.keys():
+                try:
+                    offerId = json_content['offerId']
+                    offer = get_object_or_404(Offer, pk=offerId)
+                    seller = offer.item.seller
+                    buyer = offer.buyer
+                    SellerRating.objects.create(
+                        rating=json_content['rating'], seller=seller, buyer=buyer)
+                    allratings = SellerRating.objects.filter(
+                        seller=seller.id)
+                    sum = 0
+                    count = 0
+                    for rating in allratings:
+                        sum += rating.rating
+                        count += 1
+                    seller.rating = sum/count
+                    seller.full_clean()
+                    seller.save()
+                    return JsonResponse(
+                        status=200, data={"message": "Rating updated"})
+                except ValidationError as error:
+                    return JsonResponse(
+                        status=400, data={"message": str(error)})
+            else:
                 return JsonResponse(
-                    status=200, data={"message": "Rating updated"})
-            except ValidationError as error:
-                return JsonResponse(
-                    status=400, data={"message": str(error)})
-        else:
-            return JsonResponse(
-                status=400, data={"message": "OfferId must be supplied"})
-    return render(request, 'checkout/thank_you.html')
+                    status=400, data={"message": "OfferId must be supplied"})
+        return render(request, 'checkout/thank_you.html')
+    return redirect("/profile/create-person")
 
 
 def notify_buyer_with_seller_ratings():
