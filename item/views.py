@@ -55,6 +55,7 @@ def get_item_by_id(request, id):
             })
             # NOTE: Notify seller
             notifyer.offer_placed(offer)
+            form = ItemOfferForm()
     else:
         form = ItemOfferForm()
     context = {'item': item, 'similar': similar, 'form': form}
