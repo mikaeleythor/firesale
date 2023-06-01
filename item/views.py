@@ -49,7 +49,7 @@ def get_item_by_id(request, id):
         form = ItemOfferForm(data=request.POST)
         if form.is_valid():
             offer = Offer.objects.create(**{
-                'status': 'pending',
+                'status': 'Pending',
                 'amount': form.cleaned_data['amount'],
                 'item': item['item'],
                 'buyer': request.user
@@ -73,7 +73,7 @@ def get_item_by_id(request, id):
 
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
-    offers = item.offer_set.all()
+    offers = item.offer_set.filter(status='Pending')
     # HACK: Using content-type: application/json in template
     if request.method == 'POST':
         json_content = json.loads(request.body)
@@ -86,12 +86,24 @@ def see_offers(request, id):
                 offer.full_clean()
                 offer.save()
                 item = offer.item
-                item.status = "Waiting for payment"
-                item.full_clean()
-                item.save()
-                notifyer.offer_accepted(offer)
-                return JsonResponse(
-                    status=200, data={"message": "Offer accepted"})
+                if json_content['status'] == 'Accepted':
+                    item.status = "Waiting for payment"
+                    item.full_clean()
+                    item.save()
+                    all_offers = item.offer_set.all()
+                    for decl_offer in all_offers:
+                        if decl_offer.id != offer.id:
+                            decl_offer.status = 'Declined'
+                            offer.full_clean()
+                            offer.save()
+                            notifyer.offer_declined(decl_offer)
+                    notifyer.offer_accepted(offer)
+                    return JsonResponse(
+                        status=200, data={"message": "Offer accepted"})
+                if json_content['status'] == 'Declined':
+                    notifyer.offer_declined(offer)
+                    return JsonResponse(
+                        status=200, data={"message": "Offer declined"})
             except ValidationError as error:
                 return JsonResponse(
                     status=400, data={"message": str(error)})
