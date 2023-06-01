@@ -13,15 +13,22 @@ from transaction.forms.checkout_form import PaymentForm
 
 @login_required
 def index(request):
-    if hasattr(request.user, 'profile'):
+    if hasattr(request.user, 'person'):
         accepted_offers = request.user.offer_set.filter(status='Accepted')
         return render(request, 'checkout/index.html', {'basket': accepted_offers})
     return redirect("/profile/create-person")
 
 
+@login_required
 def contact_information(request):
-    countries = dict(countries_for_language('en'))
-    return render(request, 'checkout/contact_information.html', {'countries': countries.values()})
+    if hasattr(request.user, 'person'):
+        # NOTE: User has to have some accepted offers to access this page
+        if request.user.offer_set.filter(status='Accepted').exists():
+            countries = dict(countries_for_language('en'))
+            return render(request, 'checkout/contact_information.html', {'countries': countries.values()})
+        # TODO: Redirect to unauthorized page
+        return redirect("/")
+    return redirect("/profile/create-person")
 
 
 def payment_information(request):
