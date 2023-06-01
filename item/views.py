@@ -42,6 +42,7 @@ def get_item_by_id(request, id):
         'id': x.id,
         'name': x.name,
         'price': x.price,
+        'status': x.status,
         'firstImage': str(x.itemimage_set.first().image.url)
     } for x in Item.objects.filter(category__icontains=item['item'].category).exclude(id=item['item'].id)]
     if request.method == 'POST':
