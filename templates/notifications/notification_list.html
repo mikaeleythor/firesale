@@ -11,8 +11,9 @@
   {% else %}
     <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
       <div class="list-group">
-        <div class="list-group-item d-flex gap-3 py-3" aria-current="true">
+        <div class="list-group-item d-flex gap-3 py-3 justify-content-between" aria-current="true">
           <h2>Notifications</h2>
+          <h6 class="align-middle opacity-50">{{ user.inbox.unread }} unread</h6>
         </div>
         {% for notification in object_list %}
           <a id="notification-btn-{{ notification.id }}"

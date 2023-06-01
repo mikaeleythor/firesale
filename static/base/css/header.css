@@ -23,8 +23,12 @@
 
 .header-icon {
   color: black;
-  margin: 10px;
+  margin-right: 20px;
   cursor: pointer;
+}
+
+.header-rating {
+  margin: 4px;
 }
 
 .header-img {

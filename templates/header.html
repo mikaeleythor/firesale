@@ -20,6 +20,7 @@
   </div>
   <div class="header-right-section">
     {% if user.is_authenticated %}
+      <span class="header-rating">{{ user.seller.rating }}</span>
       <i class="fa-solid fa-star header-icon"></i>
       {% if user.person.id %}
         <a class="fa-solid fa-user header-icon" href="{% url 'person-index' %}"></a>

@@ -11,12 +11,13 @@
       {% csrf_token %}
       <label class="create-item-add-images">
         Add Images
-        <input type="file" name="images" id="file-upload" multiple hidden />
+        <input type="file" name="images" id="file-upload" multiple hidden required />
         <i class="fa-light fa-plus fa-lg"></i>
         <span id="display-files"></span>
       </label>
       <div class="create-item-right-section">{{ form }}</div>
-      <input type="submit"
+      <input id="create-item-submit" 
+             type="submit"
              value="Create"
              class="btn main-button create-item-button"
              style="clear:both;

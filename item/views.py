@@ -55,9 +55,18 @@ def get_item_by_id(request, id):
             })
             # NOTE: Notify seller
             notifyer.offer_placed(offer)
+            form = ItemOfferForm()
     else:
         form = ItemOfferForm()
-    context = {'item': item, 'similar': similar, 'form': form}
+
+    current_highest_offer = 0
+    offers = Offer.objects.all()
+    for offer in offers:
+        if offer.item_id == id and offer.amount > current_highest_offer:
+            current_highest_offer = offer.amount
+
+    context = {'item': item, 'similar': similar,
+               'form': form, 'current_highest_offer': current_highest_offer}
     return render(request, 'item/item_details.html', context)
 
 
@@ -95,7 +104,9 @@ def create_item(request):
     context = {}
     if request.method == "POST":
         form = ItemCreateForm(data=request.POST)
-        if form.is_valid():
+        # NOTE: Failsafe to make sure images are provided
+        #       Additional implementation needed in frontend for error msgs
+        if form.is_valid() and request.FILES.getlist('images'):
             item = {
                 'name': form.cleaned_data['name'],
                 'status': 'Available',

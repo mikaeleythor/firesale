@@ -2,8 +2,8 @@ let params = {};
 
 const handleClick = async (btn, status) => {
   // NOTE: Extracting ids from btn.id
-  offerId = btn.id.toString().split("-")[2];
-  itemId = btn.id.toString().split("-")[3];
+  const offerId = btn.id.toString().split("-")[2];
+  const itemId = btn.id.toString().split("-")[3];
   try {
     const res = await axios.post(
       `/item/see-offers/${itemId}`,
@@ -34,9 +34,9 @@ const getFiltered = async () => {
     const res = await axios.get("/item/", {
       // HACK: Using global variable as params
       params: params,
-    })
+    });
     if (res) {
-      var newHtml = res.data.data.map(function(d) {
+      let newHtml = res.data.data.map(function (d) {
         return `<a href="/item/${d.id}" class="single-item">
         <div class="image-container">
             <img class="item-img"
@@ -51,19 +51,19 @@ const getFiltered = async () => {
       });
       document.querySelector(".items-grid").innerHTML = newHtml.join("");
     }
-
   } catch (error) {
     // TODO: show toaster
-    console.error(error)
+    console.error(error);
   }
 };
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const searchBox = document.querySelector("#search-box");
   const selectOrder = document.querySelector("#select-order");
   const fileUpload = document.querySelector("#file-upload");
   const acceptBtns = document.querySelectorAll("[id^=accept-btn-]");
   const declineBtns = document.querySelectorAll("[id^=decline-btn-]");
+  const createItemBtn = document.querySelector("#create-item-submit");
 
   if (searchBox) {
     searchBox.addEventListener("input", () => {
@@ -78,6 +78,19 @@ document.addEventListener("DOMContentLoaded", function() {
       // HACK: Update global variable
       params["order_by"] = selectOrder.value;
       getFiltered();
+    });
+  }
+
+  if (createItemBtn) {
+    // NOTE: Definition of createItemBtn implies existence of fileUpload
+    createItemBtn.addEventListener("click", (e) => {
+      if (fileUpload.validity.valueMissing) {
+        alert("Please provide at least one image");
+        e.preventDefault();
+      } else if (fileUpload.validity.typeMismatch) {
+        alert("Please provide only image files");
+        e.preventDefault();
+      }
     });
   }
 
