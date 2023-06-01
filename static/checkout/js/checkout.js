@@ -162,7 +162,7 @@ if (window.location.pathname == "/checkout/review") {
   document.querySelector("#cvc").value = window.sessionStorage.getItem("cvc");
 
   const sellingItems = document.querySelectorAll("[id^=selling-item-]");
-  document.querySelector("#confirm_purchase").addEventListener("click", (e) => {
+  document.querySelector("#confirm_purchase").addEventListener("click", () => {
     window.sessionStorage.clear();
     if (sellingItems) {
       let count = 0;
@@ -242,7 +242,7 @@ if (window.location.pathname == "/checkout/thank-you") {
 
   const rating = document.querySelector(".rating");
   const rateBtn = document.querySelector(".rate-button");
-  rateBtn.addEventListener("click", (e) => {
+  rateBtn.addEventListener("click", () => {
     const checkedItem = document.querySelector('input[name="rating"]:checked');
     handleRating(
       checkedItem.className.split("-")[1],
