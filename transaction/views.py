@@ -1,6 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.forms import ValidationError
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import redirect, render, get_object_or_404
 from country_list import countries_for_language
 import json
 from item.models import Offer, SellerRating
@@ -10,9 +11,12 @@ from transaction.forms.checkout_form import PaymentForm
 # Create your views here.
 
 
+@login_required
 def index(request):
-    accepted_offers = request.user.offer_set.filter(status='Accepted')
-    return render(request, 'checkout/index.html', {'basket': accepted_offers})
+    if hasattr(request.user, 'profile'):
+        accepted_offers = request.user.offer_set.filter(status='Accepted')
+        return render(request, 'checkout/index.html', {'basket': accepted_offers})
+    return redirect("/profile/create-person")
 
 
 def contact_information(request):
