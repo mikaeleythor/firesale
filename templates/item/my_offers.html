@@ -9,17 +9,17 @@
                 <a href="/item/{{ item.id }}" class="single-item">
                     <div class="image-container">
                         <img class="item-img"
-                             src="{{ item.itemimage_set.first.image.url }}"
+                             src="{{ item.offer.itemimage_set.first.image.url }}"
                              alt="item image"
                              width="300"
                              height="300" />
                     </div>
-                    <h4>Name: {{ item.name }}</h4>
-                    <p>Status: {{ item.status }}</p>
+                    <h4>Name: {{ item.offer.name }}</h4>
+                    <p>Your offer: {{ item.amount }} kr</p>
                 </a>
             {% endfor %}
         </div>
     {% else %}
-        <p class="my-items-error-text">You don't have any items listed for sale.</p>
+        <p class="my-items-error-text">You have no pending offers.</p>
     {% endif %}
 {% endblock %}
