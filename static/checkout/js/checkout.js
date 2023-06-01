@@ -203,4 +203,5 @@ if (window.location.pathname == "/checkout/thank-you") {
     `;
     count++;
   }
+  window.sessionStorage.clear();
 }

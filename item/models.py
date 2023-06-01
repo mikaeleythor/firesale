@@ -9,7 +9,8 @@ def item_photo_directory_path(instance, filename):
 
 def validate_offer_status(value):
     if value not in ['Accepted', 'Pending', 'Declined', 'Confirmed']:
-        raise ValidationError("Status must be Accepted, Pending or Declined")
+        raise ValidationError(
+            "Status must be Accepted, Pending, Declined or Confirmed")
     return value
 
 
