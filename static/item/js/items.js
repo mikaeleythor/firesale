@@ -69,6 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const acceptBtns = document.querySelectorAll("[id^=accept-btn-]");
   const declineBtns = document.querySelectorAll("[id^=decline-btn-]");
   const createItemBtn = document.querySelector("#create-item-submit");
+  const placeOfferInput = document.querySelector("#id_amount");
+  const placeOfferButton = document.querySelector("#offer-submit-button");
 
   if (searchBox) {
     searchBox.addEventListener("input", () => {
@@ -121,6 +123,25 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         handleClick(btn, "Accepted");
       });
+    });
+  }
+
+  if (placeOfferButton) {
+    placeOfferButton.addEventListener("click", (e) => {
+      console.log(placeOfferInput.value);
+      if (
+        placeOfferInput.validity.typeMismatch ||
+        placeOfferInput.validity.valueMissing ||
+        placeOfferInput.value.includes(".", ",") ||
+        placeOfferInput.value <= 0
+      ) {
+        document.querySelector(".offer-not-placed-alert").style.display =
+          "block";
+      } else {
+        document.querySelector(".offer-not-placed-alert").style.display =
+          "none";
+        document.querySelector(".offer-placed-alert").style.display = "block";
+      }
     });
   }
 });
