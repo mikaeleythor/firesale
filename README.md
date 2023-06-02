@@ -30,7 +30,7 @@ Here is a list of all requirements with priority B, .........
 
 ## Requirements C
 Here is a list of all requirements with priority C,......
-- It should be possible to view other people's profile. XXXXX
+- It should be possible to view other people's profile.
 - It should be possible to edit an item.  
 - It should be possible to resend notifications in regards to offers. XXXX
 - There should be a favicon which displays the logo of the website along with the name.
