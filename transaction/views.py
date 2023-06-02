@@ -97,7 +97,6 @@ def review(request):
 def thank_you(request):
     if hasattr(request.user, 'person'):
         if request.method == 'POST':
-            print('here we are')
             json_content = json.loads(request.body)
             if 'offerId' in json_content.keys():
                 try:
