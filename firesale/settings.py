@@ -30,9 +30,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-bc5et^#mu6zk*+j^h#en!g9#h2k_d-*t)g=km-0yi23ct5a5a2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -152,7 +152,7 @@ STORAGES = {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     }, }
 
 GS_BUCKET_NAME = env('GS_BUCKET_NAME')
