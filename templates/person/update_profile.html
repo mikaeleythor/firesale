@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'person/css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'person/css/main.css' %}">
     <div class="profile-container">
         <h2 class="profile-header-text">Edit profile</h2>
         <form class=" profile-info"  method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form }}
+            <a href="{% url 'person-index' %}" class="profice-cancel-btn">
+                <button class="btn secondary-button ">Cancel</button>
+            </a>
             <input type="submit"
                    value="Save"
                    class="btn pull-right main-button"
