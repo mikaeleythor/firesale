@@ -19,23 +19,14 @@ from google.oauth2 import service_account
 env = environ.Env()
 environ.Env.read_env()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = env('SECRET')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+DEBUG = False
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bc5et^#mu6zk*+j^h#en!g9#h2k_d-*t)g=km-0yi23ct5a5a2'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
-# Application definition
+# NOTE: This version of the project will not be deployed
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,8 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "dj_cleavejs.apps.DjCleaveJSConfig",
-    'django_yarnpkg',
 
     # NOTE: Local apps
     'person.apps.PersonConfig',
@@ -53,6 +42,10 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'notifications.apps.NotificationsConfig',
     'transaction.apps.TransactionConfig',
+
+    # NOTE: Third party app
+    "dj_cleavejs.apps.DjCleaveJSConfig",
+    'django_yarnpkg',
 ]
 
 YARN_INSTALLED_APPS = [
@@ -89,10 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'firesale.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': env('DB_ENGINE'),
@@ -103,10 +92,6 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -123,10 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -138,29 +119,22 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 STATIC_URL = 'static/'
 NODE_MODULES_ROOT = os.path.join(BASE_DIR, 'node_modules')
-
 
 STORAGES = {
     "default": {
         "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"
+        "BACKEND": "storages.backends.gcloud.GoogleCloudStorage"
     }, }
 
 GS_BUCKET_NAME = env('GS_BUCKET_NAME')
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
     os.path.join(BASE_DIR, env('GS_FILE'))
 )
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
