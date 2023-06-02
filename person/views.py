@@ -10,6 +10,11 @@ def index(request):
     return render(request, 'person/index.html', context)
 
 
+def get_profile_by_id(request, id):
+    context = {'person': Person.objects.get(id=id)}
+    return render(request, 'person/person_details.html', context)
+
+
 @login_required
 def update_person(request):
     if hasattr(request.user, 'person'):

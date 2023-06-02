@@ -67,6 +67,8 @@
   display: flex;
   flex-direction: row;
   gap: 8px;
+  color: black;
+  text-decoration: none;
 }
 
 .item-detail-seller-value img {
@@ -213,11 +215,18 @@
   height: 40px;
 }
 
+#id_category {
+  color: gray;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  min-height: 40px;
+}
+
 .edit-item-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 10px;
-  margin: 8px;
+
 }
 
 .my-items-header {
