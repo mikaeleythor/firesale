@@ -11,7 +11,7 @@ Here is a list of all requirements with priority A, they have all been fulfilled
 - It should be possible to view similar items when viewing an item.
 - It should be possible to place an offer.
 - It should be possible to accept an offer.
-- It should be possible to checkout (after an offer has been accepter). XXXXXXX
+- It should be possible to checkout (after an offer has been accepter). 
 - It should be possible to view a list of items.
 - It should be possible to search on a item based on it's name.
 - It should be possible to sort the item list after name and price.
@@ -23,9 +23,9 @@ Here is a list of all requirements with priority A, they have all been fulfilled
 ## Requirements B
 Here is a list of all requirements with priority B, .........
 - It should be possible to log out.
-- It should be possible to rate the seller. XXXXXX
+- It should be possible to rate the seller. 
 - It should be possible to navigate through the website easily.
-- It should be possible to view your products that are for sale. XXXXXX
+- It should be possible to view your products that are for sale. 
 - It should be possible to click on the logo in the header to navigate to the homepage.
 
 ## Requirements C
