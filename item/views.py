@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
@@ -72,79 +73,86 @@ def get_item_by_id(request, id):
     return render(request, 'item/item_details.html', context)
 
 
+@login_required
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
-    offers = item.offer_set.filter(status='Pending')
-    # HACK: Using content-type: application/json in template
-    if request.method == 'POST':
-        json_content = json.loads(request.body)
-        if 'offerId' in json_content.keys():
-            try:
-                offerId = json_content['offerId']
-                offer = get_object_or_404(Offer, pk=offerId)
-                # NOTE: Input validated in model
-                offer.status = json_content['status']
-                offer.full_clean()
-                offer.save()
-                item = offer.item
-                if json_content['status'] == 'Accepted':
-                    item.status = "Waiting for payment"
-                    item.full_clean()
-                    item.save()
-                    all_offers = item.offer_set.filter(status='Pending')
-                    for decl_offer in all_offers:
-                        if decl_offer.id != offer.id:
-                            decl_offer.status = 'Declined'
-                            offer.full_clean()
-                            offer.save()
-                            notifyer.offer_declined(decl_offer)
-                    notifyer.offer_accepted(offer)
+    # NOTE: Only seller can see offers (but only if he has a profile)
+    if hasattr(request.user, 'person') and request.user.id == item.seller.user.id:
+        offers = item.offer_set.filter(status='Pending')
+        # HACK: Using content-type: application/json in template
+        if request.method == 'POST':
+            json_content = json.loads(request.body)
+            if 'offerId' in json_content.keys():
+                try:
+                    offerId = json_content['offerId']
+                    offer = get_object_or_404(Offer, pk=offerId)
+                    # NOTE: Input validated in model
+                    offer.status = json_content['status']
+                    offer.full_clean()
+                    offer.save()
+                    item = offer.item
+                    if json_content['status'] == 'Accepted':
+                        item.status = "Waiting for payment"
+                        item.full_clean()
+                        item.save()
+                        all_offers = item.offer_set.filter(status='Pending')
+                        for decl_offer in all_offers:
+                            if decl_offer.id != offer.id:
+                                decl_offer.status = 'Declined'
+                                offer.full_clean()
+                                offer.save()
+                                notifyer.offer_declined(decl_offer)
+                        notifyer.offer_accepted(offer)
+                        return JsonResponse(
+                            status=200, data={"message": "Offer accepted"})
+                    if json_content['status'] == 'Declined':
+                        notifyer.offer_declined(offer)
+                        return JsonResponse(
+                            status=200, data={"message": "Offer declined"})
+                except ValidationError as error:
                     return JsonResponse(
-                        status=200, data={"message": "Offer accepted"})
-                if json_content['status'] == 'Declined':
-                    notifyer.offer_declined(offer)
-                    return JsonResponse(
-                        status=200, data={"message": "Offer declined"})
-            except ValidationError as error:
+                        status=400, data={"message": str(error)})
+            else:
                 return JsonResponse(
-                    status=400, data={"message": str(error)})
-        else:
-            return JsonResponse(
-                status=400, data={"message": "OfferId must be supplied"})
-    return render(request, 'item/see_offers.html', {'offers': offers})
+                    status=400, data={"message": "OfferId must be supplied"})
+        return render(request, 'item/see_offers.html', {'offers': offers})
+    return redirect(f'/item/{id}')
 
 
+@login_required
 def create_item(request):
     context = {}
-    if request.method == "POST":
-        form = ItemCreateForm(data=request.POST)
-        # NOTE: Failsafe to make sure images are provided
-        #       Additional implementation needed in frontend for error msgs
-        if form.is_valid() and request.FILES.getlist('images'):
-            if (request.user in Seller.objects.all()):
-                seller = Seller.objects.get(user=request.user)
-            else:
-                seller = Seller.objects.create(user=request.user, rating=0)
-            item = {
-                'name': form.cleaned_data['name'],
-                'status': 'Available',
-                'condition': form.cleaned_data['condition'],
-                'description': form.cleaned_data['description'],
-                'category': form.cleaned_data['category'],
-                'price': form.cleaned_data['price'],
-                'seller': seller,
-            }
-            itemObj = Item.objects.create(**item)
+    if hasattr(request.user, 'person'):
+        if request.method == "POST":
+            form = ItemCreateForm(data=request.POST)
+            # NOTE: Failsafe to make sure images are provided
+            #       Additional implementation needed in frontend for error msgs
+            if form.is_valid() and request.FILES.getlist('images'):
+                seller, created = Seller.objects.get_or_create(
+                    user=request.user)
+                item = {
+                    'name': form.cleaned_data['name'],
+                    'status': 'Available',
+                    'condition': form.cleaned_data['condition'],
+                    'description': form.cleaned_data['description'],
+                    'category': form.cleaned_data['category'],
+                    'price': form.cleaned_data['price'],
+                    'seller': seller,
+                }
+                itemObj = Item.objects.create(**item)
 
-            images = request.FILES.getlist('images')
-            for image in images:
-                imgObj = ItemImage.objects.create(image=image, item=itemObj)
-                imgObj.save()
-            return redirect('item-index')
+                images = request.FILES.getlist('images')
+                for image in images:
+                    imgObj = ItemImage.objects.create(
+                        image=image, item=itemObj)
+                    imgObj.save()
+                return redirect('my-items')
+        else:
+            form = ItemCreateForm()
+        context['form'] = form
+        return render(request, 'item/create_item.html', context)
     else:
-        form = ItemCreateForm()
-    context['form'] = form
-    return render(request, 'item/create_item.html', context)
+        return redirect("profile/create-person")
 
 
 def delete_item(request, id):
@@ -153,22 +161,34 @@ def delete_item(request, id):
     return redirect('item-index')
 
 
+@login_required
 def update_item(request, id):
-    instance = get_object_or_404(Item, pk=id)
-    if request.method == 'POST':
-        form = ItemUpdateForm(data=request.POST, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect('item-details', id=id)
-    else:
-        form = ItemUpdateForm(instance=instance)
-    return render(request, 'item/update_item.html', {
-        'form': form,
-        'id': id
-    })
+    item = get_object_or_404(Item, pk=id)
+    if hasattr(request.user, 'person') and request.user.id == item.seller.user.id:
+        if request.method == 'POST':
+            form = ItemUpdateForm(data=request.POST, instance=item)
+            if form.is_valid():
+                form.save()
+                return redirect('item-details', id=id)
+        else:
+            form = ItemUpdateForm(instance=item)
+        return render(request, 'item/update_item.html', {
+            'form': form,
+            'id': id
+        })
+    return redirect(f'/item/{id}')
 
 
 def my_items(request):
     user_id = request.user.id
     items = Item.objects.filter(seller__user_id=user_id)
     return render(request, 'item/my_items.html', {'users_items_list': items})
+
+
+def my_offers(request):
+    user_id = request.user.id
+    offers = Offer.objects.filter(buyer=user_id, status="Pending")
+    items = []
+    for offer in offers:
+        items.append({'offer': offer.item, 'amount': offer.amount})
+    return render(request, 'item/my_offers.html', {'users_offers_list': items})

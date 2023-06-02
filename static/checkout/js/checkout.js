@@ -48,8 +48,18 @@ const handleRating = async (offerId, rating) => {
   }
 };
 
+const fullName = document.querySelector("#full_name");
+const streetName = document.querySelector("#street_name");
+const houseNumber = document.querySelector("#house_number");
+const city = document.querySelector("#city");
+const country = document.querySelector("#country");
+const postalCode = document.querySelector("#postal_code");
+const cardHolder = document.querySelector("#card_holder");
+const cardNumber = document.querySelector("#id_creditcard");
+const expirationDate = document.querySelector("#id_date");
+const cvc = document.querySelector("#id_cvc");
+
 if (window.location.pathname == "/checkout/contact-information") {
-  const fullName = document.querySelector("#full_name");
   if (window.sessionStorage.getItem("fullName")) {
     fullName.value = window.sessionStorage.getItem("fullName");
   }
@@ -57,7 +67,6 @@ if (window.location.pathname == "/checkout/contact-information") {
     window.sessionStorage.setItem("fullName", fullName.value);
   });
 
-  const streetName = document.querySelector("#street_name");
   if (window.sessionStorage.getItem("streetName")) {
     streetName.value = window.sessionStorage.getItem("streetName");
   }
@@ -65,7 +74,6 @@ if (window.location.pathname == "/checkout/contact-information") {
     window.sessionStorage.setItem("streetName", streetName.value);
   });
 
-  const houseNumber = document.querySelector("#house_number");
   if (window.sessionStorage.getItem("houseNumber")) {
     houseNumber.value = window.sessionStorage.getItem("houseNumber");
   }
@@ -73,7 +81,6 @@ if (window.location.pathname == "/checkout/contact-information") {
     window.sessionStorage.setItem("houseNumber", houseNumber.value);
   });
 
-  const city = document.querySelector("#city");
   if (window.sessionStorage.getItem("city")) {
     city.value = window.sessionStorage.getItem("city");
   }
@@ -81,7 +88,6 @@ if (window.location.pathname == "/checkout/contact-information") {
     window.sessionStorage.setItem("city", city.value);
   });
 
-  const country = document.querySelector("#country");
   if (window.sessionStorage.getItem("country")) {
     country.value = window.sessionStorage.getItem("country");
   }
@@ -89,7 +95,6 @@ if (window.location.pathname == "/checkout/contact-information") {
     window.sessionStorage.setItem("country", country.value);
   });
 
-  const postalCode = document.querySelector("#postal_code");
   if (window.sessionStorage.getItem("postalCode")) {
     postalCode.value = window.sessionStorage.getItem("postalCode");
   }
@@ -99,7 +104,6 @@ if (window.location.pathname == "/checkout/contact-information") {
 }
 
 if (window.location.pathname == "/checkout/payment-information") {
-  const cardHolder = document.querySelector("#card_holder");
   if (window.sessionStorage.getItem("cardHolder")) {
     cardHolder.value = window.sessionStorage.getItem("cardHolder");
   }
@@ -107,7 +111,6 @@ if (window.location.pathname == "/checkout/payment-information") {
     window.sessionStorage.setItem("cardHolder", cardHolder.value);
   });
 
-  const cardNumber = document.querySelector("#id_creditcard");
   if (window.sessionStorage.getItem("cardNumber")) {
     cardNumber.value = window.sessionStorage.getItem("cardNumber");
   }
@@ -115,7 +118,6 @@ if (window.location.pathname == "/checkout/payment-information") {
     window.sessionStorage.setItem("cardNumber", cardNumber.value);
   });
 
-  const expirationDate = document.querySelector("#id_date");
   if (window.sessionStorage.getItem("expirationDate")) {
     expirationDate.value = window.sessionStorage.getItem("expirationDate");
   }
@@ -123,7 +125,6 @@ if (window.location.pathname == "/checkout/payment-information") {
     window.sessionStorage.setItem("expirationDate", expirationDate.value);
   });
 
-  const cvc = document.querySelector("#id_cvc");
   if (window.sessionStorage.getItem("cvc")) {
     cvc.value = window.sessionStorage.getItem("cvc");
   }
@@ -133,38 +134,45 @@ if (window.location.pathname == "/checkout/payment-information") {
 }
 
 if (window.location.pathname == "/checkout/review") {
-  document.querySelector("#full_name").value =
-    window.sessionStorage.getItem("fullName");
+  fullName.value = window.sessionStorage.getItem("fullName");
 
-  document.querySelector("#street_name").value =
-    window.sessionStorage.getItem("streetName");
+  streetName.value = window.sessionStorage.getItem("streetName");
 
-  document.querySelector("#house_number").value =
-    window.sessionStorage.getItem("houseNumber");
+  houseNumber.value = window.sessionStorage.getItem("houseNumber");
 
-  document.querySelector("#city").value = window.sessionStorage.getItem("city");
+  city.value = window.sessionStorage.getItem("city");
 
-  document.querySelector("#country").value =
-    window.sessionStorage.getItem("country");
+  country.value = window.sessionStorage.getItem("country");
 
-  document.querySelector("#postal_code").value =
-    window.sessionStorage.getItem("postalCode");
+  postalCode.value = window.sessionStorage.getItem("postalCode");
 
-  document.querySelector("#card_holder").value =
-    window.sessionStorage.getItem("cardHolder");
+  cardHolder.value = window.sessionStorage.getItem("cardHolder");
 
-  document.querySelector("#card_number").value =
-    window.sessionStorage.getItem("cardNumber");
+  cardNumber.value = window.sessionStorage.getItem("cardNumber");
 
-  document.querySelector("#expiration_date").value =
-    window.sessionStorage.getItem("expirationDate");
+  expirationDate.value = window.sessionStorage.getItem("expirationDate");
 
-  document.querySelector("#cvc").value = window.sessionStorage.getItem("cvc");
+  cvc.value = window.sessionStorage.getItem("cvc");
 
   const sellingItems = document.querySelectorAll("[id^=selling-item-]");
-  document.querySelector("#confirm_purchase").addEventListener("click", () => {
-    window.sessionStorage.clear();
-    if (sellingItems) {
+  document.querySelector("#confirm_purchase").addEventListener("click", (e) => {
+    e.preventDefault();
+    if (
+      fullName.value == "" ||
+      streetName.value == "" ||
+      houseNumber.value == "" ||
+      city.value == "" ||
+      country.value == "" ||
+      postalCode.value == "" ||
+      cardHolder.value == "" ||
+      cardNumber.value == "" ||
+      expirationDate.value == "" ||
+      cvc.value == "" ||
+      sellingItems.length == 0
+    ) {
+      alert("Please fill in all required fields");
+    } else {
+      window.sessionStorage.clear();
       let count = 0;
       sellingItems.forEach((item) => {
         handleSale(item);
@@ -188,10 +196,14 @@ if (window.location.pathname == "/checkout/review") {
         count++;
       });
     }
+    //window.location.replace(confirmPurchaseBtn.href)
   });
 }
 
 if (window.location.pathname == "/checkout/thank-you") {
+  if (typeof sessionStorage["count"] === "undefined") {
+    window.location.replace("/unauthorized");
+  }
   const soldItemsWrapper = document.querySelector(".thank-you-sold-items");
   let count = 0;
   for (element in window.sessionStorage.getItem("count")) {
@@ -204,8 +216,8 @@ if (window.location.pathname == "/checkout/thank-you") {
                 <div class="checkout-item-details">
                     <b>${window.sessionStorage.getItem(`name-${count}`)}</b>
                     <span>${window.sessionStorage.getItem(
-                      `amount-${count}`
-                    )}</span>
+      `amount-${count}`
+    )}</span>
                 </div>
             </div>
             <div class="rating-wrapper">
@@ -213,24 +225,24 @@ if (window.location.pathname == "/checkout/thank-you") {
                 <fieldset class="rating">
                 <button class="btn rate-button">Rate</button>
                     <input type="radio" name="rating" value="5" id="rating-5" class="offer-${window.sessionStorage.getItem(
-                      `offerId-${count}`
-                    )}" />
+      `offerId-${count}`
+    )}" />
                     <label for="rating-5">☆</label>
                     <input type="radio" name="rating" value="4" id="rating-4" class="offer-${window.sessionStorage.getItem(
-                      `offerId-${count}`
-                    )}" />
+      `offerId-${count}`
+    )}" />
                     <label for="rating-4">☆</label>
                     <input type="radio" name="rating" value="3" id="rating-3" class="offer-${window.sessionStorage.getItem(
-                      `offerId-${count}`
-                    )}" />
+      `offerId-${count}`
+    )}" />
                     <label for="rating-3">☆</label>
                     <input type="radio" name="rating" value="2" id="rating-2" class="offer-${window.sessionStorage.getItem(
-                      `offerId-${count}`
-                    )}" />
+      `offerId-${count}`
+    )}" />
                     <label for="rating-2">☆</label>
                     <input type="radio" name="rating" value="1" id="rating-1" class="offer-${window.sessionStorage.getItem(
-                      `offerId-${count}`
-                    )}" />
+      `offerId-${count}`
+    )}" />
                     <label for="rating-1">☆</label>
                 </fieldset>
             </div>

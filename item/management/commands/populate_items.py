@@ -49,11 +49,12 @@ def populate_data():
 
         # Create an item
         name = f'{fake.word()} {fake.word()}'
+        name = name[0].upper() + name[1:]
         status = 'Available'
         condition = random.choice(['New', 'Used'])
         description = fake.text()
         category = random.choice(categories)
-        price = random.randint(10, 100)
+        price = random.randint(1000, 100000)
         item = Item.objects.create(
             name=name,
             status=status,
@@ -79,8 +80,13 @@ def populate_data():
             status = 'pending'
             amount = random.randint(10, 50)
 
-            # TODO: Make sure buyer is not seller
-            buyer = random.choice(persons).user
+            # NOTE: Set initial value of buyer to seller
+            buyer = item.seller.user
+
+            # NOTE: Make sure buyer is not seller
+            while buyer.id != item.seller.user.id:
+                buyer = random.choice(persons).user
+
             offer = Offer.objects.create(
                 status=status, amount=amount, item=item, buyer=buyer)
 

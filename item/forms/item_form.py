@@ -23,16 +23,16 @@ class ItemCreateForm(forms.ModelForm):
         exclude = ['id', 'seller', 'status']
 
 
-class ItemUpdateForm(ModelForm):
-    name = forms.CharField(label="",max_length=25, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    condition = forms.CharField(label="",max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    price = forms.CharField(label="",max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    category = forms.CharField(label="",max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(label="",max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'} ))
+class ItemUpdateForm(forms.ModelForm):
+    name = forms.CharField(max_length=25, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    condition = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    price = forms.CharField(max_length=40, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    category = forms.ChoiceField(choices=category_choice,widget=forms.Select)
+    description = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'} ))
     class Meta:
         model = Item
         exclude = ['id', 'seller', 'status']
 
 class ItemOfferForm(Form):
-    amount = forms.IntegerField(min_value=1, label="", widget=forms.TextInput(
+    amount = forms.IntegerField(min_value=1, max_value=9999999, label="", widget=forms.NumberInput(
         attrs={'placeholder': 'Input offer...'}))

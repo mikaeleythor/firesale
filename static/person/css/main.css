@@ -39,6 +39,10 @@
   margin-top: 24px;
 }
 
+.profice-cancel-btn {
+  text-decoration: none;
+}
+
 .profile-bio {
   resize: none;
   border: none;

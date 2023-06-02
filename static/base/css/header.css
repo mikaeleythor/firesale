@@ -28,7 +28,13 @@
 }
 
 .header-rating {
+  cursor: default;
   margin: 4px;
+}
+
+.fa-star {
+  cursor: default;
+  color: #ffc700;
 }
 
 .header-img {
