@@ -164,12 +164,10 @@ if (window.location.pathname == "/checkout/review") {
   const sellingItems = document.querySelectorAll("[id^=selling-item-]");
   document.querySelector("#confirm_purchase").addEventListener("click", (e) => {
     e.preventDefault();
-    console.log("confirming purchase")
     window.sessionStorage.clear();
     if (sellingItems) {
       let count = 0;
       sellingItems.forEach((item) => {
-        console.log("before handlesale")
         handleSale(item);
         const url = document.querySelector(
           `#selling-image-${item.id.split("-")[2]}`
@@ -191,6 +189,7 @@ if (window.location.pathname == "/checkout/review") {
         count++;
       });
     }
+    //window.location.replace(confirmPurchaseBtn.href)
   });
 }
 
