@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'person/css/main.css' %}" />
+  <div class="profile-container">
+    <h2 class="profile-header-text">To continue, please create profile</h2>
+    <form class=" profile-info"  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form }}
+      <input type="submit"
+             value="Create"
+             class="btn pull-right main-button"
+             style="clear:both;
+                    margin: 10px 0" />
+    </form>
+  </div>
+{% endblock %}

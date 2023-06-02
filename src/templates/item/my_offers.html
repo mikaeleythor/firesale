@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+  <h2 class="my-items-header">Items with pending offers</h2>
+  {% if users_offers_list %}
+    <div class="items-grid">
+      {% for item in users_offers_list %}
+        <a href="/item/{{ item.id }}" class="single-item">
+          <div class="image-container">
+            <img class="item-img"
+                 src="{{ item.offer.itemimage_set.first.image.url }}"
+                 alt="item image"
+                 width="300"
+                 height="300" />
+          </div>
+          <h4>Name: {{ item.offer.name }}</h4>
+          <p>Your offer: {{ item.amount }} kr</p>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="my-items-error-text">You have no pending offers.</p>
+  {% endif %}
+{% endblock %}

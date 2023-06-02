@@ -1,0 +1,45 @@
+.header-navigation-bar {
+  padding-bottom: 10px;
+  justify-content: space-between;
+  box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.5);
+  background-color: white;
+}
+
+.header-right-section {
+  display: flex;
+  justify-items: end;
+}
+
+.header-right-section,
+.header-left-section {
+  margin: 10px;
+  align-items: center;
+}
+
+.header-icon {
+  color: black;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.header-rating {
+  cursor: default;
+  margin: 4px;
+}
+
+.fa-star {
+  cursor: default;
+  color: #ffc700;
+}
+
+.header-img {
+  max-width: 100%;
+  height: auto;
+  margin: 5px;
+}
+
+.header-notification-dot {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+}

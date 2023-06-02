@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'person/css/main.css' %}"></link>
+<div class="profile-container">
+  <h2 class="profile-header-text">Edit profile</h2>
+  <form class=" profile-info"  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <br>
+    <input type="submit"
+           value="Save"
+           class="btn pull-right main-button"
+           style="clear:both;
+                  margin: 10px 0" />
+  </form>
+  <a href="{% url 'person-index' %}"
+     class="profile-info profice-cancel-btn">
+    <br>
+    <button class="btn secondary-button ">Cancel</button>
+  </a>
+</div>
+{% endblock %}
