@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.forms import ValidationError
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from country_list import countries_for_language
 import json
@@ -36,8 +36,7 @@ def contact_information(request):
                 'checkout/contact_information.html',
                 {'countries': countries.values()}
             )
-        # TODO: Redirect to unauthorized page
-        return redirect("/")
+        return render(request, '403_site.html')
     return redirect("/profile/create-person")
 
 
@@ -47,8 +46,7 @@ def payment_information(request):
         if has_accepted_offers(request):
             form = PaymentForm()
             return render(request, 'checkout/payment_information.html', {'form': form})
-        # TODO: Redirect to unauthorized page
-        return redirect("/")
+        return render(request, '403_site.html')
     return redirect("/profile/create-person")
 
 
@@ -90,8 +88,7 @@ def review(request):
                 'checkout/review.html',
                 {'basket': accepted_offers, 'total': total}
             )
-        # TODO: Redirect to unauthorized page
-        return redirect("/")
+        return render(request, '403_site.html')
     return redirect("/profile/create-person")
 
 
