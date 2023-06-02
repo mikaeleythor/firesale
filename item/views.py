@@ -40,13 +40,12 @@ def index(request):
 
 def get_item_by_id(request, id):
     item = {'item': get_object_or_404(Item, pk=id)}
-    similar = [{
-        'id': x.id,
-        'name': x.name,
-        'price': x.price,
-        'status': x.status,
-        'firstImage': str(x.itemimage_set.first().image.url)
-    } for x in Item.objects.filter(category__icontains=item['item'].category).exclude(id=item['item'].id)]
+    similar = [
+        {'id': x.id, 'name': x.name, 'price': x.price, 'status': x.status,
+         'firstImage': str(x.itemimage_set.first().image.url)}
+        for x in Item.objects.filter(
+            category__icontains=item['item'].category).exclude(
+            id=item['item'].id)]
     if request.method == 'POST':
         form = ItemOfferForm(data=request.POST)
         if form.is_valid():
@@ -77,7 +76,8 @@ def get_item_by_id(request, id):
 def see_offers(request, id):
     item = get_object_or_404(Item, pk=id)
     # NOTE: Only seller can see offers (but only if he has a profile)
-    if hasattr(request.user, 'person') and request.user.id == item.seller.user.id:
+    if hasattr(request.user,
+               'person') and request.user.id == item.seller.user.id:
         offers = item.offer_set.filter(status='Pending')
         # HACK: Using content-type: application/json in template
         if request.method == 'POST':
@@ -164,7 +164,8 @@ def delete_item(request, id):
 @login_required
 def update_item(request, id):
     item = get_object_or_404(Item, pk=id)
-    if hasattr(request.user, 'person') and request.user.id == item.seller.user.id:
+    if hasattr(request.user,
+               'person') and request.user.id == item.seller.user.id:
         if request.method == 'POST':
             form = ItemUpdateForm(data=request.POST, instance=item)
             if form.is_valid():

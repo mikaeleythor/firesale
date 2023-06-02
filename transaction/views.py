@@ -45,7 +45,8 @@ def payment_information(request):
     if hasattr(request.user, 'person'):
         if has_accepted_offers(request):
             form = PaymentForm()
-            return render(request, 'checkout/payment_information.html', {'form': form})
+            return render(
+                request, 'checkout/payment_information.html', {'form': form})
         return render(request, '403_site.html')
     return redirect("/profile/create-person")
 
@@ -112,7 +113,7 @@ def thank_you(request):
                     for rating in allratings:
                         sum += rating.rating
                         count += 1
-                    seller.rating = sum/count
+                    seller.rating = sum / count
                     seller.full_clean()
                     seller.save()
                     return JsonResponse(
