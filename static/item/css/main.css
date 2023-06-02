@@ -109,7 +109,7 @@
   margin-left: 20px;
 }
 
-.create-item-right-section > input {
+.create-item-right-section>input {
   margin-bottom: 20px;
   height: 40px;
   width: 100%;
@@ -144,6 +144,21 @@
   border-radius: 7px;
   height: 40px;
   color: #757575;
+}
+
+.update-item-wrapper {
+  min-height: fit-content;
+  width: 100%;
+  max-width: 650px;
+  margin: auto;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.25);
 }
 
 .similar-items-title {
@@ -215,10 +230,9 @@
 }
 
 #id_category {
-  color: gray;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  min-height: 40px;
+  border-radius: 7px;
+  height: 40px;
+  color: #757575;
 }
 
 .edit-item-grid {
@@ -253,10 +267,13 @@
 }
 
 .offer-placed-alert {
-  background-color: #04aa6d; /* Green */
+  background-color: #04aa6d;
+  /* Green */
 }
+
 .offer-not-placed-alert {
-  background-color: #f44336; /* Red */
+  background-color: #f44336;
+  /* Red */
 }
 
 /* The close button */
