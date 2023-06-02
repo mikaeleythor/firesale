@@ -200,6 +200,9 @@ if (window.location.pathname == "/checkout/review") {
 }
 
 if (window.location.pathname == "/checkout/thank-you") {
+  if (typeof sessionStorage["count"] === "undefined") {
+    window.location.replace("/unauthorized");
+  }
   const soldItemsWrapper = document.querySelector(".thank-you-sold-items");
   let count = 0;
   for (element in window.sessionStorage.getItem("count")) {
