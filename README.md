@@ -60,6 +60,9 @@ cd src
 python3 manage.py makemigrations {person,item,notifications}
 python3 manage.py migrate
 
+# Collect the static directory to Google Storage Bucket
+python3 manage.py collectstatic
+
 # Create a superuser for access to the admin site
 python3 manage.py createsuperuser
 
