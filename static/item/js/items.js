@@ -57,7 +57,6 @@ const getFiltered = async () => {
       document.querySelector(".items-grid").innerHTML = newHtml.join("");
     }
   } catch (error) {
-    // TODO: show toaster
     console.error(error);
   }
 };
@@ -128,7 +127,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (placeOfferButton) {
     placeOfferButton.addEventListener("click", (e) => {
-      console.log(placeOfferInput.value);
       if (
         placeOfferInput.validity.typeMismatch ||
         placeOfferInput.validity.valueMissing ||

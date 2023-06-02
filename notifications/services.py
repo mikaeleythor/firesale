@@ -7,6 +7,7 @@ class NotificationService():
     model = Notification
 
     def read(self, id) -> None:
+        """The exclusive interface for reading notifications"""
         instance = self.model.objects.get(id=id)
         if not instance:
             raise self.model.DoesNotExist()

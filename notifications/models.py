@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Inbox(models.Model):
-    # WARNING: Increments/Decrements on unread should be implemented in service
+    # NOTE: incs/decs on unread implemented in service and interface classes
     unread = models.PositiveIntegerField(default=0)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -17,7 +17,7 @@ class Notification(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(default=False)
     inbox = models.ForeignKey(Inbox, on_delete=models.CASCADE)
-    # NOTE: this value specifies the name of a url pattern as seen in urls.py
+    # NOTE: specifies the name of a url pattern as seen in urls.py
     next_path = models.CharField(
         max_length=50, blank=True, default="notification-list")
 

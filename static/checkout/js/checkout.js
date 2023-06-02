@@ -24,7 +24,7 @@ const handleSale = async (item) => {
 
 const handleRating = async (offerId, rating) => {
   try {
-    const res = await axios.post(
+    await axios.post(
       "/checkout/thank-you",
       {
         offerId: offerId,
@@ -40,11 +40,7 @@ const handleRating = async (offerId, rating) => {
         },
       }
     );
-    if (res) {
-      console.log(res.data);
-    }
   } catch (error) {
-    console.log(error);
   }
 };
 

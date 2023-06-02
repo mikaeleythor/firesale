@@ -15,13 +15,11 @@ class NotificationInterface():
     manager = Inbox
 
     def user_created(self, user):
-        # WARNING: This should be provided from views instead of hardcoded here
         next_path_name = 'create-person'
         msg_title = 'Finish setting up your profile'
         msg_body = 'Welcome to FireSale! Click here to finish setting up your profile'
         self.__notify(user, msg_title, msg_body, next_path_name)
 
-    # TEST: Needs testing with actual checkout
     def payment_received(self, payer, recipient, amount, item):
         next_path_name = 'notification-list'
         msg_title = f'Payment from {payer.username}'
@@ -29,7 +27,6 @@ class NotificationInterface():
         self.__notify(recipient, msg_title, msg_body, next_path_name)
 
     def offer_accepted(self, offer):
-        # WARNING: This should be provided from views instead of hardcoded here
         next_path_name = 'checkout'
         seller = offer.item.seller.user
         buyer = offer.buyer
@@ -37,7 +34,6 @@ class NotificationInterface():
         buyer_msg_body = f'{buyer_msg_title} of {offer.amount} on {offer.item}'
         self.__notify(buyer, buyer_msg_title, buyer_msg_body, next_path_name)
 
-    # TEST: Needs testing with bulk decline-offers
     def offer_declined(self, offer):
         next_path_name = 'notification-list'
         seller = offer.item.seller.user
@@ -47,7 +43,6 @@ class NotificationInterface():
         self.__notify(buyer, buyer_msg_title, buyer_msg_body, next_path_name)
 
     def offer_placed(self, offer):
-        # WARNING: This should be provided from views instead of hardcoded here
         next_path_name = 'my-items'
         seller = offer.item.seller.user
         buyer = offer.buyer
@@ -57,6 +52,7 @@ class NotificationInterface():
                       seller_msg_body, next_path_name)
 
     def __notify(self, user, title, body, next_path_name):
+        """The exclusive interface for creating new notifications"""
         inbox, created = self.manager.objects.get_or_create(user=user)
         self.model.objects.create(
             title=title,
@@ -64,5 +60,6 @@ class NotificationInterface():
             inbox=inbox,
             next_path=next_path_name
         )
+        # NOTE: Incrementing unread count when creating notification
         inbox.unread = F('unread') + 1
         inbox.save()

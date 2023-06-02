@@ -1,24 +1,14 @@
-from item.models import Offer, Item, Seller
-from django.contrib.auth.models import User
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
+
 
 def unpopulate_data():
-    # Delete offers
-    Offer.objects.all().delete()
-
-    # Delete items
-    Item.objects.all().delete()
-
-    # Delete sellers
-    Seller.objects.all().delete()
-
-    # Delete users
-    User.objects.all().delete()
-
-    print("Data unpopulation complete.")
-
-# Call the unpopulate_data() function to remove the data from the models
-
+    """
+    Deletes all users which are not superusers
+    this cascades to delete all Items, Offers, Inboxes which do not belong
+    to superusers
+    """
+    User.objects.filter(is_staff=False).delete()
 
 
 class Command(BaseCommand):
