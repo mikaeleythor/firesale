@@ -2,6 +2,14 @@
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+    <div class="offer-placed-alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';"><i class="fa-solid fa-x"></i></span>
+        Offer placed!
+    </div>
+    <div class="offer-not-placed-alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';"><i class="fa-solid fa-x"></i></span>
+        Offer not placed!
+    </div>
     <div class="item-detail-wrapper">
         <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">
@@ -85,6 +93,7 @@
                         {% csrf_token %}
                         {{ form }}
                         <input type="submit"
+                               id="offer-submit-button"
                                value="Place offer"
                                class="btn main-button item-detail-buyer-button"
                                style="clear:both;

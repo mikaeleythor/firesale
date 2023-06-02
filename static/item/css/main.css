@@ -109,7 +109,7 @@
   margin-left: 20px;
 }
 
-.create-item-right-section>input {
+.create-item-right-section > input {
   margin-bottom: 20px;
   height: 40px;
   width: 100%;
@@ -144,7 +144,6 @@
   border-radius: 7px;
   height: 40px;
   color: #757575;
-
 }
 
 .similar-items-title {
@@ -226,7 +225,6 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 10px;
-
 }
 
 .my-items-header {
@@ -237,4 +235,43 @@
 .my-items-error-text {
   color: #959595;
   margin-top: 20px;
+}
+
+/* The alert message box */
+.offer-placed-alert,
+.offer-not-placed-alert {
+  display: none;
+  position: fixed;
+  top: 20px;
+  width: 200px;
+  z-index: 2;
+  left: calc(50% - 100px);
+  padding: 20px;
+  color: white;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+.offer-placed-alert {
+  background-color: #04aa6d; /* Green */
+}
+.offer-not-placed-alert {
+  background-color: #f44336; /* Red */
+}
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
 }

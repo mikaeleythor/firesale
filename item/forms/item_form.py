@@ -34,5 +34,5 @@ class ItemUpdateForm(ModelForm):
         exclude = ['id', 'seller', 'status']
 
 class ItemOfferForm(Form):
-    amount = forms.IntegerField(min_value=1,max_value=9999999, label="", widget=forms.TextInput(
+    amount = forms.IntegerField(min_value=1, max_value=9999999, label="", widget=forms.NumberInput(
         attrs={'placeholder': 'Input offer...'}))
