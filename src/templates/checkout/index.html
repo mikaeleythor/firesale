@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'checkout/css/main.css' %}"></link>
+<div class="checkout-wrapper">
+  <h1 class="text-center">Basket</h1>
+  <hr>
+  {% if basket %}
+    {% for checkout_item in basket %}
+      <div class="single-checkout-item-wrapper">
+        <img src="{{ checkout_item.item.itemimage_set.first.image.url }}"
+             alt="item image"
+             width="100"
+             height="100" />
+        <div class="checkout-item-details">
+          <b>{{ checkout_item.item.name }}</b>
+          <span>Your offer: {{ checkout_item.amount }} kr</span>
+        </div>
+      </div>
+      <hr>
+    {% endfor %}
+    <a class="btn main-button checkout-items-button"
+       href="/checkout/contact-information">Checkout</a>
+  {% else %}
+    <p class="checkout-error-text">There are no items in your basket.</p>
+  {% endif %}
+</div>
+{% endblock %}

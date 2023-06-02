@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+  <div class="offer-placed-alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';"><i class="fa-solid fa-x"></i></span>
+    Offer placed!
+  </div>
+  <div class="offer-not-placed-alert">
+    <span class="closebtn" onclick="this.parentElement.style.display='none';"><i class="fa-solid fa-x"></i></span>
+    Offer not placed!
+  </div>
+  <div class="item-detail-wrapper">
+    <div id="carouselExample" class="carousel slide">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ item.item.itemimage_set.first.image.url }}"
+               class="d-block w-100"
+               alt="item image"
+               width="100"
+               height="100">
+        </div>
+        {% for item_image in item.item.itemimage_set.all|slice:"1:" %}
+          <div class="carousel-item">
+            <img src="{{ item_image.image.url }}"
+                 class="d-block w-100"
+                 alt="item image"
+                 width="100"
+                 height="100">
+          </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExample"
+              data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <div class="item-detail-content">
+      <span class="item-detail-title">Name:</span>
+      <h2 class="item-detail-value">{{ item.item.name }}</h2>
+      {% if current_highest_offer == 0 %}
+        <span class="item-detail-title">Current highest offer:</span>
+        <p class="item-detail-value">No offer has been made on this item</p>
+      {% else %}
+        <span class="item-detail-title">Current highest offer:</span>
+        <p class="item-detail-value">{{ current_highest_offer }} kr</p>
+      {% endif %}
+      <span class="item-detail-title">Price:</span>
+      <p class="item-detail-value">{{ item.item.price }} kr</p>
+      <span class="item-detail-title">Condition:</span>
+      <p class="item-detail-value">{{ item.item.condition }}</p>
+      <span class="item-detail-title">Description</span>
+      <p class="item-detail-value">{{ item.item.description }}</p>
+      <span class="item-detail-title">Status</span>
+      <p class="item-detail-value">{{ item.item.status }}</p>
+      <span class="item-detail-title">Seller:</span>
+      <a class="item-detail-seller-value"
+         href="/profile/{{ item.item.seller.user.person.id }}">
+        <img src="{{ item.item.seller.user.person.image.url }}"
+             alt="Profile photo of seller"
+             width="30"
+             height="30" />
+        <h5 class="item-detail-value">{{ item.item.seller }}</h5>
+      </a>
+    </div>
+    {% if user.is_authenticated and user.person.id %}
+      {% if user.seller.id == item.item.seller.id %}
+        {% if item.item.status == 'Available' %}
+          <a href="{% url 'see-offers' item.item.id %}"
+             class="btn item-detail-seller-button main-button">See offers</a>
+          <a href="{% url 'update-item' item.item.id %}"
+             class="btn item-detail-seller-button main-button">Edit item</a>
+          <a href="{% url 'delete-item' item.item.id %}"
+             class="btn item-detail-seller-button main-button">Delete item</a>
+        {% else %}
+          <a disabled class="btn item-detail-seller-button disabled-button">See offers</a>
+          <a disabled class="btn item-detail-seller-button disabled-button">Edit item</a>
+          <a disabled class="btn item-detail-seller-button disabled-button">Delete item</a>
+        {% endif %}
+      {% else %}
+        {% if item.item.status == 'Available' %}
+          <form class="item-detail-offer-input-wrapper" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit"
+                   id="offer-submit-button"
+                   value="Place offer"
+                   class="btn main-button item-detail-buyer-button"
+                   style="clear:both;
+                          margin: 10px 0" />
+          </form>
+        {% else %}
+          <div class="item-detail-offer-input-wrapper">
+            <input disabled
+                   placeholder="Input offer..."
+                   style="width: 60%;
+                          border: 1px solid #000000;
+                          border-radius: 4px;
+                          height: 40px" />
+            <input disabled
+                   value="Place offer"
+                   class="btn disabled-button item-detail-buyer-button" />
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+  <div class="similar-items-title">Similar Items</div>
+  <div class="items-grid">
+    {% if similar %}
+      {% for similarItem in similar %}
+        {% if similarItem.status == 'Available' %}
+          <a href="/item/{{ similarItem.id }}" class="single-item">
+            <div class="image-container">
+              <img class="item-img"
+                   src="{{ similarItem.firstImage }}"
+                   alt="item image"
+                   width="300"
+                   height="300" />
+            </div>
+            <h4>Name: {{ similarItem.name }}</h4>
+            <p>Asking price: {{ similarItem.price }} kr</p>
+          </a>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p>No similar items</p>
+    {% endif %}
+  </div>
+{% endblock %}

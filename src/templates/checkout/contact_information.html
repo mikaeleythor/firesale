@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'checkout/css/main.css' %}" />
+  <h2 class="checkout-title">Contact information</h2>
+  <form class="checkout-info-wrapper" action="/checkout/payment-information">
+    <div class="checkout-info-list">
+      <label for="full_name">
+        Full name:
+        <input type="text" id="full_name" name="full_name" required />
+      </label>
+      <label for="street_name">
+        Street name:
+        <input type="text" id="street_name" name="street_name" required />
+      </label>
+      <label for="house_number">
+        House number:
+        <input type="text" id="house_number" name="house_number" required />
+      </label>
+    </div>
+    <div class="checkout-info-list">
+      <label for="city">
+        City:
+        <input type="text" id="city" name="city" required />
+      </label>
+      <label for="country">
+        Country:
+        <select id="country" name="country" required>
+          <option value="" disabled selected></option>
+          {% for country in countries %}<option value="{{ country }}">{{ country }}</option>{% endfor %}
+        </select>
+      </label>
+      <label for="postal_code">
+        Postal code:
+        <input type="text" id="postal_code" name="postal_code" required />
+      </label>
+    </div>
+    <input type="submit"
+           value="Continue"
+           class="btn main-button checkout-continue-button" />
+  </form>
+{% endblock %}
