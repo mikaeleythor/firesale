@@ -136,8 +136,6 @@ and C contains features that are nice and make sense but could be skipped.
 - [x] There should be a favicon which displays the logo of the website along with the name.
 - [x] There should be a footer with the logo of the website.
 - [x] The styling of the website should be clean.
-- [x] When creating an email the user has to input a @ icon.
-- [x] When creating a password, it cannot be too similar to the username, or only numeric.
 - [x] When inputing a offer, it's only allowed to insert a whole numeric number.
 - [x] User should see a confetti when the checkout process is done.
 - [x] User should be able to cancel when editing a profile.
