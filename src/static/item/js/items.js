@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // HACK: Update global variable
       params["search_filter"] = searchBox.value;
       getFiltered();
-      e.preventDefault()
+      e.preventDefault();
     });
   }
 
