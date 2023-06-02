@@ -1,3 +1,4 @@
+{% load static %}
 <nav class="navbar header-navigation-bar">
   <div class="header-left-section">
     {% if user.is_authenticated %}
@@ -12,7 +13,7 @@
     {% endif %}
     <a class="navbar-brand" href="/">
       <img class="header-img"
-           src="/static/logo.png"
+           src="{% static 'logo.png' %}"
            alt="A logo for the footer "
            width="100"
            height="100" />
@@ -63,7 +64,7 @@
     <div class="offcanvas-header">
       <a class="offcanvas-title" href="/">
         <img class="header-img"
-             src="/static/logo.png"
+             src="{% static 'logo.png' %}"
              alt="A logo for the footer "
              width="100"
              height="100" />
