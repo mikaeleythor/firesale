@@ -14,10 +14,17 @@
   right: 0;
   left: 0;
   background-color: #ffffff;
-  padding: 20px;
+  padding: 20px 72px;
   position: absolute;
   align-items: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   box-shadow: 0 2.5px 6px rgba(0, 0, 0, 0.5);
+  flex-direction: row;
+}
+
+.privacy-policy {
+  font-size: 12px;
+  margin-top: 12px;
+  color: black;
 }
