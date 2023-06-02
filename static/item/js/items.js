@@ -23,7 +23,6 @@ const handleClick = async (btn, status) => {
     );
     // NOTE: Redirecting to base.html
     if (res) {
-      console.log(status);
       if (status == "Accepted") window.location.replace(`/item/${itemId}`);
       if (status == "Declined")
         window.location.replace(`/item/see-offers/${itemId}`);
