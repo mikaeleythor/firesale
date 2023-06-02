@@ -129,7 +129,7 @@ def create_item(request):
             #       Additional implementation needed in frontend for error msgs
             if form.is_valid() and request.FILES.getlist('images'):
                 seller, created = Seller.objects.get_or_create(
-                    user=request.user, rating=0)
+                    user=request.user)
                 item = {
                     'name': form.cleaned_data['name'],
                     'status': 'Available',

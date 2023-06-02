@@ -5,8 +5,8 @@ from django.shortcuts import redirect, render, get_object_or_404
 from country_list import countries_for_language
 import json
 from item.models import Offer, SellerRating
-
 from transaction.forms.checkout_form import PaymentForm
+from notifications.interfaces import NotificationInterface
 
 
 def has_accepted_offers(request) -> bool:
@@ -73,6 +73,8 @@ def review(request):
                         item.status = 'Sold'
                         item.full_clean()
                         item.save()
+                        NotificationInterface().payment_received(
+                            offer.buyer, item.seller.user, offer.amount, item)
                         return JsonResponse(
                             status=200, data={"message": "Item Sold"})
                     except ValidationError as error:
@@ -104,8 +106,8 @@ def thank_you(request):
                     offer = get_object_or_404(Offer, pk=offerId)
                     seller = offer.item.seller
                     buyer = offer.buyer
-                    SellerRating.objects.create(
-                        rating=json_content['rating'], seller=seller, buyer=buyer)
+                    SellerRating.objects.create(rating=json_content['rating'],
+                                                seller=seller, buyer=buyer)
                     allratings = SellerRating.objects.filter(
                         seller=seller.id)
                     sum = 0
@@ -126,8 +128,3 @@ def thank_you(request):
                     status=400, data={"message": "OfferId must be supplied"})
         return render(request, 'checkout/thank_you.html')
     return redirect("/profile/create-person")
-
-
-def notify_buyer_with_seller_ratings():
-    bla = ''
-    # pass
