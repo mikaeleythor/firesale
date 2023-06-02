@@ -23,6 +23,7 @@ Here is a list of all requirements with priority A, they have all been fulfilled
 ## Requirements B
 Here is a list of all requirements with priority B, .........
 - It should be possible to log out.
+- There should be a custon logo for the website.
 - It should be possible to rate the seller. 
 - It should be possible to navigate through the website easily.
 - It should be possible to view your products that are for sale. 
