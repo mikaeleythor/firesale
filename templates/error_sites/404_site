@@ -1,0 +1,3 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}<title>404 Page Not Found</title>{% endblock %}
