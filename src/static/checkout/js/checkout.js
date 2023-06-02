@@ -40,8 +40,7 @@ const handleRating = async (offerId, rating) => {
         },
       }
     );
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 const fullName = document.querySelector("#full_name");
@@ -212,8 +211,8 @@ if (window.location.pathname == "/checkout/thank-you") {
                 <div class="checkout-item-details">
                     <b>${window.sessionStorage.getItem(`name-${count}`)}</b>
                     <span>${window.sessionStorage.getItem(
-      `amount-${count}`
-    )}</span>
+                      `amount-${count}`
+                    )}</span>
                 </div>
             </div>
             <div class="rating-wrapper">
@@ -221,24 +220,24 @@ if (window.location.pathname == "/checkout/thank-you") {
                 <fieldset class="rating">
                 <button class="btn rate-button">Rate</button>
                     <input type="radio" name="rating" value="5" id="rating-5" class="offer-${window.sessionStorage.getItem(
-      `offerId-${count}`
-    )}" />
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-5">☆</label>
                     <input type="radio" name="rating" value="4" id="rating-4" class="offer-${window.sessionStorage.getItem(
-      `offerId-${count}`
-    )}" />
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-4">☆</label>
                     <input type="radio" name="rating" value="3" id="rating-3" class="offer-${window.sessionStorage.getItem(
-      `offerId-${count}`
-    )}" />
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-3">☆</label>
                     <input type="radio" name="rating" value="2" id="rating-2" class="offer-${window.sessionStorage.getItem(
-      `offerId-${count}`
-    )}" />
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-2">☆</label>
                     <input type="radio" name="rating" value="1" id="rating-1" class="offer-${window.sessionStorage.getItem(
-      `offerId-${count}`
-    )}" />
+                      `offerId-${count}`
+                    )}" />
                     <label for="rating-1">☆</label>
                 </fieldset>
             </div>

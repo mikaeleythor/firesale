@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
-    <h2 class="my-items-header">My items for Sale</h2>
-    {% if users_items_list %}
-        <div class="items-grid">
-            {% for item in users_items_list %}
-                <a href="/item/{{ item.id }}" class="single-item">
-                    <div class="image-container">
-                        <img class="item-img"
-                             src="{{ item.itemimage_set.first.image.url }}"
-                             alt="item image"
-                             width="300"
-                             height="300" />
-                    </div>
-                    <h4>Name: {{ item.name }}</h4>
-                    <p>Status: {{ item.status }}</p>
-                </a>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p class="my-items-error-text">You don't have any items listed for sale.</p>
-    {% endif %}
+  <link rel="stylesheet" href="{% static 'item/css/main.css' %}" />
+  <h2 class="my-items-header">My items for Sale</h2>
+  {% if users_items_list %}
+    <div class="items-grid">
+      {% for item in users_items_list %}
+        <a href="/item/{{ item.id }}" class="single-item">
+          <div class="image-container">
+            <img class="item-img"
+                 src="{{ item.itemimage_set.first.image.url }}"
+                 alt="item image"
+                 width="300"
+                 height="300" />
+          </div>
+          <h4>Name: {{ item.name }}</h4>
+          <p>Status: {{ item.status }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="my-items-error-text">You don't have any items listed for sale.</p>
+  {% endif %}
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'checkout/css/main.css' %}" />
-    <!-- Confetti script borrowed from https://codepen.io/bananascript/pen/EyZeWm -->
-    <script src="{% static 'checkout/js/confetti.js' %}"></script>
-    <div class="checkout-wrapper">
-        <h1 class="text-center">Thank you for your purchase!</h1>
-        <hr>
-        <div class="thank-you-sold-items"></div>
-        <a class="btn main-button checkout-items-button" href="/">Return to home page</a>
-    </div>
+  <link rel="stylesheet" href="{% static 'checkout/css/main.css' %}" />
+  <!-- Confetti script borrowed from https://codepen.io/bananascript/pen/EyZeWm -->
+  <script src="{% static 'checkout/js/confetti.js' %}"></script>
+  <div class="checkout-wrapper">
+    <h1 class="text-center">Thank you for your purchase!</h1>
+    <hr>
+    <div class="thank-you-sold-items"></div>
+    <a class="btn main-button checkout-items-button" href="/">Return to home page</a>
+  </div>
 {% endblock %}
