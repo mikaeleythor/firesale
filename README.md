@@ -18,7 +18,7 @@ Here is a list of all requirements with priority A, which is the top priority.
 - It should be possible to receive notifications in regards to offers.
 - It should be possible to edit profile.
 - It should be possible to navigate throught the header.
-- There should be a footer with the logo of the website.
+
 
 ## Requirements B
 Here is a list of all requirements with priority B.
@@ -37,7 +37,7 @@ Here is a list of all requirements with priority C.
 - It should be possible to edit an item.  
 - It should be possible to resend notifications in regards to offers. XXXX
 - There should be a favicon which displays the logo of the website along with the name.
-- There should be a footer wiht the logo of the website.
+- There should be a footer with the logo of the website.
 - The styling of the website should be clean.
 - When creating an email the user has to input a @ icon.
 - When creating a password, it cannot be too similar to the username, or only numeric.

@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', include('item.urls')),
@@ -26,6 +27,8 @@ urlpatterns = [
     path('profile/', include('person.urls')),
     path('item/', include('item.urls')),
     path('checkout/', include('transaction.urls')),
+    path('privacy-policy', TemplateView.as_view(template_name="privacy_policy.html"),
+         name='privacy-policy'),
 ]
 
 handler404 = 'firesale.views.page_not_found'
