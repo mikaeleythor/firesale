@@ -1,3 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}<h1>Page not found</h1>{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'error_sites/css/main.css' %}" />
+    <div class="container-error">
+        <h1 class="header-error">Page not found</h1>
+        <i class="fa-regular fa-face-frown icon-style-error"></i>
+        <p class="text-error">Sorry, the page you are looking for doesn't exist.</p>
+        <p class="text-error">Click on the logo in the header to get back on track!</p>
+    </div>
+{% endblock %}
