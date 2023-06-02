@@ -61,6 +61,7 @@ const getFiltered = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
+  const searchForm = document.querySelector("#search-form");
   const searchBox = document.querySelector("#search-box");
   const selectOrder = document.querySelector("#select-order");
   const fileUpload = document.querySelector("#file-upload");
@@ -70,11 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const placeOfferInput = document.querySelector("#id_amount");
   const placeOfferButton = document.querySelector("#offer-submit-button");
 
-  if (searchBox) {
-    searchBox.addEventListener("input", () => {
+  if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
       // HACK: Update global variable
       params["search_filter"] = searchBox.value;
       getFiltered();
+      e.preventDefault()
     });
   }
 

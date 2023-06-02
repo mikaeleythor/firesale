@@ -19,10 +19,13 @@
       <div>{{" "}}</div>
     {% endif %}
     <div>{{" "}}</div>
-    <input type="search"
-           class="form-control"
-           id="search-box"
-           placeholder="Search..." />
+    <form id="search-form">
+      <input id="search-box"
+             type="search"
+             class="form-control"
+             placeholder="Search..." />
+      <input type="submit" value="search" hidden />
+    </form>
     <select class="select main-select" id="select-order">
       <option value="" disabled selected>Order by...</option>
       <option value="name">Name</option>
