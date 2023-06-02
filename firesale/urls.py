@@ -26,4 +26,8 @@ urlpatterns = [
     path('profile/', include('person.urls')),
     path('item/', include('item.urls')),
     path('checkout/', include('transaction.urls')),
+    path('',include)
+    
 ]
+
+handler404 = 'firesale.views.error_404'
